@@ -39,7 +39,14 @@ function get_type(weeks) {
 }
 
 function get_type_text(type) {
-  var types = new Array("Radostného", "Světla", "Bolestného", "Slavný");
+  var types = new Array("radostného", "světla", "bolestného", "slavného");
+  type_index = type - 1;
+
+  return types[type_index];
+}
+
+function get_type_title(type) {
+  var types = new Array("radostný", "světla", "bolestný", "slavný");
   type_index = type - 1;
 
   return types[type_index];
@@ -131,26 +138,13 @@ function get_weeks(sday, smonth, syear) {
   different_weeks = Math.floor(different_weeks);
   console.log("rounded: "+different_weeks+" weeks");
   return different_weeks;
-  var type = get_type(different_weeks);
-  console.log("type: "+type+" = "+get_type_text(type));
-  var week_in_type = get_week_in_type(different_weeks);
-  console.log("week_in_type: "+week_in_type);
-
-  for (var j = 0; j < 5; j++){
-    for(var i = 1; i <= 5; i++){
-      var decade = get_decade(week_in_type + j, i);
-      var decade_text = get_decade_text(type, decade);
-      console.log((j+1)+".week - member "+i+". => "+decade+" = "+decade_text)
-    }
-  }
-
 }
 
-function write_table(html) {
-  document.getElementById('table').innerHTML += html;
+function write_element(element, html) {
+  document.getElementById(element).innerHTML += html;
 }
 
-function draw_table(members, me, start) {
+function draw_table(members, me, start, element) {
   if (members.length != 5) {
     console.log("ERROR: Count of members isn't 5!!!!");
     return;
@@ -165,9 +159,15 @@ function draw_table(members, me, start) {
   var week_in_type = get_week_in_type(weeks);
   console.log("week_in_type: "+week_in_type);
 
-  var html = type+'. růženec - '+type_text;
+  var your_decade = get_decade(week_in_type, me);
+  var your_decade_text = get_decade_text(type, your_decade);
+
+  var html = '';
+  //html += type+'. růženec - '+type_title+" - "+week_in_type+". týden";
+  html += "Tento týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i>";
+
   html += "<table>";
-  html += "<tr><th>#</th><th>člen / týden</th>";
+  html += "<tr><th>člen / týden</th>";
   for (var week = 1; week <= 5; week++) {
     html += "<th>";
     if (week_in_type == week) html += "<b>";
@@ -178,11 +178,6 @@ function draw_table(members, me, start) {
   html += "</tr>";
   for (var member_sequence = 1; member_sequence <= 5; member_sequence++) {
     html += "<tr>";
-    html += "<td>";
-    if (member_sequence == me) html += "<b>";
-    html += member_sequence;
-    if (member_sequence == me) html += "</b>";
-    html += "</td>";
     html += "<td>";
     if (member_sequence == me) html += "<b>";
     html += members[member_sequence-1];
@@ -199,5 +194,6 @@ function draw_table(members, me, start) {
     }
     html += "</tr>";
   }
-  write_table(html+"</table>");
+  html += "</table>";
+  write_element(element,html);
 }

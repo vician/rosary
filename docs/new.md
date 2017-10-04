@@ -12,6 +12,6 @@ window.onload = function () {
   var me = 2;
   var start = "2010-07-26";
 
-  draw_table(members, me, start, "table");
+  draw_table(members, start, "table", me);
 }
 </script>

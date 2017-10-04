@@ -1,20 +1,20 @@
 ## Stretko, Brno
 
-### 1. skupina
+### [1. skupina](/new/?m=Hanka,Markéta,Lukáš,Frencis,Vendy&s=2010-07-26)
 
 <div id="stretko1"></div>
 
-### 2. skupina
+### [2. skupina](/new/?m=Martin,Mária,Pavel,Dominik,Marie&s=2010-06-21)
 
 <div id="stretko2"></div>
 
-### 3. skupina
+### [3. skupina](/new/?m=Ján,Jana,Matůš,Lucie,Andrea&s=2010-05-17)
 
 <div id="stretko3"></div>
 
 ## Bývalí středoškoláci, České Budějovice
 
-### 1. skupina
+### [1. skupina](/new/?m=Adéla,Markéta F.,Magda,Markéta K., Šárka&s=2010-04-12)
 
 <div id="cb1"></div>
 

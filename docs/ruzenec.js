@@ -145,6 +145,7 @@ function write_element(element, html) {
 }
 
 function draw_table(members, start, element, me=0) {
+	members = decodeURIComponent(members)
 	if (members.length != 5) {
 		members = members.split(",")
 		if (members.length != 5) {

@@ -63,11 +63,23 @@ function get_week_in_type(weeks) {
 
 // Vrati cislo desatku
 function get_decade(week_in_type, member_sequence) {
+	week_in_type = week_in_type * 1;
+	member_sequence = member_sequence * 1;
 	decade = week_in_type + member_sequence - 1;
 	if (decade > 5) {
 		decade -= 5;
 	}
 	return decade;
+}
+
+// Kdo urcuje umysl
+function get_who_decide(week_in_type) {
+	week_in_type = week_in_type * 1;
+	var who_decide = 7 - week_in_type;
+	if (who_decide > 5) {
+		who_decide -= 5;
+	}
+	return who_decide;
 }
 
 // Vrati text desadku
@@ -167,11 +179,14 @@ function draw_table(members, start, element, me=0) {
 	var html = '';
 	if (me != 0) {
 		var your_decade = get_decade(week_in_type, me);
+		console.log("your_decade:", your_decade);
 		var your_decade_text = get_decade_text(type, your_decade);
-		html += "<div>Tento týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i></div>";
+		html += "<div>Tento ("+week_in_type+".) týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i></div>";
 	} else {
-		html += "<div>".week_in_type+". týden růžence <b>"+type_text+"</b></div>";
+		html += "<div>"+week_in_type+". týden růžence <b>"+type_text+"</b></div>";
 	}
+	var who_decide = get_who_decide(week_in_type);
+	html += "<div>Umýsl určuje "+who_decide+". člen, tedy "+members[who_decide-1]+".</div>";
 
 	html += "<table>";
 	html += "<tr><th>člen / týden</th>";
@@ -190,9 +205,11 @@ function draw_table(members, start, element, me=0) {
 		html += "<td";
 		if (member_sequence == me) html += " style='border-style: solid; border-color: black; border-width: 1px 0px 1px 0px;'";
 		html += ">";
-		if (member_sequence == me) html += "<b>";
+		if (member_sequence == who_decide) html += "<b>";
+		html += "<a href='/skupina/?m="+members+"&s="+start+"&i="+member_sequence+"'>";
 		html += members[member_sequence-1];
-		if (member_sequence == me) html += "</b>";
+		html += "</a>";
+		if (member_sequence == who_decide) html += "</b>";
 		html += "</td>";
 		for (var week = 1; week <= 5; week++) {
 			var decade = get_decade(week, member_sequence);

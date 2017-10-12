@@ -6,3 +6,6 @@ repo_url: 'https://github.com/vician/zivy-ruzenec'
 extra:
     logo:
         icon: 'cloud'
+
+google_analytics:
+    - 'UA-73656343-7'

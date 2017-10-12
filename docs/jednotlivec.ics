@@ -1,0 +1,762 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tajemství růženců pro jednotlivce
+X-WR-TIMEZONE:Europe/Prague
+X-WR-CALDESC:
+BEGIN:VTIMEZONE
+TZID:Europe/Prague
+X-LIC-LOCATION:Europe/Prague
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170102
+DTEND;VALUE=DATE:20170103
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=MO
+DTSTAMP:20171012T190633Z
+UID:jt1frkv7q4r1813220r1ret9ks@google.com
+CREATED:20170306T095806Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-z?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.jt1frkv7q4r1813220
+ r1ret9ks&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T095806Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi z Ducha svatého počala
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170103
+DTEND;VALUE=DATE:20170104
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TU
+DTSTAMP:20171012T190633Z
+UID:kcah2ulugrp71v1i1t7v0ecpdg@google.com
+CREATED:20170306T100009Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-se-pro-n-s?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.kcah2ulugrp71v1i
+ 1t7v0ecpdg&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T100009Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který se pro nás krví potil
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170106
+DTEND;VALUE=DATE:20170107
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=FR
+DTSTAMP:20171012T190633Z
+UID:44ubt6no4pnfcau4g1gc4hq008@google.com
+CREATED:20170306T100039Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.44ubt6no4pnfcau4g
+ 1gc4hq008&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T100039Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás bičován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170104
+DTEND;VALUE=DATE:20170105
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=WE
+DTSTAMP:20171012T190633Z
+UID:ljtjotg080i1i1o1luvvagql9o@google.com
+CREATED:20170306T113549Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-z-mrtv-ch?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.ljtjotg080i1i1o1l
+ uvvagql9o&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113549Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který z mrtvých vstal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170105
+DTEND;VALUE=DATE:20170106
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TH
+DTSTAMP:20171012T190633Z
+UID:rlfj3anm1rmbjef7365g31mu84@google.com
+CREATED:20170306T113613Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pok-t?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.rlfj3anm1rmbjef73
+ 65g31mu84&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113613Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pokřtěn v Jordánu
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170107
+DTEND;VALUE=DATE:20170108
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SA
+DTSTAMP:20171012T190633Z
+UID:k1o92ruqrbrui7c3qjk4b52e2c@google.com
+CREATED:20170306T113643Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/s-kter-m-jsi-al?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.k1o92ruqrbrui7c3
+ qjk4b52e2c&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113643Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:s kterým jsi Alžbětu navštívila
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170108
+DTEND;VALUE=DATE:20170109
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SU
+DTSTAMP:20171012T190633Z
+UID:5pvptf5d4bqp47pbgn781q592k@google.com
+CREATED:20170306T113708Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-na-nebe?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp1
+ aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.5pvptf5d4bqp47pbgn7
+ 81q592k&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113708Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který na nebe vstoupil
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170109
+DTEND;VALUE=DATE:20170110
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=MO
+DTSTAMP:20171012T190633Z
+UID:6tbkg5jgirqg72a8tk36h7hc6k@google.com
+CREATED:20170306T113733Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.6tbkg5jgirqg72a8tk
+ 36h7hc6k&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113742Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v Betlémě porodila
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170110
+DTEND;VALUE=DATE:20170111
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TU
+DTSTAMP:20171012T190633Z
+UID:6dtvnmiik1p1ahdqe07glsmifc@google.com
+CREATED:20170306T113805Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.6dtvnmiik1p1ahdqe
+ 07glsmifc&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113805Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás trním korunován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170111
+DTEND;VALUE=DATE:20170112
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=WE
+DTSTAMP:20171012T190633Z
+UID:n262427a0is7qnefmsrfc174s8@google.com
+CREATED:20170306T113848Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ducha-svat?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.n262427a0is7qnef
+ msrfc174s8&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113848Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který Ducha svatého seslal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170112
+DTEND;VALUE=DATE:20170113
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TH
+DTSTAMP:20171012T190633Z
+UID:pi00b7fc3kgcqvi607s5bfccsk@google.com
+CREATED:20170306T113912Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-zjevil-v-k?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.pi00b7fc3kgcqvi6
+ 07s5bfccsk&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113912Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který zjevil v Káně svou božskou moc
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170113
+DTEND;VALUE=DATE:20170114
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=FR
+DTSTAMP:20171012T190633Z
+UID:j7qr0u98ecs33h7j81u59i2nlo@google.com
+CREATED:20170306T113936Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-pro-n-s?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp1
+ aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.j7qr0u98ecs33h7j81u
+ 59i2nlo&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T113936Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který pro nás nesl těžký kříž
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170114
+DTEND;VALUE=DATE:20170115
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SA
+DTSTAMP:20171012T190633Z
+UID:jhghqacefu5ouoaaafv812jl3k@google.com
+CREATED:20170306T114003Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.jhghqacefu5ouoaaaf
+ v812jl3k&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114003Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v chrámě obětovala
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170115
+DTEND;VALUE=DATE:20170116
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SU
+DTSTAMP:20171012T190633Z
+UID:0nnk3ebgnkkqqbqdos27k0t8m8@google.com
+CREATED:20170306T114028Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-t-panno-do?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.0nnk3ebgnkkqqbqd
+ os27k0t8m8&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114028Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který tě\, Panno\, do nebe vzal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170116
+DTEND;VALUE=DATE:20170117
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=MO
+DTSTAMP:20171012T190633Z
+UID:pk6bcnme6e1nn6lpistcrn138c@google.com
+CREATED:20170306T114117Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.pk6bcnme6e1nn6lpis
+ tcrn138c&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114117Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v chrámě nalezla
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170117
+DTEND;VALUE=DATE:20170118
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TU
+DTSTAMP:20171012T190633Z
+UID:4n65qmgusd537fhcoij3drd2rc@google.com
+CREATED:20170306T114140Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.4n65qmgusd537fhco
+ ij3drd2rc&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114140Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás ukřižován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170118
+DTEND;VALUE=DATE:20170119
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=WE
+DTSTAMP:20171012T190633Z
+UID:2b3a05u3gpcnlde9d715vt0qi0@google.com
+CREATED:20170306T114203Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-t-v-nebi?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.2b3a05u3gpcnlde9d7
+ 15vt0qi0&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114203Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který tě v nebi korunoval
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170119
+DTEND;VALUE=DATE:20170120
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TH
+DTSTAMP:20171012T190633Z
+UID:mglha1l7vqtoc4n9vdn1hr6k8c@google.com
+CREATED:20170306T114249Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-hl-sal-bo?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.mglha1l7vqtoc4n9v
+ dn1hr6k8c&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114249Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který hlásal Boží království a vyzýval k pokání
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170120
+DTEND;VALUE=DATE:20170121
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=FR
+DTSTAMP:20171012T190633Z
+UID:3vd5jep0u2cjhjqn9dl2kadfts@google.com
+CREATED:20170306T114319Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-se-pro-n-s?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.3vd5jep0u2cjhjqn
+ 9dl2kadfts&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114319Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který se pro nás krví potil
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170121
+DTEND;VALUE=DATE:20170122
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SA
+DTSTAMP:20171012T190633Z
+UID:tp58u8bd44h06httkvef15jr3c@google.com
+CREATED:20170306T114518Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-z?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.tp58u8bd44h06httkv
+ ef15jr3c&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114518Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi z Ducha svatého počala
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170122
+DTEND;VALUE=DATE:20170123
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SU
+DTSTAMP:20171012T190633Z
+UID:dumag6v57suf3kt6h7a4oh66is@google.com
+CREATED:20170306T114547Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-z-mrtv-ch?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.dumag6v57suf3kt6h
+ 7a4oh66is&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114547Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který z mrtvých vstal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170123
+DTEND;VALUE=DATE:20170124
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=MO
+DTSTAMP:20171012T190633Z
+UID:nigav3fdifj32ii1asec40d2ms@google.com
+CREATED:20170306T114642Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/s-kter-m-jsi-al?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.nigav3fdifj32ii1
+ asec40d2ms&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114642Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:s kterým jsi Alžbětu navštívila
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170124
+DTEND;VALUE=DATE:20170125
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TU
+DTSTAMP:20171012T190633Z
+UID:3vsut0vbfb2535a8a9s1s8j82g@google.com
+CREATED:20170306T114658Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.3vsut0vbfb2535a8a
+ 9s1s8j82g&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114658Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás bičován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170125
+DTEND;VALUE=DATE:20170126
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=WE
+DTSTAMP:20171012T190633Z
+UID:bf8ijbvhpiive5ck5ub3q2npek@google.com
+CREATED:20170306T114736Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-na-nebe?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp1
+ aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.bf8ijbvhpiive5ck5ub
+ 3q2npek&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114736Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který na nebe vstoupil
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170126
+DTEND;VALUE=DATE:20170127
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TH
+DTSTAMP:20171012T190633Z
+UID:7h4dp78427u9tfmr7blfom7unc@google.com
+CREATED:20170306T114755Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-na-ho-e?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp1
+ aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.7h4dp78427u9tfmr7bl
+ fom7unc&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114755Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který na hoře Proměnění zjevil svou slávu
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170127
+DTEND;VALUE=DATE:20170128
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=FR
+DTSTAMP:20171012T190633Z
+UID:j19uli9ujfv2k13llinl6729f0@google.com
+CREATED:20170306T114907Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.j19uli9ujfv2k13ll
+ inl6729f0&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114907Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás trním korunován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170128
+DTEND;VALUE=DATE:20170129
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SA
+DTSTAMP:20171012T190633Z
+UID:kc6k6pbqf8sf3cg9jju2e5o0ao@google.com
+CREATED:20170306T114924Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.kc6k6pbqf8sf3cg9jj
+ u2e5o0ao&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114924Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v Betlémě porodila
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170129
+DTEND;VALUE=DATE:20170130
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SU
+DTSTAMP:20171012T190633Z
+UID:4pc6pg7vuo9ng3gmgqir27mj18@google.com
+CREATED:20170306T114941Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ducha-svat?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.4pc6pg7vuo9ng3gm
+ gqir27mj18&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T114941Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který Ducha svatého seslal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170130
+DTEND;VALUE=DATE:20170131
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=MO
+DTSTAMP:20171012T190633Z
+UID:uopt2v4u32is4pd0mvk0dsnqc0@google.com
+CREATED:20170306T115013Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.uopt2v4u32is4pd0mv
+ k0dsnqc0&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115013Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v chrámě obětovala
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170131
+DTEND;VALUE=DATE:20170201
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TU
+DTSTAMP:20171012T190633Z
+UID:4c234qp3t9jjg439op7ugfvtfg@google.com
+CREATED:20170306T115031Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-pro-n-s?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp1
+ aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.4c234qp3t9jjg439op7
+ ugfvtfg&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115031Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který pro nás nesl těžký kříž
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170201
+DTEND;VALUE=DATE:20170202
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=WE
+DTSTAMP:20171012T190633Z
+UID:9m09tgihpdg5j7i0e4eb3ea2ts@google.com
+CREATED:20170306T115053Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-t-panno-do?hceid=dmljaWFuLmN6Xzgya2xzYzc5d
+ Wp1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.9m09tgihpdg5j7i0
+ e4eb3ea2ts&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115053Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který tě\, Panno\, do nebe vzal
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170202
+DTEND;VALUE=DATE:20170203
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=TH
+DTSTAMP:20171012T190633Z
+UID:drurqce7oigqtkdtl2mg6crmo4@google.com
+CREATED:20170306T115109Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ustanovil?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.drurqce7oigqtkdtl
+ 2mg6crmo4&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115109Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který ustanovil Eucharistii
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170203
+DTEND;VALUE=DATE:20170204
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=FR
+DTSTAMP:20171012T190633Z
+UID:ku5eph06jft0hs01n76905spbc@google.com
+CREATED:20170306T115134Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-byl-pro-n?hceid=dmljaWFuLmN6Xzgya2xzYzc5dW
+ p1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.ku5eph06jft0hs01n
+ 76905spbc&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115134Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který byl pro nás ukřižován
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170204
+DTEND;VALUE=DATE:20170205
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SA
+DTSTAMP:20171012T190633Z
+UID:rmj791rfrne4e1gdtnqth58n5s@google.com
+CREATED:20170306T115149Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-ho-jsi-v?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.rmj791rfrne4e1gdtn
+ qth58n5s&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115149Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kterého jsi v chrámě nalezla
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20170205
+DTEND;VALUE=DATE:20170206
+RRULE:FREQ=WEEKLY;INTERVAL=5;BYDAY=SU
+DTSTAMP:20171012T190633Z
+UID:undg1pphdbi365jheu3i13abrg@google.com
+CREATED:20170306T115208Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descriptio
+ n.\n\nThis event has a Google Hangouts video call.\nJoin: https://plus.goog
+ le.com/hangouts/_/vician.cz/kter-t-v-nebi?hceid=dmljaWFuLmN6Xzgya2xzYzc5dWp
+ 1aDhlbXNiYTA4NXZhbTkwQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20.undg1pphdbi365jheu
+ 3i13abrg&hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20170306T115208Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:který tě v nebi korunoval
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

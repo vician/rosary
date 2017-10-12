@@ -229,3 +229,12 @@ function draw_table(members, start, element, me=0) {
 	html += "</table>";
 	write_element(element,html);
 }
+
+function get_individual(start="2017-01-02", element="today") {
+	var startarray = start.split("-");
+	var weeks = get_weeks(startarray[2],startarray[1],startarray[0]);
+
+	var html = weeks+". týden";
+
+	write_element(element, html);
+}

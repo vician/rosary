@@ -9,3 +9,4 @@ extra:
 
 google_analytics:
     - 'UA-73656343-7'
+    - 'auto'

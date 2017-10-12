@@ -1,5 +1,5 @@
 
 _Zdroj: [Salesiáni spolupracovníci](http://www.ascczech.cz/) - [Formační plány na roky 2010 a 2011](http://www.ascczech.cz/rs/download.php?sekce=5)._
 
-- [Radostný a slavný](/materials/ASC_radostny_slavny.pdf)
-- [Světla a bolestný](/materials/ASC_svetla_bolestny.pdf)
+- [Radostný a slavný](/meditace/ASC_radostny_slavny.pdf)
+- [Světla a bolestný](/meditace/ASC_svetla_bolestny.pdf)

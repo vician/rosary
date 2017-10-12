@@ -168,9 +168,9 @@ function draw_table(members, start, element, me=0) {
 	if (me != 0) {
 		var your_decade = get_decade(week_in_type, me);
 		var your_decade_text = get_decade_text(type, your_decade);
-		html += "Tento týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i>";
+		html += "<div>Tento týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i></div>";
 	} else {
-		html += week_in_type+". týden růžence <b>"+type_text+"</b>";
+		html += "<div>".week_in_type+". týden růžence <b>"+type_text+"</b></div>";
 	}
 
 	html += "<table>";

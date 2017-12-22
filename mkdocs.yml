@@ -1,6 +1,5 @@
 site_name: Živý růženec
 
-theme: material
 repo_url: 'https://github.com/vician/zivy-ruzenec'
 
 extra_javascript:
@@ -8,9 +7,12 @@ extra_javascript:
 extra_css:
     - 'ruzenec.css'
 
-extra:
+theme:
+    name: material
     logo:
         icon: 'cloud'
+    language: 'cs'
+    custom_dir: 'theme'
 
 google_analytics:
     - 'UA-73656343-7'

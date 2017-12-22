@@ -1,6 +1,6 @@
 ## Starý web
 
-Stará verze webové aplikace je k dispozici na [old.zivyruzenec.cz](https://old.zivyruzenec.cz), ale i ta bude brzy zrušna.
+Stará verze webové aplikace je k dispozici na [old.zivyruzenec.cz](https://old.zivyruzenec.cz), ale i ta bude brzy zrušena.
 
 ## Kontakt
 

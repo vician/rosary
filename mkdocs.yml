@@ -3,6 +3,11 @@ site_name: Živý růženec
 theme: material
 repo_url: 'https://github.com/vician/zivy-ruzenec'
 
+extra_javascript:
+    - 'ruzenec.js'
+extra_css:
+    - 'ruzenec.css'
+
 extra:
     logo:
         icon: 'cloud'

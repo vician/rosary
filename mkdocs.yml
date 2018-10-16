@@ -3,6 +3,7 @@ site_author: Martin Vicián
 
 repo_url: 'https://gitlab.com/vician/ruzenec'
 repo_name: 'vician/ruzenec'
+edit_uri: ''
 
 extra_javascript:
     - 'ruzenec.js'

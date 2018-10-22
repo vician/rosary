@@ -4,9 +4,8 @@ Tato webová aplikace nepodporuje ukládání úmyslů, jejich rozesálání, an
 
 ### Starý web
 
-Stará verze webové aplikace je k dispozici na [old.zivyruzenec.cz](https://old.zivyruzenec.cz), ale i ta bude brzy zrušena.
+Skupinky z předchozího webu byly do nové verze převedy a najdete je pod záložkou [Seznam skupin](/seznam skupin/).
 
-Skupinky byly do nové verze převedy a najdete je pod záložkou [Seznam skupin](/seznam skupin/).
 ### Plán do budoucna
 
 - Sepsat návod na používání nové webové aplikace.

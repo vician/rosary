@@ -34,6 +34,19 @@ deploy:
     only:
         - master
 
+deploydev:
+    script:
+        - sed -i "s/&copy;/\&copy; $(date +%Y)/g" mkdocs.yml
+        - sed -i "s/REF/#$(git log --pretty=format:'%h' -n 1)/g" mkdocs.yml
+        - sed -i "s/HASH/$(git rev-parse HEAD)/g" mkdocs.yml
+        - mkdocs build
+        - rsync -e "ssh" -avz --delete --exclude="\.*" site/* $SSH_USER@$SSH_HOST:$SSH_ROOT_DEV/
+    artifacts:
+        paths:
+            - site
+    only:
+        - dev
+
 mirror-master:
     script:
         - git remote add upstream git@github.com:vician/ruzenec || true

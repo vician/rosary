@@ -241,6 +241,10 @@ function get_individual(start="2017-01-02", element="today") {
 
 function draw_group() {
 	var search = window.location.search;
+	var hash = window.location.hash;
+	if (hash != "") {
+		search = hash
+	}
 	var params = new Array();
 	if (search.length != 0) {
 		search = search.substring(1);

@@ -302,7 +302,7 @@ function draw_group(params=null) {
 		}
 		if (search.length == 0 || params["m"] == undefined || params["s"] == undefined) {
 			params["m"] = "Adam,Eva,Petr,Pavel,Veronika"
-			params["s"] = "2010-01-01"
+			params["s"] = new Date().toISOString().slice(0, 10);
 			params["i"] = Math.floor(Math.random() * 5 + 1);
 			console.log("Generated member: "+params["i"])
 		}

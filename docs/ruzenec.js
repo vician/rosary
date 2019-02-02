@@ -261,18 +261,21 @@ function update_link(params) {
 	if (window.location.port != "") {
 		port = ":"+window.location.port;
 	}
-	document.getElementById("link").innerHTML = window.location.protocol+"//"+window.location.hostname+port+""+window.location.pathname+"?m="+params["m"]+"&s="+params["s"]+"&i="+params["i"];
+	document.getElementById("link").innerHTML = window.location.protocol+"//"+window.location.hostname+port+""+window.location.pathname+"?m="+decodeURIComponent(params["m"])+"&s="+params["s"]+"&i="+params["i"];
 	document.getElementById("link").href = encodeURI(document.getElementById("link").innerHTML);
 }
 
 function update_form(params) {
 	members = params["m"].split(',');
-	document.getElementById('member1').value = members[0];
-	document.getElementById('member2').value = members[1];
-	document.getElementById('member3').value = members[2];
-	document.getElementById('member4').value = members[3];
-	document.getElementById('member5').value = members[4];
+	document.getElementById('member1').value = decodeURIComponent(members[0]);
+	document.getElementById('member2').value = decodeURIComponent(members[1]);
+	document.getElementById('member3').value = decodeURIComponent(members[2]);
+	document.getElementById('member4').value = decodeURIComponent(members[3]);
+	document.getElementById('member5').value = decodeURIComponent(members[4]);
 	document.getElementById('start').value = params["s"];
+	if (params["i"] == undefined){
+		params["i"] = "";
+	}
 	document.getElementById('sequence').value = params["i"];
 
 	draw_group(params);

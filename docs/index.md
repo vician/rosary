@@ -1,15 +1,11 @@
-## Nová verze webu
+## Živý růženec
 
-Tato webová aplikace nepodporuje ukládání úmyslů, jejich rozesálání, ani upozorňování toho, kdo je na řadě s jeho určením. Toto je doporučené udělat přes nějaký sdílený kalendář (Google kalendář a další).
+Živý růženec je modlitební společenství věřících, kteří se kromě svých obvyklých modliteb zavázali k denní modlitbě jednoho desátku růžence. Tato stránká může pomoci při organizaci takových to skupinek.
 
-### Starý web
+## Návod na použití
 
-Skupinky z předchozího webu byly do nové verze převedy a najdete je pod záložkou [Seznam skupin](/seznam skupin/).
+Na stránce [skupina](skupina) si můžete vytvořit odkaz pro svoji skupinu a ten si rozeslat mezi členy.
 
-### Plán do budoucna
-
-- Sepsat návod na používání nové webové aplikace.
-- Připravit jednoduchá tlačítka na vytvoření událostí v mém kalendáři.
 
 ## Kontakt
 

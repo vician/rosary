@@ -153,6 +153,10 @@ function get_weeks(sday, smonth, syear) {
 }
 
 function write_element(element, html) {
+	document.getElementById(element).innerHTML = html;
+}
+
+function add_to_element(element, html) {
 	document.getElementById(element).innerHTML += html;
 }
 
@@ -227,6 +231,7 @@ function draw_table(members, start, element, me=0) {
 		html += "</tr>";
 	}
 	html += "</table>";
+	write_element(element,"");
 	write_element(element,html);
 }
 
@@ -239,31 +244,68 @@ function get_individual(start="2017-01-02", element="today") {
 	write_element(element, html);
 }
 
-function draw_group() {
+function update_group() {
+	var params = new Array();
+	params["m"]=document.getElementById('member1').value+","+document.getElementById('member2').value+","+document.getElementById('member3').value+","+document.getElementById('member4').value+","+document.getElementById('member5').value;
+	params["s"]=document.getElementById('start').value;
+	params["i"]=document.getElementById('sequence').value;
+
+	window.location.hash = "#m="+params["m"]+"&s="+params["s"]+"&i="+params["i"];
+
+
+	draw_group(params);
+}
+
+function update_link(params) {
+	var port = '';
+	if (window.location.port != "") {
+		port = ":"+window.location.port;
+	}
+	document.getElementById("link").innerHTML = window.location.protocol+"//"+window.location.hostname+port+""+window.location.pathname+"?m="+params["m"]+"&s="+params["s"]+"&i="+params["i"];
+	document.getElementById("link").href = encodeURI(document.getElementById("link").innerHTML);
+}
+
+function update_form(params) {
+	members = params["m"].split(',');
+	document.getElementById('member1').value = members[0];
+	document.getElementById('member2').value = members[1];
+	document.getElementById('member3').value = members[2];
+	document.getElementById('member4').value = members[3];
+	document.getElementById('member5').value = members[4];
+	document.getElementById('start').value = params["s"];
+	document.getElementById('sequence').value = params["i"];
+
+	draw_group(params);
+}
+
+function draw_group(params=null) {
 	var search = window.location.search;
 	var hash = window.location.hash;
 	if (hash != "") {
 		search = hash
 	}
-	var params = new Array();
-	if (search.length != 0) {
-		search = search.substring(1);
-		var searches = search.split("&");
-		for (index = 0; index < searches.length; ++index) {
-				var values = searches[index].split("=");
-				name = values[0]
-				value = values[1]
-				console.log(name+" = "+value)
-				params[name] = value;
+	if (params == null) {
+		var params = new Array();
+		if (search.length != 0) {
+			search = search.substring(1).replace(/&amp;/g, '&');
+			var searches = search.split("&");
+			for (index = 0; index < searches.length; ++index) {
+					var values = searches[index].split("=");
+					name = values[0]
+					value = values[1]
+					console.log(name+" = "+value)
+					params[name] = value;
+			}
 		}
+		if (search.length == 0 || params["m"] == undefined || params["s"] == undefined) {
+			params["m"] = "Adam,Eva,Petr,Pavel,Veronika"
+			params["s"] = "2010-01-01"
+			params["i"] = Math.floor(Math.random() * 5 + 1);
+			console.log("Generated member: "+params["i"])
+		}
+		update_form(params);
 	}
-	if (search.length == 0 || params["m"] == undefined || params["s"] == undefined) {
-		params["m"] = "Adam,Eva,Petr,Pavel,Veronika"
-		params["s"] = "2010-01-01"
-		params["i"] = Math.floor(Math.random() * 5 + 1);
-		console.log("Generated member: "+params["i"])
-	}
-
+	update_link(params);
 	draw_table(params["m"], params["s"], "table", params["i"])
 }
 

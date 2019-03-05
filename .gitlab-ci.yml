@@ -1,9 +1,6 @@
-image: python:alpine
+image: registry.gitlab.com/vician/mkdocs:latest
 
 before_script:
-    - apk update
-    - apk add --update rsync openssh-client git
-    - pip install mkdocs mkdocs-material
     - mkdir -p $HOME/.ssh
     - chmod 700 $HOME/.ssh
     - rm -f $HOME/.ssh/known_hosts

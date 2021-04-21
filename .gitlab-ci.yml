@@ -1,61 +1,69 @@
-image: registry.gitlab.com/vician/mkdocs:latest
+image: docker:git
+services:
+  - docker:dind
+
+variables:
+  CONTAINER_PATH: registry.gitlab.com/$CI_PROJECT_PATH
+  CONTAINER_TEST_IMAGE: $CONTAINER_PATH:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CONTAINER_PATH:latest
 
 before_script:
-    - mkdir -p $HOME/.ssh
-    - chmod 700 $HOME/.ssh
-    - rm -f $HOME/.ssh/known_hosts
-    - echo "$SSH_HOST ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDDoLhgavd5zWF8C+/BKlM15LNtpaaUkL03b44KYKxJ0DVf54zd6PO4pZxmZYorkNtsVHkOsJbXm2rmVrvdGBMU=" >> $HOME/.ssh/known_hosts
-    - ssh-keyscan -t rsa,dsa,ecdsa github.com >> $HOME/.ssh/known_hosts
-    - chmod 644 $HOME/.ssh/known_hosts
-    - eval $(ssh-agent -s)
-    - ssh-add -D
-    - echo -en "$SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh-add -l
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+stages:
+  - prepare
+  - build
+  - test
+  - docker
+  - release
+
+prepare:
+  image: alpine
+  before_script: []
+  stage: prepare
+  script:
+    - sed -i "s/\#site_url/site_url/g" mkdocs.yml
+    - sed -i "s/&copy;/\&copy; $(date +%Y)/g" mkdocs.yml
+  artifacts:
+    paths:
+      - mkdocs.yml
+
+build:
+  image:
+    name: squidfunk/mkdocs-material
+    entrypoint: [""]
+  before_script: []
+  stage: build
+  script:
+    - mkdocs build
+  artifacts:
+    paths:
+      - site
 
 test:
-    script:
-        - mkdocs build
-    except:
-        - master
+  image: registry.gitlab.com/vician/dockerhub/linkchecker
+  before_script: []
+  stage: test
+  script:
+    - linkchecker site/
+  artifacts:
+    paths:
+      - site
 
-deploy:
-    script:
-        - sed -i "s/&copy;/\&copy; $(date +%Y)/g" mkdocs.yml
-        - sed -i "s/REF/#$(git log --pretty=format:'%h' -n 1)/g" mkdocs.yml
-        - sed -i "s/HASH/$(git rev-parse HEAD)/g" mkdocs.yml
-        - mkdocs build
-        - rsync -e "ssh" -avz --delete --exclude="\.*" site/* $SSH_USER@$SSH_HOST:$SSH_ROOT/
-    artifacts:
-        paths:
-            - site
-    only:
-        - master
+docker:
+  stage: docker
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+  artifacts:
+    paths:
+      - site
 
-deploydev:
-    script:
-        - sed -i "s/&copy;/\&copy; $(date +%Y)/g" mkdocs.yml
-        - sed -i "s/REF/#$(git log --pretty=format:'%h' -n 1)/g" mkdocs.yml
-        - sed -i "s/HASH/$(git rev-parse HEAD)/g" mkdocs.yml
-        - mkdocs build
-        - rsync -e "ssh" -avz --delete --exclude="\.*" site/* $SSH_USER@$SSH_HOST:$SSH_ROOT_DEV/
-    artifacts:
-        paths:
-            - site
-    only:
-        - dev
-
-mirror-master:
-    script:
-        - git remote add upstream git@github.com:vician/ruzenec || true
-        - git fetch upstream
-        - git push --force --progress upstream HEAD:master
-    only:
-        - master
-
-mirror-tags:
-    script:
-        - git remote add upstream git@github.com:vician/ruzenec || true
-        - git fetch upstream
-        - git push --force --progress --tags upstream HEAD:master
-    only:
-        - tags
+release:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master

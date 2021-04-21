@@ -3,7 +3,7 @@ services:
   - docker:dind
 
 variables:
-  CONTAINER_PATH: registry.gitlab.com/$CI_PROJECT_PATH
+  CONTAINER_PATH: registry.gitlab.com/vician/ruzenec
   CONTAINER_TEST_IMAGE: $CONTAINER_PATH:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CONTAINER_PATH:latest
 

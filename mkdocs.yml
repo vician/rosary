@@ -1,5 +1,6 @@
 site_name: Živý růženec
-site_author: Martin Vicián
+site_author: Martin Vician
+#site_url: "https://ruzenec.vician.cz/"
 
 repo_url: 'https://gitlab.com/vician/ruzenec'
 repo_name: 'vician/ruzenec'
@@ -21,4 +22,4 @@ google_analytics:
     - 'UA-73656343-7'
     - 'auto'
 
-copyright: "&copy; Martin Vicián <a href='https://gitlab.com/vician/ruzenec/commit/HASH'>REF</a>"
+copyright: "&copy; Martin Vician"

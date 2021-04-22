@@ -1,3 +1,7 @@
+---
+title: O živém růženci
+---
+
 ## Co to je?
 Živý růženec je modlitební společenství věřících, kteří se kromě svých obvyklých modliteb zavázali k denní modlitbě jednoho desátku růžence. Desátky jsou ve společenství rozděleny mezi členy tak, aby se skupina v souhrnu pomodlila za den celý růženec.
 

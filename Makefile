@@ -1,22 +1,5 @@
-PIDFILE="server.pid"
-LISTEN="127.0.0.1:8103"
-
-start:
-	mkdocs serve --dev-addr=$(LISTEN) 1>/dev/null 2>/dev/null & echo $$! > $(PIDFILE)
-
-status:
-	ps faux | grep $$(cat $(PIDFILE))
-
-stop:
-	kill $$(cat $(PIDFILE))
+live:
+	docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
 
 build:
-	mkdocs build
-
-clean:
-	mkdocs build --clean
-
-restart: stop clean start
-
-# deploy: build
-# 	mkdocs gh-deploy
+	docker run --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material build

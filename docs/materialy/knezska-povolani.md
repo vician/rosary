@@ -1,4 +1,6 @@
-
+---
+title: Kněžská povolání
+---
 _Zdroj: [Arcibiskupský seminář Praha](http://http//www.arcs.cuni.cz/) - [Ukázka rozjímavého růžence za kněžská povolání](http://www.arcs.cuni.cz/index.php?id=5&id2=16)_
 
 ## I . desátek

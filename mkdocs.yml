@@ -11,6 +11,14 @@ extra_javascript:
 extra_css:
     - 'ruzenec.css'
 
+nav:
+  - Domů: index.md
+  - O živém růženci: o-zivem-ruzenci.md
+  - Jednotlivec: jednotlivec.md
+  - Seznam skupin: seznam.md
+  - Vlastní skupina: skupina.md
+  - Materiály: materialy.md
+
 theme:
     name: material
     logo: 'icon.png'

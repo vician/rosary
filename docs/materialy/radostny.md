@@ -1,4 +1,6 @@
-
+---
+title: Radostný
+---
 _Zdroj: [Salesiáni spolupracovníci](http://www.ascczech.cz/) - [Formační plány na roky 2010 a 2011](http://www.ascczech.cz/rs/download.php?sekce=5)._
 
 ## I. Kterého jsi, Panno, z Ducha svatého počala

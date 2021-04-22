@@ -13,7 +13,7 @@ before_script:
 stages:
   - prepare
   - build
-    #  - test
+  - test
   - docker
   - release
 
@@ -40,15 +40,15 @@ build:
     paths:
       - site
 
-        #test:
-        #  image: registry.gitlab.com/vician/dockerhub/linkchecker
-        #  before_script: []
-        #  stage: test
-        #  script:
-        #    - linkchecker site/
-        #  artifacts:
-        #    paths:
-        #      - site
+test:
+  image: registry.gitlab.com/vician/dockerhub/linkchecker
+  before_script: []
+  stage: test
+  script:
+    - linkchecker site/
+  artifacts:
+    paths:
+      - site
 
 docker:
   stage: docker

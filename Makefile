@@ -3,3 +3,6 @@ live:
 
 build:
 	docker run --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material build
+
+test: build
+	docker run --rm -it -v ${PWD}/site:/site registry.gitlab.com/vician/dockerhub/linkchecker linkchecker /site

@@ -1,6 +1,10 @@
-# Týdenní modlitební záznamník
+# Týdenní a denní modlitební záznamník
 
-Tento záznamník slouží k evidenci modlitby růžence – buď jako **týdenní závazek** (odmodlit 3 či 4 růžence během týdne v libovolném čase), nebo v režimu **„Růženec denně“** (jeden růženec každý den od pondělí do neděle podle církevního doporučení).
+Tento záznamník slouží k přehledné evidenci modlitby posvátného růžence. Je určen především pro:
+
+- **Růžencové bratrstvo (*Confraternitas Sanctissimi Rosarii*):** Členové tohoto celosvětového společenství pod záštitou dominikánského řádu se zavazují odmodlit během jednoho týdne celý růženec – buď 15 tradičních desátků (radostný, bolestný, slavný = 150 Zdrávasů), nebo 20 desátků včetně růžence světla (200 Zdrávasů).
+- **Růženec denně:** Pro ty, kdo se modlí jeden celý růženec každý den od pondělí do neděle podle liturgického doporučení katolické církve.
+- **Osobní modlitbu:** Pro každého, kdo si přeje udržovat pravidelný přehled o své modlitbě a posilovat vytrvalost.
 
 Postup se automaticky ukládá ve vašem prohlížeči pro každý kalendářní týden (pondělí až neděle).
 
@@ -41,7 +45,7 @@ V záhlaví záznamníku můžete nezávisle zapnout nebo vypnout dvě volby:
      - **Neděle:** Slavný růženec
 
 2. **Zahrnout růženec světla:**
-   - Funguje nezávisle na volbě denního růžence. V týdenním režimu rozšíří cíl ze 3 na 4 růžence (20 desátků / 200 Zdrávasů), v denním režimu zařadí tajemství světla na čtvrtek.
+   - Funguje nezávisle na volbě denního růžence. V týdenním režimu (např. pro Růžencové bratrstvo) rozšíří cíl ze 3 na 4 růžence (20 desátků / 200 Zdrávasů), v denním režimu zařadí tajemství světla na čtvrtek.
 
 *Poznámka:* Přepínání mezi režimy **nemaže** zapsané modlitby – první 3 (či 4) růžence (radostný, bolestný, slavný a případně světla) sdílejí stejná data napříč režimy.
 
@@ -55,3 +59,5 @@ V záhlaví záznamníku můžete nezávisle zapnout nebo vypnout dvě volby:
   - `Celý desátek`: Označí všech 10 Zdrávasů naráz (nebo desátek vynuluje).
   - `✓ Celý růženec`: Označí všech 5 desátků daného růžence naráz (50 Zdrávasů).
 - **Přepínání týdnů:** Šipkami v horním panelu můžete listovat mezi předchozími a budoucími týdny. Tlačítko *Tento týden* vás kdykoliv vrátí zpět do aktuálního týdne.
+- **Historie modlitby:** V sekci *Historie modlitby* níže naleznete přehled všech dřívějších týdnů a můžete se k nim jedním kliknutím vrátit.
+- **Záloha dat:** Pomocí tlačítka *Exportovat data* si stáhnete zálohu a tlačítkem *Importovat data* ji můžete kdykoliv obnovit na jakémkoliv zařízení.

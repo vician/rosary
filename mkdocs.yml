@@ -1,4 +1,4 @@
-site_name: Living Rosary
+site_name: The Holy Rosary
 site_author: Martin Vician
 site_url: "https://vician.github.io/rosary/"
 
@@ -25,15 +25,16 @@ plugins:
         - locale: cs
           name: Čeština
           build: true
-          site_name: Živý růženec
+          site_name: Posvátný růženec
           nav_translations:
             Home: Domů
+            Prayer Tracker: Modlitební záznamník
+            Living Rosary: Živý růženec
             About Living Rosary: O živém růženci
-            Individual: Jednotlivec
-            Weekly Tracker: Týdenní tracker
+            Individual Calendar: Kalendář jednotlivce
             Group List: Seznam skupin
             Custom Group: Vlastní skupina
-            Materials & Meditations: Materiály a meditace
+            Mysteries & Meditations: Tajemství a meditace
             Overview: Přehled
             Joyful Mysteries: Radostný růženec
             Luminous Mysteries: Růženec světla
@@ -43,12 +44,13 @@ plugins:
 
 nav:
   - Home: index.md
-  - About Living Rosary: about-living-rosary.md
-  - Individual: individual.md
-  - Weekly Tracker: tracker.md
-  - Group List: group-list.md
-  - Custom Group: group.md
-  - Materials & Meditations:
+  - Prayer Tracker: tracker.md
+  - Living Rosary:
+    - About Living Rosary: about-living-rosary.md
+    - Custom Group: group.md
+    - Group List: group-list.md
+    - Individual Calendar: individual.md
+  - Mysteries & Meditations:
     - Overview: materials.md
     - Joyful Mysteries: materials/joyful.md
     - Luminous Mysteries: materials/luminous.md
@@ -56,10 +58,20 @@ nav:
     - Glorious Mysteries: materials/glorious.md
     - Rosary for Priestly Vocations: materials/vocations.md
 
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+
 theme:
   name: material
   logo: 'icon.png'
   favicon: 'icon.png'
   language: 'en'
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
 
 copyright: "&copy; Martin Vician"

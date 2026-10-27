@@ -12,7 +12,7 @@ Welcome to this Catholic guide, prayer companion, and interactive tracking tool 
 <div class="tracker-summary-card" style="margin-bottom: 1.5rem;">
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">📿 Weekly & Daily Rosary Tracker</h2>
-    <a href="tracker/" class="tracker-btn tracker-btn-primary">Open Tracker →</a>
+    <a href="tracker/" class="home-btn home-btn-primary">Open Tracker →</a>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
     An interactive bead-by-bead tracker designed for:
@@ -31,8 +31,8 @@ Welcome to this Catholic guide, prayer companion, and interactive tracking tool 
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">🤝 The Living Rosary (Živý růženec)</h2>
     <div>
-      <a href="about-living-rosary/" class="tracker-btn tracker-btn-sm">About</a>
-      <a href="group/" class="tracker-btn tracker-btn-sm tracker-btn-primary">Create Group →</a>
+      <a href="about-living-rosary/" class="home-btn">About</a>
+      <a href="group/" class="home-btn home-btn-primary">Create Group →</a>
     </div>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
@@ -46,7 +46,7 @@ Welcome to this Catholic guide, prayer companion, and interactive tracking tool 
 <div class="tracker-summary-card" style="margin-bottom: 1.5rem;">
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">📖 Mysteries & Scriptural Meditations</h2>
-    <a href="materials/" class="tracker-btn tracker-btn-sm">View Mysteries →</a>
+    <a href="materials/" class="home-btn">View Mysteries →</a>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
     Contemplate the face of Christ with Mary through Scriptural verses assigned to every Hail Mary bead:

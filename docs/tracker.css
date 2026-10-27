@@ -102,7 +102,43 @@
   box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
 }
 
-/* Overall Progress Card */
+/* ── Home page card link buttons ─────────────────────────────────────────── */
+
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1.5px solid var(--md-default-fg-color--lighter, #cbd5e1);
+  background: transparent;
+  color: var(--md-default-fg-color--light, #475569);
+  text-decoration: none !important;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.home-btn:hover {
+  border-color: var(--md-primary-fg-color, #3f51b5);
+  color: var(--md-primary-fg-color, #3f51b5);
+  background: rgba(63,81,181,0.06);
+}
+
+.home-btn-primary {
+  background: var(--md-primary-fg-color, #3f51b5);
+  color: #fff !important;
+  border-color: var(--md-primary-fg-color, #3f51b5);
+}
+
+.home-btn-primary:hover {
+  opacity: 0.88;
+  color: #fff !important;
+}
+
+
 .tracker-summary-card {
   background: var(--md-default-bg-color, #ffffff);
   border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);

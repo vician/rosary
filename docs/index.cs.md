@@ -12,7 +12,7 @@ Vítejte na stránkách věnovaných modlitbě posvátného růžence – nalezn
 <div class="tracker-summary-card" style="margin-bottom: 1.5rem;">
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">📿 Týdenní a denní modlitební záznamník (Tracker)</h2>
-    <a href="tracker/" class="tracker-btn tracker-btn-primary">Otevřít záznamník →</a>
+    <a href="tracker/" class="home-btn home-btn-primary">Otevřít záznamník →</a>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
     Interaktivní kuličkový záznamník desátek po desátku, vytvořený pro:

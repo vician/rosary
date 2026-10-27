@@ -76,7 +76,27 @@
       decadeDoBtn: 'Full Decade',
       subBeadTitle: 'Subtract one Hail Mary',
       addBeadTitle: 'Add one Hail Mary',
-      beadAria: (idx, b, active) => `Hail Mary #${b} (${active ? 'prayed' : 'unprayed'})`
+      beadAria: (idx, b, active) => `Hail Mary #${b} (${active ? 'prayed' : 'unprayed'})`,
+      // History
+      historyTitle: 'Prayer History',
+      historyShow: 'Show history',
+      historyHide: 'Hide history',
+      historyEmpty: 'No previous weeks recorded yet.',
+      historyWeekCol: 'Week',
+      historyDatesCol: 'Dates',
+      historyHailMarysCol: 'Hail Marys',
+      historyRosariesCol: 'Rosaries',
+      historyPctCol: 'Progress',
+      historyJumpBtn: 'View',
+      historyGoToWeek: 'Go to week',
+      // Export / Import
+      dataTitle: 'Data backup',
+      exportBtn: '⬇ Export data',
+      importBtn: '⬆ Import data',
+      importConfirm: 'This will REPLACE all your current prayer data with the imported file. Continue?',
+      importSuccess: 'Data imported successfully!',
+      importError: 'Could not read the file. Make sure it is a valid rosary tracker export.',
+      safariBanner: '⚠️ <strong>Safari tip:</strong> Safari may clear local data after 7 days without a visit. Use <em>Export data</em> to keep a safe backup.',
     },
     cs: {
       days: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
@@ -150,7 +170,27 @@
       decadeDoBtn: 'Celý desátek',
       subBeadTitle: 'Ubrat jeden Zdrávas',
       addBeadTitle: 'Přidat jeden Zdrávas',
-      beadAria: (idx, b, active) => `${b}. Zdrávas (${active ? 'pomodleno' : 'nepomodleno'})`
+      beadAria: (idx, b, active) => `${b}. Zdrávas (${active ? 'pomodleno' : 'nepomodleno'})`,
+      // History
+      historyTitle: 'Historie modlitby',
+      historyShow: 'Zobrazit historii',
+      historyHide: 'Skrýt historii',
+      historyEmpty: 'Žádné předchozí týdny zatím nebyly zaznamenány.',
+      historyWeekCol: 'Týden',
+      historyDatesCol: 'Datum',
+      historyHailMarysCol: 'Zdrávasů',
+      historyRosariesCol: 'Růžence',
+      historyPctCol: 'Postup',
+      historyJumpBtn: 'Zobrazit',
+      historyGoToWeek: 'Přejít na týden',
+      // Export / Import
+      dataTitle: 'Záloha dat',
+      exportBtn: '⬇ Exportovat data',
+      importBtn: '⬆ Importovat data',
+      importConfirm: 'Tato akce NAHRADÍ veškerá aktuální data záznamy ze souboru. Opravdu pokračovat?',
+      importSuccess: 'Data byla úspěšně importována!',
+      importError: 'Soubor se nepodařilo načíst. Ujistěte se, že jde o platný export z modlitebního záznamníku.',
+      safariBanner: '⚠️ <strong>Poznámka pro Safari:</strong> Safari může po 7 dnech bez návštěvy smazat lokální data. Použijte <em>Exportovat data</em> pro zálohu.',
     }
   };
 
@@ -164,15 +204,13 @@
   }
 
   let currentWeekOffset = 0;
+  let historyVisible = false;
 
   function loadData() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        return {
-          settings: { includeLight: false, dailyMode: false },
-          weeks: {}
-        };
+        return { settings: { includeLight: false, dailyMode: false }, weeks: {} };
       }
       const data = JSON.parse(raw);
       if (!data.settings) data.settings = { includeLight: false, dailyMode: false };
@@ -182,10 +220,7 @@
       return data;
     } catch (e) {
       console.error('Error loading tracker data:', e);
-      return {
-        settings: { includeLight: false, dailyMode: false },
-        weeks: {}
-      };
+      return { settings: { includeLight: false, dailyMode: false }, weeks: {} };
     }
   }
 
@@ -215,41 +250,50 @@
     return `${date.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`;
   }
 
+  function getMondayFromWeekKey(weekKey) {
+    const [yearStr, weekStr] = weekKey.split('-W');
+    const year = parseInt(yearStr, 10);
+    const week = parseInt(weekStr, 10);
+    // Jan 4 is always in ISO week 1
+    const jan4 = new Date(year, 0, 4);
+    const dow = (jan4.getDay() + 6) % 7; // 0=Mon
+    const startOfWeek1 = new Date(jan4);
+    startOfWeek1.setDate(jan4.getDate() - dow);
+    const monday = new Date(startOfWeek1);
+    monday.setDate(startOfWeek1.getDate() + (week - 1) * 7);
+    monday.setHours(0, 0, 0, 0);
+    return monday;
+  }
+
+  function formatDate(dt, lang) {
+    if (lang === 'cs') {
+      return `${dt.getDate()}. ${dt.getMonth() + 1}. ${dt.getFullYear()}`;
+    }
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
   function getTargetDate(offset) {
     const now = new Date();
-    const target = new Date(now.getTime() + offset * 7 * 86400000);
-    return target;
+    return new Date(now.getTime() + offset * 7 * 86400000);
   }
 
   function getWeekInfo(offset, lang) {
-    const targetDate = getTargetDate(offset);
-    const monday = getMonday(targetDate);
+    const monday = getMonday(getTargetDate(offset));
     const sunday = new Date(monday.getTime() + 6 * 86400000);
     const weekKey = getISOWeekKey(monday);
-
-    const formatDate = (dt) => {
-      if (lang === 'cs') {
-        return `${dt.getDate()}. ${dt.getMonth() + 1}. ${dt.getFullYear()}`;
-      } else {
-        return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      }
-    };
-    const weekNum = weekKey.split('-W')[1];
-
+    const weekNum = parseInt(weekKey.split('-W')[1], 10);
     return {
       key: weekKey,
-      weekNum: parseInt(weekNum, 10),
-      monday: monday,
-      sunday: sunday,
-      formattedRange: `${formatDate(monday)} – ${formatDate(sunday)}`,
+      weekNum,
+      monday,
+      sunday,
+      formattedRange: `${formatDate(monday, lang)} – ${formatDate(sunday, lang)}`,
       isCurrent: offset === 0
     };
   }
 
   function getWeekData(data, weekKey) {
-    if (!data.weeks[weekKey]) {
-      data.weeks[weekKey] = {};
-    }
+    if (!data.weeks[weekKey]) data.weeks[weekKey] = {};
     return data.weeks[weekKey];
   }
 
@@ -260,61 +304,102 @@
     return weekData[key];
   }
 
-  function getRosaryConfig(dailyMode, includeLight, lang) {
-    const t = I18N[lang] || I18N.en;
-    const todayIndex = (new Date().getDay() + 6) % 7; // 0=Mon, ..., 6=Sun
-
-    if (dailyMode) {
-      let daysConfig;
-      if (includeLight) {
-        daysConfig = [
-          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
-          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
-          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
-          { dayIndex: 3, rosaryType: 'svetla',   key: 'svetla' },
-          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
-          { dayIndex: 5, rosaryType: 'radostny', key: 'sat_radostny' },
-          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
-        ];
-      } else {
-        daysConfig = [
-          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
-          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
-          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
-          { dayIndex: 3, rosaryType: 'radostny', key: 'thu_radostny' },
-          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
-          { dayIndex: 5, rosaryType: 'slavny',   key: 'sat_slavny' },
-          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
-        ];
-      }
-
-      return daysConfig.map(item => {
-        const dayName = t.days[item.dayIndex];
-        const rInfo = t.mysteries[item.rosaryType];
-        return {
-          ...item,
-          dayName: dayName,
-          title: `${dayName}: ${rInfo.name}`,
-          mysteries: rInfo.items,
-          isToday: item.dayIndex === todayIndex
-        };
+  // Summarise a week's raw data into {totalHailMarys, totalDecades, completedRosaries}
+  // independent of mode — just counts everything stored
+  function summariseWeekData(weekData) {
+    let totalHailMarys = 0;
+    let totalDecades = 0;
+    let completedRosaries = 0;
+    Object.values(weekData).forEach(arr => {
+      if (!Array.isArray(arr)) return;
+      let rosaryHM = 0;
+      let rosaryDec = 0;
+      arr.forEach(c => {
+        rosaryHM += c;
+        if (c >= 10) rosaryDec++;
       });
-    } else {
-      const list = [
-        { title: t.mysteries.radostny.name, rosaryType: 'radostny', key: 'radostny', mysteries: t.mysteries.radostny.items }
-      ];
-      if (includeLight) {
-        list.push({ title: t.mysteries.svetla.name, rosaryType: 'svetla', key: 'svetla', mysteries: t.mysteries.svetla.items });
-      }
-      list.push(
-        { title: t.mysteries.bolestny.name, rosaryType: 'bolestny', key: 'bolestny', mysteries: t.mysteries.bolestny.items },
-        { title: t.mysteries.slavny.name,   rosaryType: 'slavny',   key: 'slavny',   mysteries: t.mysteries.slavny.items }
-      );
-      return list;
-    }
+      totalHailMarys += rosaryHM;
+      totalDecades += rosaryDec;
+      if (rosaryDec === 5) completedRosaries++;
+    });
+    return { totalHailMarys, totalDecades, completedRosaries };
   }
 
-  // Global Tracker API
+  function getRosaryConfig(dailyMode, includeLight, lang) {
+    const t = I18N[lang] || I18N.en;
+    const todayIndex = (new Date().getDay() + 6) % 7;
+
+    if (dailyMode) {
+      const base = includeLight ? [
+        { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+        { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+        { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+        { dayIndex: 3, rosaryType: 'svetla',   key: 'svetla' },
+        { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+        { dayIndex: 5, rosaryType: 'radostny', key: 'sat_radostny' },
+        { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
+      ] : [
+        { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+        { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+        { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+        { dayIndex: 3, rosaryType: 'radostny', key: 'thu_radostny' },
+        { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+        { dayIndex: 5, rosaryType: 'slavny',   key: 'sat_slavny' },
+        { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
+      ];
+      return base.map(item => ({
+        ...item,
+        dayName: t.days[item.dayIndex],
+        title: `${t.days[item.dayIndex]}: ${t.mysteries[item.rosaryType].name}`,
+        mysteries: t.mysteries[item.rosaryType].items,
+        isToday: item.dayIndex === todayIndex
+      }));
+    }
+
+    const list = [
+      { title: t.mysteries.radostny.name, rosaryType: 'radostny', key: 'radostny', mysteries: t.mysteries.radostny.items }
+    ];
+    if (includeLight) {
+      list.push({ title: t.mysteries.svetla.name, rosaryType: 'svetla', key: 'svetla', mysteries: t.mysteries.svetla.items });
+    }
+    list.push(
+      { title: t.mysteries.bolestny.name, rosaryType: 'bolestny', key: 'bolestny', mysteries: t.mysteries.bolestny.items },
+      { title: t.mysteries.slavny.name,   rosaryType: 'slavny',   key: 'slavny',   mysteries: t.mysteries.slavny.items }
+    );
+    return list;
+  }
+
+  // ─── History helpers ───────────────────────────────────────────────────────
+
+  function buildHistoryRows(data, currentWeekKey, lang) {
+    const allKeys = Object.keys(data.weeks)
+      .filter(k => k !== currentWeekKey && Object.keys(data.weeks[k]).length > 0)
+      .sort()
+      .reverse(); // most recent first
+    return allKeys.map(key => {
+      const monday = getMondayFromWeekKey(key);
+      const sunday = new Date(monday.getTime() + 6 * 86400000);
+      const weekNum = parseInt(key.split('-W')[1], 10);
+      const { totalHailMarys, totalDecades, completedRosaries } = summariseWeekData(data.weeks[key]);
+      // Target: 50 HMs per completed rosary + remaining HMs; just show raw counts
+      return {
+        key, weekNum, monday, sunday,
+        formattedRange: `${formatDate(monday, lang)} – ${formatDate(sunday, lang)}`,
+        totalHailMarys, totalDecades, completedRosaries
+      };
+    });
+  }
+
+  // Convert a stored week key to the offset relative to today, for navigation
+  function weekKeyToOffset(weekKey) {
+    const monday = getMondayFromWeekKey(weekKey);
+    const todayMonday = getMonday(new Date());
+    const diffMs = monday.getTime() - todayMonday.getTime();
+    return Math.round(diffMs / (7 * 86400000));
+  }
+
+  // ─── Global Tracker API ────────────────────────────────────────────────────
+
   window.RosaryTracker = {
     setWeekOffset: function(delta) {
       currentWeekOffset += delta;
@@ -324,6 +409,14 @@
     resetToToday: function() {
       currentWeekOffset = 0;
       this.render();
+    },
+
+    jumpToWeek: function(weekKey) {
+      currentWeekOffset = weekKeyToOffset(weekKey);
+      this.render();
+      // Scroll to top of tracker
+      const root = document.getElementById('rosary-tracker-root');
+      if (root) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     },
 
     toggleLight: function() {
@@ -340,19 +433,18 @@
       this.render();
     },
 
+    toggleHistory: function() {
+      historyVisible = !historyVisible;
+      this.render();
+    },
+
     clickBead: function(key, decadeIndex, beadNumber) {
       const data = loadData();
       const lang = getLang();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
-      const currentVal = counts[decadeIndex] || 0;
-
-      if (currentVal === beadNumber) {
-        counts[decadeIndex] = beadNumber - 1;
-      } else {
-        counts[decadeIndex] = beadNumber;
-      }
+      counts[decadeIndex] = (counts[decadeIndex] === beadNumber) ? beadNumber - 1 : beadNumber;
       saveData(data);
       this.render();
     },
@@ -363,9 +455,7 @@
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
-      let currentVal = counts[decadeIndex] || 0;
-      currentVal = Math.max(0, Math.min(10, currentVal + delta));
-      counts[decadeIndex] = currentVal;
+      counts[decadeIndex] = Math.max(0, Math.min(10, (counts[decadeIndex] || 0) + delta));
       saveData(data);
       this.render();
     },
@@ -376,13 +466,7 @@
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
-      const currentVal = counts[decadeIndex] || 0;
-
-      if (currentVal >= 10) {
-        counts[decadeIndex] = 0;
-      } else {
-        counts[decadeIndex] = 10;
-      }
+      counts[decadeIndex] = counts[decadeIndex] >= 10 ? 0 : 10;
       saveData(data);
       this.render();
     },
@@ -393,13 +477,7 @@
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
-      const allCompleted = counts.every(c => c >= 10);
-
-      if (allCompleted) {
-        weekData[key] = [0, 0, 0, 0, 0];
-      } else {
-        weekData[key] = [10, 10, 10, 10, 10];
-      }
+      weekData[key] = counts.every(c => c >= 10) ? [0,0,0,0,0] : [10,10,10,10,10];
       saveData(data);
       this.render();
     },
@@ -408,13 +486,61 @@
       const lang = getLang();
       const t = I18N[lang] || I18N.en;
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
-      if (!confirm(t.resetConfirm(weekInfo.weekNum, weekInfo.formattedRange))) {
-        return;
-      }
+      if (!confirm(t.resetConfirm(weekInfo.weekNum, weekInfo.formattedRange))) return;
       const data = loadData();
       data.weeks[weekInfo.key] = {};
       saveData(data);
       this.render();
+    },
+
+    exportData: function() {
+      const data = loadData();
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const today = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `rosary_tracker_${today}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+
+    triggerImport: function() {
+      const input = document.getElementById('tracker-import-input');
+      if (input) input.click();
+    },
+
+    handleImport: function(inputEl) {
+      const lang = getLang();
+      const t = I18N[lang] || I18N.en;
+      const file = inputEl.files && inputEl.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          // Basic validation
+          if (typeof imported !== 'object' || !imported.weeks) {
+            throw new Error('Invalid format');
+          }
+          if (!confirm(t.importConfirm)) {
+            inputEl.value = '';
+            return;
+          }
+          // Ensure settings exist
+          if (!imported.settings) imported.settings = { includeLight: false, dailyMode: false };
+          saveData(imported);
+          alert(t.importSuccess);
+          window.RosaryTracker.render();
+        } catch (err) {
+          alert(t.importError);
+        }
+        inputEl.value = '';
+      };
+      reader.readAsText(file);
     },
 
     render: function() {
@@ -423,80 +549,63 @@
 
       const lang = getLang();
       const t = I18N[lang] || I18N.en;
-
       const data = loadData();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const includeLight = !!data.settings.includeLight;
       const dailyMode = !!data.settings.dailyMode;
-
       const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
 
       // Calculations
-      let totalHailMarys = 0;
-      let totalDecades = 0;
-      let totalRosariesCompleted = 0;
+      let totalHailMarys = 0, totalDecades = 0, totalRosariesCompleted = 0;
       const targetRosaries = activeRosaries.length;
       const targetDecades = targetRosaries * 5;
       const targetHailMarys = targetDecades * 10;
 
       activeRosaries.forEach(r => {
         const counts = ensureKeyArray(weekData, r.key);
-        let rosaryHailMarys = 0;
-        let rosaryDecades = 0;
-        counts.forEach(c => {
-          rosaryHailMarys += c;
-          if (c >= 10) rosaryDecades += 1;
-        });
-        totalHailMarys += rosaryHailMarys;
-        totalDecades += rosaryDecades;
-        if (rosaryDecades === 5) {
-          totalRosariesCompleted += 1;
-        }
+        let hm = 0, dec = 0;
+        counts.forEach(c => { hm += c; if (c >= 10) dec++; });
+        totalHailMarys += hm;
+        totalDecades += dec;
+        if (dec === 5) totalRosariesCompleted++;
       });
 
       const pct = Math.min(100, Math.round((totalHailMarys / targetHailMarys) * 100)) || 0;
       const isAllComplete = totalHailMarys >= targetHailMarys;
+      const modeDesc = dailyMode
+        ? (includeLight ? t.descDailyLight : t.descDailyTrad)
+        : (includeLight ? t.descWeeklyLight : t.descWeeklyTrad);
 
-      // Mode description
-      let modeDesc = '';
-      if (dailyMode) {
-        modeDesc = includeLight ? t.descDailyLight : t.descDailyTrad;
-      } else {
-        modeDesc = includeLight ? t.descWeeklyLight : t.descWeeklyTrad;
-      }
+      // Detect Safari
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
       let html = '';
 
-      // 1. Week navigation
+      // ── 1. Safari banner ─────────────────────────────────────────────────
+      if (isSafari) {
+        html += `<div class="tracker-safari-banner">${t.safariBanner}</div>`;
+      }
+
+      // ── 2. Week navigation ────────────────────────────────────────────────
       html += `
         <div class="tracker-week-nav">
           <div class="tracker-week-controls">
-            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.setWeekOffset(-1)" title="${t.prevWeek}">
-              ${t.prevWeek}
-            </button>
-            ${!weekInfo.isCurrent ? `
-              <button class="tracker-btn tracker-btn-sm tracker-btn-primary" onclick="RosaryTracker.resetToToday()">
-                ${t.thisWeek}
-              </button>
-            ` : ''}
-            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.setWeekOffset(1)" title="${t.nextWeek}">
-              ${t.nextWeek}
-            </button>
+            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.setWeekOffset(-1)">${t.prevWeek}</button>
+            ${!weekInfo.isCurrent ? `<button class="tracker-btn tracker-btn-sm tracker-btn-primary" onclick="RosaryTracker.resetToToday()">${t.thisWeek}</button>` : ''}
+            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.setWeekOffset(1)">${t.nextWeek}</button>
           </div>
           <div class="tracker-week-title">
             <span class="tracker-week-number">${t.weekTitle(weekInfo.weekNum, weekInfo.isCurrent)}</span>
             <span class="tracker-week-dates">${weekInfo.formattedRange}</span>
           </div>
           <div>
-            <button class="tracker-btn tracker-btn-sm tracker-btn-outline-danger" onclick="RosaryTracker.resetCurrentWeek()" title="${t.resetWeekBtn}">
-              ${t.resetWeekBtn}
-            </button>
+            <button class="tracker-btn tracker-btn-sm tracker-btn-outline-danger" onclick="RosaryTracker.resetCurrentWeek()">${t.resetWeekBtn}</button>
           </div>
         </div>
       `;
 
-      // 2. Summary Card
+      // ── 3. Summary card ───────────────────────────────────────────────────
       html += `
         <div class="tracker-summary-card">
           <div class="tracker-summary-header">
@@ -520,18 +629,11 @@
               <div class="tracker-stat-label">${t.fullRosaries}</div>
             </div>
           </div>
-          ${isAllComplete ? `
-            <div class="tracker-complete-banner">
-              <span>🎉</span>
-              <div>
-                ${dailyMode ? t.dailyCompleteBanner : t.weeklyCompleteBanner}
-              </div>
-            </div>
-          ` : ''}
+          ${isAllComplete ? `<div class="tracker-complete-banner"><span>🎉</span><div>${dailyMode ? t.dailyCompleteBanner : t.weeklyCompleteBanner}</div></div>` : ''}
         </div>
       `;
 
-      // 3. Settings Bar (Daily Mode + Light rosary toggles)
+      // ── 4. Settings bar ───────────────────────────────────────────────────
       html += `
         <div class="tracker-settings-bar">
           <div class="tracker-settings-group">
@@ -544,21 +646,15 @@
               <span>${t.lightToggle}</span>
             </label>
           </div>
-          <div class="tracker-settings-desc">
-            ${modeDesc}
-          </div>
+          <div class="tracker-settings-desc">${modeDesc}</div>
         </div>
       `;
 
-      // 4. Rosary Cards
+      // ── 5. Rosary cards ───────────────────────────────────────────────────
       activeRosaries.forEach(r => {
         const counts = ensureKeyArray(weekData, r.key);
-        let rosaryCount = 0;
-        let completedDecadesCount = 0;
-        counts.forEach(c => {
-          rosaryCount += c;
-          if (c >= 10) completedDecadesCount += 1;
-        });
+        let rosaryCount = 0, completedDecadesCount = 0;
+        counts.forEach(c => { rosaryCount += c; if (c >= 10) completedDecadesCount++; });
         const isRosaryDone = completedDecadesCount === 5;
         const isTodayCard = dailyMode && weekInfo.isCurrent && r.isToday;
 
@@ -578,64 +674,114 @@
                 </button>
               </div>
             </div>
-
             <div class="tracker-decades-list">
         `;
 
         r.mysteries.forEach((mystery, dIdx) => {
           const beadCount = counts[dIdx] || 0;
           const isDecadeDone = beadCount >= 10;
-
           html += `
             <div class="tracker-decade-item ${isDecadeDone ? 'completed' : ''}">
               <div class="tracker-decade-header">
                 <div class="tracker-decade-info">
                   <span class="tracker-decade-number">${t.decadeTitle(dIdx)}</span>
-                  <div class="tracker-decade-mystery">„${mystery}“</div>
+                  <div class="tracker-decade-mystery">„${mystery}"</div>
                 </div>
                 <div class="tracker-decade-controls">
                   <span class="tracker-decade-counter">${beadCount} / 10</span>
-                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, -1)" title="${t.subBeadTitle}" ${beadCount === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>
-                    -1
-                  </button>
-                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, 1)" title="${t.addBeadTitle}" ${beadCount >= 10 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>
-                    +1
-                  </button>
-                  <button class="tracker-btn tracker-btn-sm ${isDecadeDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleDecade('${r.key}', ${dIdx})" title="${t.decadeDoBtn}">
+                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, -1)" title="${t.subBeadTitle}" ${beadCount === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>-1</button>
+                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, 1)" title="${t.addBeadTitle}" ${beadCount >= 10 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>+1</button>
+                  <button class="tracker-btn tracker-btn-sm ${isDecadeDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleDecade('${r.key}', ${dIdx})">
                     ${isDecadeDone ? t.decadeDoneBtn : t.decadeDoBtn}
                   </button>
                 </div>
               </div>
-
               <div class="tracker-beads-row" role="group" aria-label="${t.decadeTitle(dIdx)}">
           `;
-
           for (let b = 1; b <= 10; b++) {
             const isActive = b <= beadCount;
-            html += `
-              <button
-                type="button"
-                class="tracker-bead ${isActive ? 'active' : ''}"
-                onclick="RosaryTracker.clickBead('${r.key}', ${dIdx}, ${b})"
-                title="${t.beadAria(dIdx, b, isActive)}"
-                aria-pressed="${isActive ? 'true' : 'false'}"
-              >
-                ${b}
-              </button>
-            `;
+            html += `<button type="button" class="tracker-bead ${isActive ? 'active' : ''}" onclick="RosaryTracker.clickBead('${r.key}', ${dIdx}, ${b})" title="${t.beadAria(dIdx, b, isActive)}" aria-pressed="${isActive}">${b}</button>`;
           }
-
-          html += `
-              </div>
-            </div>
-          `;
+          html += `</div></div>`;
         });
 
-        html += `
-            </div>
-          </div>
-        `;
+        html += `</div></div>`;
       });
+
+      // ── 6. History ────────────────────────────────────────────────────────
+      const historyRows = buildHistoryRows(data, weekInfo.key, lang);
+      html += `
+        <div class="tracker-history-section">
+          <div class="tracker-history-header" onclick="RosaryTracker.toggleHistory()">
+            <span class="tracker-history-title">📅 ${t.historyTitle}</span>
+            <span class="tracker-history-toggle-btn tracker-btn tracker-btn-sm">
+              ${historyVisible ? t.historyHide : t.historyShow}
+              <span class="tracker-history-count">${historyRows.length}</span>
+            </span>
+          </div>
+      `;
+
+      if (historyVisible) {
+        if (historyRows.length === 0) {
+          html += `<p class="tracker-history-empty">${t.historyEmpty}</p>`;
+        } else {
+          html += `
+            <div class="tracker-history-table-wrap">
+              <table class="tracker-history-table">
+                <thead>
+                  <tr>
+                    <th>${t.historyWeekCol}</th>
+                    <th>${t.historyDatesCol}</th>
+                    <th>${t.historyHailMarysCol}</th>
+                    <th>${t.historyRosariesCol}</th>
+                    <th>${t.historyPctCol}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+          historyRows.forEach(row => {
+            // Infer target from number of distinct keys stored (5 HMs per decade per rosary)
+            const storedKeys = Object.keys(data.weeks[row.key]).filter(k => Array.isArray(data.weeks[row.key][k]));
+            const targetHM = storedKeys.length * 50;
+            const rowPct = targetHM > 0 ? Math.min(100, Math.round((row.totalHailMarys / targetHM) * 100)) : 0;
+            const isComplete = rowPct >= 100;
+            html += `
+              <tr class="${isComplete ? 'tracker-history-row-complete' : ''}">
+                <td><span class="tracker-history-week-badge">${row.weekNum}</span></td>
+                <td class="tracker-history-dates">${row.formattedRange}</td>
+                <td class="tracker-history-num">${row.totalHailMarys}</td>
+                <td class="tracker-history-num">${row.completedRosaries} ${isComplete ? '✅' : ''}</td>
+                <td>
+                  <div class="tracker-history-mini-bar-wrap">
+                    <div class="tracker-history-mini-bar ${isComplete ? 'complete' : ''}" style="width: ${rowPct}%;"></div>
+                  </div>
+                  <span class="tracker-history-pct">${rowPct}%</span>
+                </td>
+                <td>
+                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.jumpToWeek('${row.key}')" title="${t.historyGoToWeek} ${row.weekNum}">
+                    ${t.historyJumpBtn}
+                  </button>
+                </td>
+              </tr>
+            `;
+          });
+          html += `</tbody></table></div>`;
+        }
+      }
+      html += `</div>`;
+
+      // ── 7. Export / Import ────────────────────────────────────────────────
+      html += `
+        <div class="tracker-data-io">
+          <span class="tracker-data-io-title">💾 ${t.dataTitle}</span>
+          <div class="tracker-data-io-btns">
+            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.exportData()">${t.exportBtn}</button>
+            <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.triggerImport()">${t.importBtn}</button>
+            <input type="file" id="tracker-import-input" accept=".json,application/json" style="display:none" onchange="RosaryTracker.handleImport(this)">
+          </div>
+        </div>
+      `;
 
       root.innerHTML = html;
     }
@@ -654,10 +800,7 @@
     init();
   }
 
-  // Support for MkDocs Material instant loading / PJAX
   if (typeof document$ !== 'undefined') {
-    document$.subscribe(function() {
-      init();
-    });
+    document$.subscribe(function() { init(); });
   }
 })();

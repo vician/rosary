@@ -449,3 +449,211 @@
     gap: 0.25rem;
   }
 }
+/* ── History section ─────────────────────────────────────────────────────── */
+
+.tracker-history-section {
+  background: var(--md-default-bg-color, #ffffff);
+  border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.tracker-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  gap: 0.75rem;
+}
+
+.tracker-history-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color, #1e293b);
+}
+
+.tracker-history-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.tracker-history-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  background: var(--md-code-bg-color, #f1f5f9);
+  color: var(--md-default-fg-color--light, #475569);
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0 0.25rem;
+}
+
+.tracker-history-empty {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light, #64748b);
+  font-style: italic;
+}
+
+.tracker-history-table-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.tracker-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tracker-history-table thead th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 2px solid var(--md-default-fg-color--lighter, #e2e8f0);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--md-default-fg-color--light, #64748b);
+  white-space: nowrap;
+}
+
+.tracker-history-table tbody tr {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest, #f1f5f9);
+  transition: background 0.12s ease;
+}
+
+.tracker-history-table tbody tr:hover {
+  background: var(--md-code-bg-color, #f8fafc);
+}
+
+.tracker-history-table tbody td {
+  padding: 0.55rem 0.6rem;
+  vertical-align: middle;
+}
+
+.tracker-history-row-complete {
+  background: rgba(16, 185, 129, 0.04);
+}
+
+.tracker-history-week-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  padding: 0.2rem 0.35rem;
+  background: var(--md-code-bg-color, #f1f5f9);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color, #334155);
+}
+
+.tracker-history-dates {
+  white-space: nowrap;
+  color: var(--md-default-fg-color--light, #475569);
+  font-size: 0.82rem;
+}
+
+.tracker-history-num {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mini progress bar */
+.tracker-history-mini-bar-wrap {
+  width: 72px;
+  height: 7px;
+  background: var(--md-code-bg-color, #e2e8f0);
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.35rem;
+}
+
+.tracker-history-mini-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 4px;
+  min-width: 0;
+}
+
+.tracker-history-mini-bar.complete {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.tracker-history-pct {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light, #475569);
+  vertical-align: middle;
+}
+
+/* ── Export / Import bar ─────────────────────────────────────────────────── */
+
+.tracker-data-io {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--md-code-bg-color, #f8fafc);
+  border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.tracker-data-io-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color, #1e293b);
+}
+
+.tracker-data-io-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── Safari warning banner ───────────────────────────────────────────────── */
+
+.tracker-safari-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 0.85rem;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+/* ── Responsive tweaks ───────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .tracker-history-table {
+    font-size: 0.8rem;
+  }
+  .tracker-history-mini-bar-wrap {
+    width: 48px;
+  }
+  .tracker-history-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tracker-data-io {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

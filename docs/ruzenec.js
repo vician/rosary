@@ -25,31 +25,50 @@ function in_seconds(day, month, year) {
 function convert_to_last_monday(monday, seconds) {
 	if (monday != 1) {
 		if (monday == 0) {
-		monday = 7;
-	}
-	var monday_diff = in_seconds(monday, 1, 1970);
-	seconds -= monday_diff
+			monday = 7;
+		}
+		var monday_diff = in_seconds(monday, 1, 1970);
+		seconds -= monday_diff;
 	}
 	return seconds;
 }
 
-// Vrati typ ruzence
+function get_current_lang() {
+	if (typeof document !== 'undefined' && document.documentElement) {
+		if (document.documentElement.lang === 'cs' || window.location.pathname.startsWith('/cs/')) {
+			return 'cs';
+		}
+	}
+	return 'en';
+}
+
+// Vrati typ ruzence (1: Radostny, 2: Svetla, 3: Bolestny, 4: Slavny)
 function get_type(weeks) {
 	return (Math.floor( (weeks - 1) / 5 ) % 4) + 1;
 }
 
 function get_type_text(type) {
-	var types = new Array("radostného", "světla", "bolestného", "slavného");
-	type_index = type - 1;
-
-	return types[type_index];
+	var lang = get_current_lang();
+	var type_index = type - 1;
+	if (lang === 'cs') {
+		var types = new Array("radostného", "světla", "bolestného", "slavného");
+		return types[type_index];
+	} else {
+		var types = new Array("Joyful", "Luminous", "Sorrowful", "Glorious");
+		return types[type_index];
+	}
 }
 
 function get_type_title(type) {
-	var types = new Array("radostný", "světla", "bolestný", "slavný");
-	type_index = type - 1;
-
-	return types[type_index];
+	var lang = get_current_lang();
+	var type_index = type - 1;
+	if (lang === 'cs') {
+		var types = new Array("radostný", "světla", "bolestný", "slavný");
+		return types[type_index];
+	} else {
+		var types = new Array("Joyful Rosary", "Luminous Rosary", "Sorrowful Rosary", "Glorious Rosary");
+		return types[type_index];
+	}
 }
 
 // Vrati kolikaty vikend v typu
@@ -65,7 +84,7 @@ function get_week_in_type(weeks) {
 function get_decade(week_in_type, member_sequence) {
 	week_in_type = week_in_type * 1;
 	member_sequence = member_sequence * 1;
-	decade = week_in_type + member_sequence - 1;
+	var decade = week_in_type + member_sequence - 1;
 	if (decade > 5) {
 		decade -= 5;
 	}
@@ -84,233 +103,261 @@ function get_who_decide(week_in_type) {
 
 // Vrati text desadku
 function get_decade_text(type, decade) {
+	var lang = get_current_lang();
 	var type_index = type - 1;
 	var decade_index = decade - 1;
-	var decades = new Array();
-	// Radostny
-	decades[0] = new Array(
-		"kterého jsi z Ducha svatého počala",
-		"s kterým jsi Alžbětu navštívila",
-		"kterého jsi v Betlémě porodila",
-		"kterého jsi v chrámě obětovala",
-		"kterého jsi v chrámě nalezla");
-	// Svetla
-	decades[1] = new Array(
-		"který byl pokřtěn v Jordánu",
-		"který zjevil v Káně svou božskou moc",
-		"který hlásal Boží království a vyzýval k pokání",
-		"který na hoře Proměnění zjevil svou slávu",
-		"který ustanovil Eucharistii");
-	decades[2] = new Array(
-		"který se pro nás krví potil",
-		"který byl pro nás bičován",
-		"který byl pro nás trním korunován",
-		"který pro nás nesl těžký kříž",
-		"který byl pro nás ukřižován");
-	decades[3] = new Array(
-		"který z mrtvých vstal",
-		"který na nebe vstoupil",
-		"který Ducha svatého seslal",
-		"který tě, Panno, do nebe vzal",
-		"který tě v nebi korunoval");
 
-	return decades[type_index][decade_index];
+	if (lang === 'cs') {
+		var decades = [
+			// Radostny
+			[
+				"kterého jsi z Ducha svatého počala",
+				"s kterým jsi Alžbětu navštívila",
+				"kterého jsi v Betlémě porodila",
+				"kterého jsi v chrámě obětovala",
+				"kterého jsi v chrámě nalezla"
+			],
+			// Svetla
+			[
+				"který byl pokřtěn v Jordánu",
+				"který zjevil v Káně svou božskou moc",
+				"který hlásal Boží království a vyzýval k pokání",
+				"který na hoře Proměnění zjevil svou slávu",
+				"který ustanovil Eucharistii"
+			],
+			// Bolestny
+			[
+				"který se pro nás krví potil",
+				"který byl pro nás bičován",
+				"který byl pro nás trním korunován",
+				"který pro nás nesl těžký kříž",
+				"který byl pro nás ukřižován"
+			],
+			// Slavny
+			[
+				"který z mrtvých vstal",
+				"který na nebe vstoupil",
+				"který Ducha svatého seslal",
+				"který tě, Panno, do nebe vzal",
+				"který tě v nebi korunoval"
+			]
+		];
+		return decades[type_index][decade_index];
+	} else {
+		var decades = [
+			// Joyful
+			[
+				"The Annunciation",
+				"The Visitation",
+				"The Nativity",
+				"The Presentation in the Temple",
+				"The Finding in the Temple"
+			],
+			// Luminous
+			[
+				"The Baptism of Jesus in the Jordan",
+				"The Wedding at Cana",
+				"The Proclamation of the Kingdom",
+				"The Transfiguration",
+				"The Institution of the Eucharist"
+			],
+			// Sorrowful
+			[
+				"The Agony in the Garden",
+				"The Scourging at the Pillar",
+				"The Crowning with Thorns",
+				"The Carrying of the Cross",
+				"The Crucifixion and Death of Jesus"
+			],
+			// Glorious
+			[
+				"The Resurrection",
+				"The Ascension",
+				"The Descent of the Holy Spirit",
+				"The Assumption of Mary",
+				"The Coronation of Mary"
+			]
+		];
+		return decades[type_index][decade_index];
+	}
 }
 
 function get_weeks(sday, smonth, syear) {
-	// Get current date
-	var time=new Date();
-	var tday=time.getDate();
-	var tmonth=time.getMonth()+1;
-	var tyear=time.getFullYear();
-	var tmonday=time.getDay();
-	console.log("Today is: "+tday+". "+tmonth+". "+tyear);
-	// In seconds
-	var today_seconds = in_seconds(tday, tmonth, tyear);
-	console.log("in seconds: "+today_seconds);
+	var time = new Date();
+	var tday = time.getDate();
+	var tmonth = time.getMonth() + 1;
+	var tyear = time.getFullYear();
+	var tmonday = time.getDay();
 
+	var today_seconds = in_seconds(tday, tmonth, tyear);
 	today_seconds = convert_to_last_monday(tmonday, today_seconds);
 
-	console.log("monday in seconds: "+today_seconds);
-
 	var one_week = in_seconds(8, 1, 1970);
-	console.log("Start is "+sday+". "+smonth+". "+syear)
 	var start_seconds = in_seconds(sday, smonth, syear);
-	console.log("in seconds: "+start_seconds)
 
-	if(start_seconds > today_seconds) {
+	if (start_seconds > today_seconds) {
 		start_seconds -= (one_week * 20);
 	}
-	console.log("ev. minus: "+start_seconds)
 
 	var different_seconds = today_seconds - start_seconds;
-	console.log("different seconds: "+different_seconds+"s");
 	var different_weeks = (different_seconds / one_week) + 1;
-	console.log("jiz uplynulo: "+different_weeks+" weeks");
 	different_weeks = Math.floor(different_weeks);
-	console.log("rounded: "+different_weeks+" weeks");
 	return different_weeks;
 }
 
 function write_element(element, html) {
-	document.getElementById(element).innerHTML = html;
+	var el = document.getElementById(element);
+	if (el) el.innerHTML = html;
 }
 
-function add_to_element(element, html) {
-	document.getElementById(element).innerHTML += html;
-}
-
-function draw_table(members, start, element, me=0) {
-	members = decodeURIComponent(members)
-	if (members.length != 5) {
-		members = members.split(",")
+function draw_table(members, start, element, me) {
+	if (typeof me === 'undefined') me = 0;
+	var lang = get_current_lang();
+	members = decodeURIComponent(members);
+	if (typeof members === 'string') {
+		members = members.split(",");
 		if (members.length != 5) {
-			console.log("ERROR: Count of members isn't 5 but is "+members.length+"!!!!");
+			console.log("ERROR: Count of members isn't 5 but is " + members.length + "!");
 			return;
 		}
 	}
 
 	var startarray = start.split("-");
-	var weeks = get_weeks(startarray[2],startarray[1],startarray[0]);
+	var weeks = get_weeks(startarray[2], startarray[1], startarray[0]);
 
 	var type = get_type(weeks);
 	var type_text = get_type_text(type);
-	console.log("type: "+type+" = "+get_type_text(type));
 	var week_in_type = get_week_in_type(weeks);
-	console.log("week_in_type: "+week_in_type);
-
 
 	var html = '';
-	if (me != 0) {
-		var your_decade = get_decade(week_in_type, me);
-		console.log("your_decade:", your_decade);
-		var your_decade_text = get_decade_text(type, your_decade);
-		html += "<div>Tento ("+week_in_type+".) týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i></div>";
-	} else {
-		html += "<div>"+week_in_type+". týden růžence <b>"+type_text+"</b></div>";
-	}
-	var who_decide = get_who_decide(week_in_type);
-	html += "<div>Umýsl určuje "+who_decide+". člen, tedy "+members[who_decide-1]+".</div>";
+	var groupUrl = lang === 'cs' ? '/cs/group/' : '/group/';
 
-	html += "<table>";
-	html += "<tr><th>člen / týden</th>";
+	if (lang === 'cs') {
+		if (me != 0) {
+			var your_decade = get_decade(week_in_type, me);
+			var your_decade_text = get_decade_text(type, your_decade);
+			html += "<div style='margin-bottom:0.5rem;'>Tento ("+week_in_type+".) týden se máš modlit <b>"+your_decade+". desátek</b> růžence <b>"+type_text+"</b> <i>\""+your_decade_text+"\"</i></div>";
+		} else {
+			html += "<div style='margin-bottom:0.5rem;'>"+week_in_type+". týden růžence <b>"+type_text+"</b></div>";
+		}
+		var who_decide = get_who_decide(week_in_type);
+		html += "<div style='margin-bottom:1rem;'>Úmysl určuje "+who_decide+". člen, tedy <strong>"+members[who_decide-1]+"</strong>.</div>";
+	} else {
+		if (me != 0) {
+			var your_decade = get_decade(week_in_type, me);
+			var your_decade_text = get_decade_text(type, your_decade);
+			html += "<div style='margin-bottom:0.5rem;'>This (week "+week_in_type+") you are assigned to pray the <b>decade #"+your_decade+"</b> of the <b>"+type_text+" Rosary</b>: <i>\""+your_decade_text+"\"</i></div>";
+		} else {
+			html += "<div style='margin-bottom:0.5rem;'>Week "+week_in_type+" of the <b>"+type_text+" Rosary</b></div>";
+		}
+		var who_decide = get_who_decide(week_in_type);
+		html += "<div style='margin-bottom:1rem;'>The prayer intention is set by member #"+who_decide+": <strong>"+members[who_decide-1]+"</strong>.</div>";
+	}
+
+	html += "<table class='md-typeset__table' style='width:100%;'>";
+	html += "<thead><tr><th>" + (lang === 'cs' ? "Člen / týden" : "Member / Week") + "</th>";
 	for (var week = 1; week <= 5; week++) {
 		html += "<th";
-		if (week_in_type == week) html += " style='color: black;'";
+		if (week_in_type == week) html += " style='font-weight: bold;'";
 		html += ">";
-		if (week_in_type == week) html += "<b>";
-		html += week+". týden";
-		if (week_in_type == week) html += "</b>";
-		html += "</th>"
+		html += (lang === 'cs' ? (week + ". týden") : ("Week " + week));
+		html += "</th>";
 	}
-	html += "</tr>";
+	html += "</tr></thead><tbody>";
+
 	for (var member_sequence = 1; member_sequence <= 5; member_sequence++) {
-		html += "<tr>";
-		html += "<td";
-		if (member_sequence == me) html += " style='border-style: solid; border-color: black; border-width: 1px 0px 1px 0px;'";
-		html += ">";
-		if (member_sequence == who_decide) html += "<b>";
-		html += "<a href='/skupina/?m="+members+"&s="+start+"&i="+member_sequence+"'>";
-		html += members[member_sequence-1];
+		var isMe = (member_sequence == me);
+		var isLeader = (member_sequence == who_decide);
+
+		html += "<tr" + (isMe ? " style='background: rgba(30, 64, 175, 0.08);'" : "") + ">";
+		html += "<td>";
+		if (isLeader) html += "<strong>";
+		html += "<a href='" + groupUrl + "?m=" + encodeURIComponent(members.join(',')) + "&s=" + start + "&i=" + member_sequence + "'>";
+		html += members[member_sequence - 1];
 		html += "</a>";
-		if (member_sequence == who_decide) html += "</b>";
+		if (isLeader) html += "</strong>";
 		html += "</td>";
+
 		for (var week = 1; week <= 5; week++) {
 			var decade = get_decade(week, member_sequence);
 			var decade_text = get_decade_text(type, decade);
-			html += "<td";
-			if (week_in_type == week && member_sequence == me) html += " style='border: 1px solid black;'";
-			else if (member_sequence == me) html += " style='border-top: 1px solid black; border-bottom: 1px solid black;'";
-			else if (week_in_type == week) html += " style='border-left: 1px solid black; border-right: 1px solid black;'";
-			html += ">";
-			if (member_sequence == me) html += "<b>";
-			html += "<a style='display: block;' title='"+decade_text+"'>"+decade+"</a>";
-			if (member_sequence == me) html += "</b>";
-			html += "</td>"
+			var isCurrentCell = (week_in_type == week && isMe);
+
+			html += "<td style='text-align: center;" + (isCurrentCell ? " font-weight: bold; background: rgba(30, 64, 175, 0.2);" : "") + "'>";
+			html += "<span title=\"" + decade_text + "\" style='cursor: help;'>" + decade + "</span>";
+			html += "</td>";
 		}
 		html += "</tr>";
 	}
-	html += "</table>";
-	write_element(element,"");
-	write_element(element,html);
-}
-
-function get_individual(start="2017-01-02", element="today") {
-	var startarray = start.split("-");
-	var weeks = get_weeks(startarray[2],startarray[1],startarray[0]);
-
-	var html = weeks+". týden";
+	html += "</tbody></table>";
 
 	write_element(element, html);
 }
 
 function update_group() {
-	var params = new Array();
-	params["m"]=document.getElementById('member1').value+","+document.getElementById('member2').value+","+document.getElementById('member3').value+","+document.getElementById('member4').value+","+document.getElementById('member5').value;
-	params["s"]=document.getElementById('start').value;
-	params["i"]=document.getElementById('sequence').value;
+	var m1 = document.getElementById('member1') ? document.getElementById('member1').value : '';
+	var m2 = document.getElementById('member2') ? document.getElementById('member2').value : '';
+	var m3 = document.getElementById('member3') ? document.getElementById('member3').value : '';
+	var m4 = document.getElementById('member4') ? document.getElementById('member4').value : '';
+	var m5 = document.getElementById('member5') ? document.getElementById('member5').value : '';
+	var s = document.getElementById('start') ? document.getElementById('start').value : '';
+	var i = document.getElementById('sequence') ? document.getElementById('sequence').value : '';
 
-	window.location.hash = "#m="+params["m"]+"&s="+params["s"]+"&i="+params["i"];
+	var params = {};
+	params["m"] = [m1, m2, m3, m4, m5].join(',');
+	params["s"] = s;
+	params["i"] = i;
 
-
+	window.location.hash = "#m=" + encodeURIComponent(params["m"]) + "&s=" + params["s"] + "&i=" + params["i"];
 	draw_group(params);
 }
 
 function update_link(params) {
-	var port = '';
-	if (window.location.port != "") {
-		port = ":"+window.location.port;
-	}
-	document.getElementById("link").innerHTML = window.location.protocol+"//"+window.location.hostname+port+""+window.location.pathname+"?m="+decodeURIComponent(params["m"])+"&s="+params["s"]+"&i="+params["i"];
-	document.getElementById("link").href = encodeURI(document.getElementById("link").innerHTML);
+	var linkEl = document.getElementById("link");
+	if (!linkEl) return;
+	var port = window.location.port !== "" ? ":" + window.location.port : "";
+	var url = window.location.protocol + "//" + window.location.hostname + port + window.location.pathname + "?m=" + encodeURIComponent(params["m"]) + "&s=" + params["s"] + "&i=" + params["i"];
+	linkEl.innerHTML = url;
+	linkEl.href = url;
 }
 
 function update_form(params) {
-	members = params["m"].split(',');
-	document.getElementById('member1').value = decodeURIComponent(members[0]);
-	document.getElementById('member2').value = decodeURIComponent(members[1]);
-	document.getElementById('member3').value = decodeURIComponent(members[2]);
-	document.getElementById('member4').value = decodeURIComponent(members[3]);
-	document.getElementById('member5').value = decodeURIComponent(members[4]);
-	document.getElementById('start').value = params["s"];
-	if (params["i"] == undefined){
-		params["i"] = "";
-	}
-	document.getElementById('sequence').value = params["i"];
+	var members = (params["m"] || "").split(',');
+	if (document.getElementById('member1') && members[0]) document.getElementById('member1').value = decodeURIComponent(members[0]);
+	if (document.getElementById('member2') && members[1]) document.getElementById('member2').value = decodeURIComponent(members[1]);
+	if (document.getElementById('member3') && members[2]) document.getElementById('member3').value = decodeURIComponent(members[2]);
+	if (document.getElementById('member4') && members[3]) document.getElementById('member4').value = decodeURIComponent(members[3]);
+	if (document.getElementById('member5') && members[4]) document.getElementById('member5').value = decodeURIComponent(members[4]);
+	if (document.getElementById('start') && params["s"]) document.getElementById('start').value = params["s"];
+	if (document.getElementById('sequence') && params["i"]) document.getElementById('sequence').value = params["i"];
 
-	draw_group(params);
+	draw_table(params["m"], params["s"], "table", params["i"]);
 }
 
-function draw_group(params=null) {
+function draw_group(params) {
 	var search = window.location.search;
 	var hash = window.location.hash;
-	if (hash != "") {
-		search = hash
+	if (hash !== "") {
+		search = hash;
 	}
-	if (params == null) {
-		var params = new Array();
-		if (search.length != 0) {
+	if (!params) {
+		params = {};
+		if (search.length !== 0) {
 			search = search.substring(1).replace(/&amp;/g, '&');
 			var searches = search.split("&");
-			for (index = 0; index < searches.length; ++index) {
-					var values = searches[index].split("=");
-					name = values[0]
-					value = values[1]
-					console.log(name+" = "+value)
-					params[name] = value;
+			for (var idx = 0; idx < searches.length; ++idx) {
+				var values = searches[idx].split("=");
+				params[values[0]] = values[1];
 			}
 		}
-		if (search.length == 0 || params["m"] == undefined || params["s"] == undefined) {
-			params["m"] = "Adam,Eva,Petr,Pavel,Veronika"
+		if (search.length === 0 || !params["m"] || !params["s"]) {
+			var lang = get_current_lang();
+			params["m"] = lang === 'cs' ? "Adam,Eva,Petr,Pavel,Veronika" : "Adam,Eve,Peter,Paul,Veronica";
 			params["s"] = new Date().toISOString().slice(0, 10);
 			params["i"] = Math.floor(Math.random() * 5 + 1);
-			console.log("Generated member: "+params["i"])
 		}
 		update_form(params);
 	}
 	update_link(params);
-	draw_table(params["m"], params["s"], "table", params["i"])
-}
-
-function create_link(memberid,startid,resultid) {
+	draw_table(params["m"], params["s"], "table", params["i"]);
 }

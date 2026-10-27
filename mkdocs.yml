@@ -1,4 +1,4 @@
-site_name: Živý růženec
+site_name: Living Rosary
 site_author: Martin Vician
 #site_url: "https://ruzenec.vician.cz/"
 
@@ -7,26 +7,59 @@ repo_name: 'vician/rosary'
 edit_uri: ''
 
 extra_javascript:
-    - 'ruzenec.js'
-    - 'tracker.js'
+  - 'language-detect.js'
+  - 'ruzenec.js'
+  - 'tracker.js'
 extra_css:
-    - 'ruzenec.css'
-    - 'tracker.css'
+  - 'ruzenec.css'
+  - 'tracker.css'
+
+plugins:
+  - search
+  - i18n:
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: cs
+          name: Čeština
+          build: true
+          site_name: Živý růženec
+          nav_translations:
+            Home: Domů
+            About Living Rosary: O živém růženci
+            Individual: Jednotlivec
+            Weekly Tracker: Týdenní tracker
+            Group List: Seznam skupin
+            Custom Group: Vlastní skupina
+            Materials & Meditations: Materiály a meditace
+            Overview: Přehled
+            Joyful Mysteries: Radostný růženec
+            Luminous Mysteries: Růženec světla
+            Sorrowful Mysteries: Bolestný růženec
+            Glorious Mysteries: Slavný růženec
+            Rosary for Priestly Vocations: Kněžská povolání
 
 nav:
-  - Domů: index.md
-  - O živém růženci: o-zivem-ruzenci.md
-  - Jednotlivec: jednotlivec.md
-  - Týdenní tracker: tracker.md
-  - Seznam skupin: seznam.md
-  - Vlastní skupina: skupina.md
-  - Materiály: materialy.md
+  - Home: index.md
+  - About Living Rosary: about-living-rosary.md
+  - Individual: individual.md
+  - Weekly Tracker: tracker.md
+  - Group List: group-list.md
+  - Custom Group: group.md
+  - Materials & Meditations:
+    - Overview: materials.md
+    - Joyful Mysteries: materials/joyful.md
+    - Luminous Mysteries: materials/luminous.md
+    - Sorrowful Mysteries: materials/sorrowful.md
+    - Glorious Mysteries: materials/glorious.md
+    - Rosary for Priestly Vocations: materials/vocations.md
 
 theme:
-    name: material
-    logo: 'icon.png'
-    favicon: 'icon.png'
-    language: 'cs'
-    custom_dir: 'theme'
+  name: material
+  logo: 'icon.png'
+  favicon: 'icon.png'
+  language: 'en'
 
 copyright: "&copy; Martin Vician"

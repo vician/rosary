@@ -32,7 +32,8 @@ build:
   image:
     name: squidfunk/mkdocs-material
     entrypoint: [""]
-  before_script: []
+  before_script:
+    - pip install -q -r requirements.txt
   stage: build
   script:
     - mkdocs build

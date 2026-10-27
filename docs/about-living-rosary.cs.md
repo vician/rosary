@@ -11,7 +11,7 @@ Smyslem je především síla společné modlitby. Dá-li se nás dohromady 5, p
 ## Na jaký úmysl se budeme modlit?
 Boží náruč je dost široká na to, aby se do ní vešlo všechno, co do ní prostřednictvím modlitby vložíme. Kromě svých vlastních osobních proto zařazujeme také úmysl společný pro celou růžencovou skupinku.
 
-V každé růžencové skupince (= 5 lidí) se každý týden prohodí desátky. Vždy ten, kdo se modlí první desátek, zadá úmysl společné modlitby. To znamená, že do aplikace na tomto webu napíše úmysl na další týden, který se zobrazí všem členům skupinky. Je vynikající, když můžu někoho požádat, aby se modlil za to, co mi zrovna leží na srdci - a prostřednictvím Živého růžence můžeme vzájemně sdílet své modlitební úmysly.
+V každé růžencové skupince (= 5 lidí) se každý týden prohodí desátky. Vždy ten, kdo se modlí první desátek, zadá úmysl společné modlitby. To znamená, že do aplikace na tomto webu napíše úmysl na další týden, který se zobrazí všem členům skupinky. Je vynikající, když můžu někoho požádat, aby se modlil za to, co mi zrovna leží na srdci – a prostřednictvím Živého růžence můžeme vzájemně sdílet své modlitební úmysly.
 
 ## Zaujalo Tě to?
 Můžeš se ještě podívat na náhled aplikace a chceš-li, můžeš se stát členem. Budeš vítán.
@@ -25,32 +25,32 @@ Pokud máš nějakou otázku, neboj se nás kontaktovat.
 
 ## Jak se desátek živého růžence modlí
 
-- Desátek růžence
-	- Modlitba Páně
+- Desátek růžence:
+	- Modlitba Páně (Otče náš)
 	- 10× Zdrávas Maria
 	- Sláva Otci ...
-	- Pane Ježíši ...
-- Tajemství růžence Radostného
-	- kterého jsi z Ducha svatého počala
+	- Pane Ježíši, odpusť nám naše hříchy ...
+- Tajemství růžence Radostného:
+	- kterého jsi z Ducha Svatého počala
 	- s kterým jsi Alžbětu navštívila
 	- kterého jsi v Betlémě porodila
 	- kterého jsi v chrámě obětovala
 	- kterého jsi v chrámě nalezla
-- Tajemství růžence Světla
+- Tajemství růžence Světla:
 	- který byl pokřtěn v Jordánu
 	- který zjevil v Káně svou božskou moc
 	- který hlásal Boží království a vyzýval k pokání
 	- který na hoře Proměnění zjevil svou slávu
 	- který ustanovil Eucharistii
-- Tajemství růžence Bolestného
+- Tajemství růžence Bolestného:
 	- který se pro nás krví potil
 	- který byl pro nás bičován
 	- který byl pro nás trním korunován
 	- který pro nás nesl těžký kříž
 	- který byl pro nás ukřižován
-- Tajemství růžence Slavného
+- Tajemství růžence Slavného:
 	- který z mrtvých vstal
 	- který na nebe vstoupil
-	- který Ducha svatého seslal
+	- který Ducha Svatého seslal
 	- který tě, Panno, do nebe vzal
 	- který tě v nebi korunoval

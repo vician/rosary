@@ -1,16 +1,20 @@
+---
+title: Group List
+---
+
 ## Stretko, Brno
 
-### [1. skupina](/skupina/?m=Hanka,Markéta,Lukáš,Frencis,Vendy&s=2010-07-26)
+### [Group 1](group.md?m=Hanka,Markéta,Lukáš,Frencis,Vendy&s=2010-07-26)
 
 <div id="stretko1"></div>
 
-### [2. skupina](/skupina/?m=Martin,Mária,Pavel,Dominik,Marie&s=2010-06-21)
+### [Group 2](group.md?m=Martin,Mária,Pavel,Dominik,Marie&s=2010-06-21)
 
 <div id="stretko2"></div>
 
-## Bývalí středoškoláci, České Budějovice
+## High School Alumni, České Budějovice
 
-### [1. skupina](/skupina/?m=Adéla,Markéta F.,Magda,Markéta K., Šárka&s=2010-04-12)
+### [Group 1](group.md?m=Adéla,Markéta F.,Magda,Markéta K., Šárka&s=2010-04-12)
 
 <div id="cb1"></div>
 

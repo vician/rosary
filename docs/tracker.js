@@ -929,8 +929,10 @@
         </div>
       `;
 
-      // ── Pocket Mode Card (Quick action widget) ─────────────────────────────
-      html += pocketCardHtml;
+      // ── Pocket Mode Card (shown in Pocket Mode) ───────────────────────────
+      if (currentViewMode === 'pocket') {
+        html += pocketCardHtml;
+      }
 
       // ── 3. Summary card ───────────────────────────────────────────────────
       html += `

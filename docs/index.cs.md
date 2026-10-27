@@ -84,4 +84,3 @@ Vítejte na stránkách věnovaných modlitbě posvátného růžence – nalezn
 ### Kontakt a otevřený kód
 
 Projekt je open-source na GitHubu: [github.com/vician/rosary](https://github.com/vician/rosary)  
-Dotazy a náměty: [info@zivyruzenec.cz](mailto:info@zivyruzenec.cz)

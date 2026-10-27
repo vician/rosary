@@ -81,4 +81,3 @@ Welcome to this Catholic guide, prayer companion, and interactive tracking tool 
 ### Contact & Open Source
 
 This project is open-source on GitHub: [github.com/vician/rosary](https://github.com/vician/rosary)  
-Questions and feedback: [info@zivyruzenec.cz](mailto:info@zivyruzenec.cz)

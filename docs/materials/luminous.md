@@ -2,7 +2,7 @@
 title: Luminous Mysteries
 ---
 
-_Source: Salesian Cooperators — Formation materials._
+_Source: [Salesian Cooperators](http://www.ascczech.cz/) — [Formation materials (PDF)](ASC_svetla_bolestny.pdf)._
 
 ## I. The Baptism of Jesus in the Jordan
 1. Whose public ministry was preceded by years of hidden life.

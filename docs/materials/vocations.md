@@ -2,7 +2,7 @@
 title: Rosary for Priestly Vocations
 ---
 
-_Source: Archdiocesan Seminary Prague — Meditative Rosary for Priestly Vocations._
+_Source: [Archdiocesan Seminary Prague](http://www.arcs.cuni.cz/) — [Meditative Rosary for Priestly Vocations](http://www.arcs.cuni.cz/index.php?id=5&id2=16)._
 
 ## Decade I
 1. Jesus, who said to Nathanael: "I saw you while you were still under the fig tree before Philip called you." (Jn 1:48)

@@ -2,7 +2,7 @@
 title: Joyful Mysteries
 ---
 
-_Source: Salesian Cooperators — Formation materials._
+_Source: [Salesian Cooperators](http://www.ascczech.cz/) — [Formation materials (PDF)](ASC_radostny_slavny.pdf)._
 
 ## I. The Annunciation
 1. Whose coming was promised by God in paradise. (Gen 3:15)

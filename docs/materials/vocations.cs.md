@@ -1,7 +1,7 @@
 ---
 title: Kněžská povolání
 ---
-_Zdroj: [Arcibiskupský seminář Praha](http://http//www.arcs.cuni.cz/) - [Ukázka rozjímavého růžence za kněžská povolání](http://www.arcs.cuni.cz/index.php?id=5&id2=16)_
+_Zdroj: [Arcibiskupský seminář Praha](http://www.arcs.cuni.cz/) - [Ukázka rozjímavého růžence za kněžská povolání](http://www.arcs.cuni.cz/index.php?id=5&id2=16)_
 
 ## I . desátek
 1. Ježíš, který řekl Natanaelovi: „Viděl jsem tě dříve, než tě Filip zavolal, když jsi byl pod fíkovníkem.“ (J 1, 48)

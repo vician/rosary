@@ -2,7 +2,7 @@
 title: Glorious Mysteries
 ---
 
-_Source: Salesian Cooperators — Formation materials._
+_Source: [Salesian Cooperators](http://www.ascczech.cz/) — [Formation materials (PDF)](ASC_radostny_slavny.pdf)._
 
 ## I. The Resurrection
 1. Who rose on the third day in accordance with the Scriptures. (1 Cor 15:4)

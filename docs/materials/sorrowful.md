@@ -2,7 +2,7 @@
 title: Sorrowful Mysteries
 ---
 
-_Source: Salesian Cooperators — Formation materials._
+_Source: [Salesian Cooperators](http://www.ascczech.cz/) — [Formation materials (PDF)](ASC_svetla_bolestny.pdf)._
 
 ## I. The Agony in the Garden
 1. Who went with His disciples after supper to the Mount of Olives. (Lk 22:39)

@@ -6,6 +6,8 @@
 
 Na stránce [skupina](skupina) si můžete vytvořit odkaz pro svoji skupinu a ten si rozeslat mezi členy.
 
+Pokud se modlíte všechny 3 (či 4) růžence za týden, můžete využít [týdenní tracker](tracker.md) pro sledování svého modlitebního postupu a jednotlivých Zdrávasů.
+
 
 ## Kontakt
 

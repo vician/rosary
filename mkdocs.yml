@@ -2,19 +2,22 @@ site_name: Živý růženec
 site_author: Martin Vician
 #site_url: "https://ruzenec.vician.cz/"
 
-repo_url: 'https://gitlab.com/vician/ruzenec'
-repo_name: 'vician/ruzenec'
+repo_url: 'https://github.com/vician/rosary'
+repo_name: 'vician/rosary'
 edit_uri: ''
 
 extra_javascript:
     - 'ruzenec.js'
+    - 'tracker.js'
 extra_css:
     - 'ruzenec.css'
+    - 'tracker.css'
 
 nav:
   - Domů: index.md
   - O živém růženci: o-zivem-ruzenci.md
   - Jednotlivec: jednotlivec.md
+  - Týdenní tracker: tracker.md
   - Seznam skupin: seznam.md
   - Vlastní skupina: skupina.md
   - Materiály: materialy.md

@@ -1,4 +1,4 @@
-# zivy-ruzenec
+# rosary (Živý růženec)
 
 ## Sources
 

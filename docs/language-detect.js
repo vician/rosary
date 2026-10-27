@@ -45,13 +45,12 @@
 
   // Intercept user clicking the language switcher to record preference
   document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[hreflang], .md-select__link, .md-header__option a');
+    const link = e.target.closest('a[hreflang], .md-select__link');
     if (link) {
-      const href = link.getAttribute('href') || '';
-      const hreflang = link.getAttribute('hreflang') || '';
-      if (hreflang === 'cs' || href.includes('/cs/')) {
+      const hreflang = link.getAttribute('hreflang');
+      if (hreflang === 'cs') {
         localStorage.setItem(PREF_KEY, 'cs');
-      } else if (hreflang === 'en' || href === '/' || href.endsWith('/')) {
+      } else if (hreflang === 'en') {
         localStorage.setItem(PREF_KEY, 'en');
       }
     }

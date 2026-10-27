@@ -3,28 +3,41 @@
 (function() {
   const PREF_KEY = 'preferred_language';
 
+  function getBase(pathname) {
+    if (pathname.includes('/cs/')) {
+      return pathname.split('/cs/')[0] + '/';
+    }
+    let base = pathname.replace(/\/[^/]*\.[^/]*$/, '/');
+    if (!base.endsWith('/')) base += '/';
+    return base;
+  }
+
   function detectAndRedirect() {
     const pathname = window.location.pathname;
-    const isEnglishRoot = pathname === '/' || pathname === '/index.html' || pathname === '';
-    const isCzechRoot = pathname === '/cs/' || pathname === '/cs/index.html';
+    const base = getBase(pathname);
+    const csPath = base + 'cs/';
+    const enPath = base;
+
+    const isEnglishRoot = pathname === enPath || pathname === enPath + 'index.html';
+    const isCzechRoot = pathname === csPath || pathname === csPath + 'index.html';
 
     const savedPref = localStorage.getItem(PREF_KEY);
 
     if (isEnglishRoot) {
       if (savedPref === 'cs') {
-        window.location.replace('/cs/' + window.location.search + window.location.hash);
+        window.location.replace(csPath + window.location.search + window.location.hash);
         return;
       }
       if (!savedPref) {
         const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
         if (browserLang.startsWith('cs') || browserLang.startsWith('sk')) {
-          window.location.replace('/cs/' + window.location.search + window.location.hash);
+          window.location.replace(csPath + window.location.search + window.location.hash);
           return;
         }
       }
     } else if (isCzechRoot) {
       if (savedPref === 'en') {
-        window.location.replace('/' + window.location.search + window.location.hash);
+        window.location.replace(enPath + window.location.search + window.location.hash);
         return;
       }
     }

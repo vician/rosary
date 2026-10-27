@@ -230,7 +230,9 @@ function draw_table(members, start, element, me) {
 	var week_in_type = get_week_in_type(weeks);
 
 	var html = '';
-	var groupUrl = lang === 'cs' ? '/cs/group/' : '/group/';
+	var groupUrl = window.location.pathname.includes('group')
+		? window.location.pathname
+		: (window.location.pathname.replace(/\/$/, '') + (lang === 'cs' ? '/group/' : '/group/'));
 
 	if (lang === 'cs') {
 		if (me != 0) {

@@ -97,6 +97,20 @@
       importSuccess: 'Data imported successfully!',
       importError: 'Could not read the file. Make sure it is a valid rosary tracker export.',
       safariBanner: '⚠️ <strong>Safari tip:</strong> Safari may clear local data after 7 days without a visit. Use <em>Export data</em> to keep a safe backup.',
+      // View Modes & Pocket Mode
+      viewModeOverview: '📋 Full overview',
+      viewModePocket: '📱 Pocket Mode',
+      focusModeEnter: '⛶ Fullscreen',
+      focusModeExit: '✕ Exit Fullscreen',
+      pocketPrayingNow: 'Praying now',
+      pocketNextDecadeBtn: 'Next decade (+1)',
+      pocketPrevDecade: 'Previous decade',
+      pocketDoneAll: 'Week completed! Deo gratias',
+      pocketUndo: 'Undo',
+      pocketFullDecade: 'Full decade',
+      pocketResetDecade: 'Reset decade',
+      pocketDecadeLabel: (idx) => `Decade ${idx + 1} of 5`,
+      pocketFocusBanner: 'Distraction-free Prayer Mode',
     },
     cs: {
       days: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
@@ -191,6 +205,20 @@
       importSuccess: 'Data byla úspěšně importována!',
       importError: 'Soubor se nepodařilo načíst. Ujistěte se, že jde o platný export z modlitebního záznamníku.',
       safariBanner: '⚠️ <strong>Poznámka pro Safari:</strong> Safari může po 7 dnech bez návštěvy smazat lokální data. Použijte <em>Exportovat data</em> pro zálohu.',
+      // View Modes & Pocket Mode
+      viewModeOverview: '📋 Kompletní přehled',
+      viewModePocket: '📱 Kapesní režim',
+      focusModeEnter: '⛶ Celá obrazovka',
+      focusModeExit: '✕ Ukončit celou obrazovku',
+      pocketPrayingNow: 'Právě se modlíte',
+      pocketNextDecadeBtn: 'Další desátek (+1)',
+      pocketPrevDecade: 'Předchozí desátek',
+      pocketDoneAll: 'Týden dokončen! Deo gratias',
+      pocketUndo: 'Ubrat',
+      pocketFullDecade: 'Celý desátek',
+      pocketResetDecade: 'Vynulovat desátek',
+      pocketDecadeLabel: (idx) => `${idx + 1}. desátek z 5`,
+      pocketFocusBanner: 'Soustředěný režim modlitby',
     }
   };
 
@@ -205,6 +233,19 @@
 
   let currentWeekOffset = 0;
   let historyVisible = false;
+  let currentViewMode = 'overview';
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'pocket') {
+      currentViewMode = 'pocket';
+    } else if (localStorage.getItem('ruzenec_view_mode')) {
+      currentViewMode = localStorage.getItem('ruzenec_view_mode');
+    }
+  } catch (e) {}
+
+  let pocketActiveKey = null;
+  let pocketActiveDecade = null;
+  let isFocusMode = false;
 
   function loadData() {
     try {
@@ -398,9 +439,194 @@
     return Math.round(diffMs / (7 * 86400000));
   }
 
+  // ─── Pocket Mode resolution ────────────────────────────────────────────────
+
+  function resolvePocketSelection(activeRosaries, weekData) {
+    let rosary = activeRosaries.find(r => r.key === pocketActiveKey);
+    if (!rosary) {
+      if (currentWeekOffset === 0) {
+        rosary = activeRosaries.find(r => r.isToday);
+      }
+      if (!rosary) {
+        rosary = activeRosaries.find(r => {
+          const counts = ensureKeyArray(weekData, r.key);
+          return counts.some(c => c < 10);
+        });
+      }
+      if (!rosary && activeRosaries.length > 0) {
+        rosary = activeRosaries[0];
+      }
+      if (rosary) pocketActiveKey = rosary.key;
+    }
+
+    if (rosary) {
+      const counts = ensureKeyArray(weekData, rosary.key);
+      if (pocketActiveDecade === null || pocketActiveDecade < 0 || pocketActiveDecade > 4) {
+        const firstInc = counts.findIndex(c => c < 10);
+        pocketActiveDecade = firstInc !== -1 ? firstInc : 0;
+      }
+    } else {
+      pocketActiveDecade = 0;
+    }
+
+    return { activeRosary: rosary, activeDecadeIndex: pocketActiveDecade || 0 };
+  }
+
   // ─── Global Tracker API ────────────────────────────────────────────────────
 
   window.RosaryTracker = {
+    setViewMode: function(mode) {
+      currentViewMode = mode;
+      try {
+        localStorage.setItem('ruzenec_view_mode', mode);
+      } catch (e) {}
+      this.render();
+    },
+
+    toggleFocusMode: function() {
+      isFocusMode = !isFocusMode;
+      if (isFocusMode) {
+        document.body.classList.add('tracker-focus-mode');
+        try {
+          const el = document.documentElement;
+          if (el.requestFullscreen) {
+            el.requestFullscreen().catch(() => {});
+          } else if (el.webkitRequestFullscreen) {
+            el.webkitRequestFullscreen();
+          }
+        } catch (e) {}
+      } else {
+        document.body.classList.remove('tracker-focus-mode');
+        try {
+          if (document.fullscreenElement && document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        } catch (e) {}
+      }
+      this.render();
+    },
+
+    exitFocusMode: function() {
+      if (isFocusMode) {
+        this.toggleFocusMode();
+      }
+    },
+
+    pocketSelectRosary: function(key) {
+      pocketActiveKey = key;
+      const data = loadData();
+      const lang = getLang();
+      const weekInfo = getWeekInfo(currentWeekOffset, lang);
+      const weekData = getWeekData(data, weekInfo.key);
+      const counts = ensureKeyArray(weekData, key);
+      const firstInc = counts.findIndex(c => c < 10);
+      pocketActiveDecade = firstInc !== -1 ? firstInc : 0;
+      this.render();
+    },
+
+    pocketStepDecade: function(delta) {
+      const data = loadData();
+      const lang = getLang();
+      const weekInfo = getWeekInfo(currentWeekOffset, lang);
+      const weekData = getWeekData(data, weekInfo.key);
+      const includeLight = !!data.settings.includeLight;
+      const dailyMode = !!data.settings.dailyMode;
+      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
+      const selection = resolvePocketSelection(activeRosaries, weekData);
+      if (!selection.activeRosary) return;
+
+      const curRosIdx = activeRosaries.findIndex(r => r.key === selection.activeRosary.key);
+      let newDecade = selection.activeDecadeIndex + delta;
+
+      if (newDecade >= 0 && newDecade <= 4) {
+        pocketActiveDecade = newDecade;
+      } else if (newDecade > 4) {
+        const nextRos = activeRosaries[(curRosIdx + 1) % activeRosaries.length];
+        pocketActiveKey = nextRos.key;
+        pocketActiveDecade = 0;
+      } else if (newDecade < 0) {
+        const prevRos = activeRosaries[(curRosIdx - 1 + activeRosaries.length) % activeRosaries.length];
+        pocketActiveKey = prevRos.key;
+        pocketActiveDecade = 4;
+      }
+      this.render();
+    },
+
+    pocketTapMain: function() {
+      const data = loadData();
+      const lang = getLang();
+      const weekInfo = getWeekInfo(currentWeekOffset, lang);
+      const weekData = getWeekData(data, weekInfo.key);
+      const includeLight = !!data.settings.includeLight;
+      const dailyMode = !!data.settings.dailyMode;
+      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
+      const selection = resolvePocketSelection(activeRosaries, weekData);
+      if (!selection.activeRosary) return;
+
+      const rosaryKey = selection.activeRosary.key;
+      const dIdx = selection.activeDecadeIndex;
+      const counts = ensureKeyArray(weekData, rosaryKey);
+      const currentCount = counts[dIdx] || 0;
+
+      if (currentCount < 10) {
+        counts[dIdx] = currentCount + 1;
+        saveData(data);
+        this.render();
+      } else {
+        // Current decade is already 10! Advance to next decade or next incomplete rosary
+        if (dIdx < 4) {
+          pocketActiveDecade = dIdx + 1;
+          const nextCounts = ensureKeyArray(weekData, rosaryKey);
+          nextCounts[pocketActiveDecade] = Math.min(10, (nextCounts[pocketActiveDecade] || 0) + 1);
+          saveData(data);
+          this.render();
+        } else {
+          // Look for next incomplete rosary
+          const curRosIdx = activeRosaries.findIndex(r => r.key === rosaryKey);
+          let foundRosary = null;
+          for (let i = 1; i <= activeRosaries.length; i++) {
+            const candidate = activeRosaries[(curRosIdx + i) % activeRosaries.length];
+            const cCounts = ensureKeyArray(weekData, candidate.key);
+            if (cCounts.some(c => c < 10)) {
+              foundRosary = candidate;
+              break;
+            }
+          }
+          if (foundRosary) {
+            pocketActiveKey = foundRosary.key;
+            const nextRosCounts = ensureKeyArray(weekData, foundRosary.key);
+            const firstInc = nextRosCounts.findIndex(c => c < 10);
+            pocketActiveDecade = firstInc !== -1 ? firstInc : 0;
+            nextRosCounts[pocketActiveDecade] = Math.min(10, (nextRosCounts[pocketActiveDecade] || 0) + 1);
+            saveData(data);
+            this.render();
+          } else {
+            this.render();
+          }
+        }
+      }
+    },
+
+    pocketFullDecade: function() {
+      const data = loadData();
+      const lang = getLang();
+      const weekInfo = getWeekInfo(currentWeekOffset, lang);
+      const weekData = getWeekData(data, weekInfo.key);
+      const includeLight = !!data.settings.includeLight;
+      const dailyMode = !!data.settings.dailyMode;
+      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
+      const selection = resolvePocketSelection(activeRosaries, weekData);
+      if (!selection.activeRosary) return;
+
+      const counts = ensureKeyArray(weekData, selection.activeRosary.key);
+      const currentCount = counts[selection.activeDecadeIndex] || 0;
+      counts[selection.activeDecadeIndex] = currentCount >= 10 ? 0 : 10;
+      saveData(data);
+      this.render();
+    },
+
     setWeekOffset: function(delta) {
       currentWeekOffset += delta;
       this.render();
@@ -439,6 +665,8 @@
     },
 
     clickBead: function(key, decadeIndex, beadNumber) {
+      pocketActiveKey = key;
+      pocketActiveDecade = decadeIndex;
       const data = loadData();
       const lang = getLang();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
@@ -450,6 +678,8 @@
     },
 
     addBead: function(key, decadeIndex, delta) {
+      pocketActiveKey = key;
+      pocketActiveDecade = decadeIndex;
       const data = loadData();
       const lang = getLang();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
@@ -461,6 +691,8 @@
     },
 
     toggleDecade: function(key, decadeIndex) {
+      pocketActiveKey = key;
+      pocketActiveDecade = decadeIndex;
       const data = loadData();
       const lang = getLang();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
@@ -472,6 +704,8 @@
     },
 
     toggleRosary: function(key) {
+      pocketActiveKey = key;
+      pocketActiveDecade = 0;
       const data = loadData();
       const lang = getLang();
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
@@ -580,14 +814,104 @@
       // Detect Safari
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
+      // ── Pocket Card calculation ───────────────────────────────────────────
+      const { activeRosary, activeDecadeIndex } = resolvePocketSelection(activeRosaries, weekData);
+      let pocketCardHtml = '';
+      if (activeRosary) {
+        const pCounts = ensureKeyArray(weekData, activeRosary.key);
+        const curBeadCount = pCounts[activeDecadeIndex] || 0;
+        const isCurDecadeDone = curBeadCount >= 10;
+        const curMystery = (activeRosary.mysteries && activeRosary.mysteries[activeDecadeIndex]) || '';
+
+        const selectOptions = activeRosaries.map(r => {
+          const rc = ensureKeyArray(weekData, r.key);
+          const isDone = rc.every(c => c >= 10);
+          const sel = r.key === activeRosary.key ? 'selected' : '';
+          return `<option value="${r.key}" ${sel}>${r.title} ${isDone ? '✓' : ''}</option>`;
+        }).join('');
+
+        let pocketBeadsHtml = '';
+        for (let b = 1; b <= 10; b++) {
+          const isActive = b <= curBeadCount;
+          pocketBeadsHtml += `<button type="button" class="tracker-bead ${isActive ? 'active' : ''}" onclick="RosaryTracker.clickBead('${activeRosary.key}', ${activeDecadeIndex}, ${b})" title="${t.beadAria(activeDecadeIndex, b, isActive)}" aria-pressed="${isActive}">${b}</button>`;
+        }
+
+        let mainBtnText = '';
+        let mainBtnBadge = `${curBeadCount} / 10`;
+        if (curBeadCount < 10) {
+          mainBtnText = lang === 'cs' ? '+1 Zdrávas' : '+1 Hail Mary';
+        } else if (isAllComplete) {
+          mainBtnText = `🎉 ${t.pocketDoneAll}`;
+          mainBtnBadge = `10 / 10 ✓`;
+        } else {
+          mainBtnText = `▶ ${t.pocketNextDecadeBtn}`;
+          mainBtnBadge = `10 / 10 ✓`;
+        }
+
+        pocketCardHtml = `
+          <div class="tracker-pocket-card">
+            <div class="tracker-pocket-header">
+              <div class="tracker-pocket-badge-row">
+                <span class="tracker-pocket-label">${t.pocketPrayingNow}</span>
+                <select class="tracker-pocket-rosary-select" onchange="RosaryTracker.pocketSelectRosary(this.value)">
+                  ${selectOptions}
+                </select>
+              </div>
+            </div>
+            <div class="tracker-pocket-decade-nav">
+              <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.pocketStepDecade(-1)" title="${t.pocketPrevDecade}">◀</button>
+              <div class="tracker-pocket-decade-title">${t.pocketDecadeLabel(activeDecadeIndex)}</div>
+              <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.pocketStepDecade(1)" title="${t.pocketNextDecadeBtn}">▶</button>
+            </div>
+            ${curMystery ? `<div class="tracker-pocket-mystery">„${curMystery}“</div>` : ''}
+            <div class="tracker-pocket-beads-wrap" role="group" aria-label="${t.decadeTitle(activeDecadeIndex)}">
+              ${pocketBeadsHtml}
+            </div>
+            <button class="tracker-pocket-main-btn" onclick="RosaryTracker.pocketTapMain()" type="button">
+              <div class="tracker-pocket-main-btn-inner">
+                <span class="tracker-pocket-main-btn-text">${mainBtnText}</span>
+                <span class="tracker-pocket-main-btn-badge">${mainBtnBadge}</span>
+              </div>
+            </button>
+            <div class="tracker-pocket-sub-actions">
+              <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${activeRosary.key}', ${activeDecadeIndex}, -1)" ${curBeadCount === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>-1 ${t.pocketUndo}</button>
+              <button class="tracker-btn tracker-btn-sm ${isCurDecadeDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.pocketFullDecade()">${isCurDecadeDone ? t.pocketResetDecade : t.pocketFullDecade}</button>
+            </div>
+          </div>
+        `;
+      }
+
       let html = '';
 
-      // ── 1. Safari banner ─────────────────────────────────────────────────
+      // ── Safari banner ─────────────────────────────────────────────────────
       if (isSafari) {
         html += `<div class="tracker-safari-banner">${t.safariBanner}</div>`;
       }
 
-      // ── 2. Week navigation ────────────────────────────────────────────────
+      // ── Focus mode banner ────────────────────────────────────────────────
+      if (isFocusMode) {
+        html += `
+          <div class="tracker-focus-banner">
+            <span>🕊️ ${t.pocketFocusBanner}</span>
+            <button class="tracker-focus-exit-btn" onclick="RosaryTracker.exitFocusMode()">${t.focusModeExit}</button>
+          </div>
+        `;
+      }
+
+      // ── View Mode & Focus switchers ──────────────────────────────────────
+      html += `
+        <div class="tracker-view-mode-bar">
+          <div class="tracker-view-mode-pills">
+            <button class="tracker-pill-btn ${currentViewMode === 'pocket' ? 'active' : ''}" onclick="RosaryTracker.setViewMode('pocket')">${t.viewModePocket}</button>
+            <button class="tracker-pill-btn ${currentViewMode === 'overview' ? 'active' : ''}" onclick="RosaryTracker.setViewMode('overview')">${t.viewModeOverview}</button>
+          </div>
+          <button class="tracker-btn tracker-btn-sm tracker-focus-toggle-btn" onclick="RosaryTracker.toggleFocusMode()">
+            ${isFocusMode ? t.focusModeExit : t.focusModeEnter}
+          </button>
+        </div>
+      `;
+
+      // ── Week navigation ──────────────────────────────────────────────────
       html += `
         <div class="tracker-week-nav">
           <div class="tracker-week-controls">
@@ -604,6 +928,9 @@
           </div>
         </div>
       `;
+
+      // ── Pocket Mode Card (Quick action widget) ─────────────────────────────
+      html += pocketCardHtml;
 
       // ── 3. Summary card ───────────────────────────────────────────────────
       html += `
@@ -650,63 +977,65 @@
         </div>
       `;
 
-      // ── 5. Rosary cards ───────────────────────────────────────────────────
-      activeRosaries.forEach(r => {
-        const counts = ensureKeyArray(weekData, r.key);
-        let rosaryCount = 0, completedDecadesCount = 0;
-        counts.forEach(c => { rosaryCount += c; if (c >= 10) completedDecadesCount++; });
-        const isRosaryDone = completedDecadesCount === 5;
-        const isTodayCard = dailyMode && weekInfo.isCurrent && r.isToday;
+      // ── 5. Rosary cards (Full Overview) ───────────────────────────────────
+      if (currentViewMode !== 'pocket') {
+        activeRosaries.forEach(r => {
+          const counts = ensureKeyArray(weekData, r.key);
+          let rosaryCount = 0, completedDecadesCount = 0;
+          counts.forEach(c => { rosaryCount += c; if (c >= 10) completedDecadesCount++; });
+          const isRosaryDone = completedDecadesCount === 5;
+          const isTodayCard = dailyMode && weekInfo.isCurrent && r.isToday;
 
-        html += `
-          <div class="tracker-rosary-card ${isRosaryDone ? 'completed' : ''} ${isTodayCard ? 'today' : ''}">
-            <div class="tracker-rosary-header">
-              <div class="tracker-rosary-title-wrap">
-                <h3 class="tracker-rosary-title">${r.title}</h3>
-                ${isTodayCard ? `<span class="tracker-badge tracker-badge-today">${t.todayBadge}</span>` : ''}
-                <span class="tracker-badge ${isRosaryDone ? 'completed' : ''}">
-                  ${isRosaryDone ? t.doneBadge : `${rosaryCount}/50 (${completedDecadesCount}/5)`}
-                </span>
-              </div>
-              <div class="tracker-rosary-actions">
-                <button class="tracker-btn tracker-btn-sm ${isRosaryDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleRosary('${r.key}')">
-                  ${isRosaryDone ? t.rosaryDoneBtn : t.rosaryDoBtn}
-                </button>
-              </div>
-            </div>
-            <div class="tracker-decades-list">
-        `;
-
-        r.mysteries.forEach((mystery, dIdx) => {
-          const beadCount = counts[dIdx] || 0;
-          const isDecadeDone = beadCount >= 10;
           html += `
-            <div class="tracker-decade-item ${isDecadeDone ? 'completed' : ''}">
-              <div class="tracker-decade-header">
-                <div class="tracker-decade-info">
-                  <span class="tracker-decade-number">${t.decadeTitle(dIdx)}</span>
-                  <div class="tracker-decade-mystery">„${mystery}"</div>
+            <div class="tracker-rosary-card ${isRosaryDone ? 'completed' : ''} ${isTodayCard ? 'today' : ''}">
+              <div class="tracker-rosary-header">
+                <div class="tracker-rosary-title-wrap">
+                  <h3 class="tracker-rosary-title">${r.title}</h3>
+                  ${isTodayCard ? `<span class="tracker-badge tracker-badge-today">${t.todayBadge}</span>` : ''}
+                  <span class="tracker-badge ${isRosaryDone ? 'completed' : ''}">
+                    ${isRosaryDone ? t.doneBadge : `${rosaryCount}/50 (${completedDecadesCount}/5)`}
+                  </span>
                 </div>
-                <div class="tracker-decade-controls">
-                  <span class="tracker-decade-counter">${beadCount} / 10</span>
-                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, -1)" title="${t.subBeadTitle}" ${beadCount === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>-1</button>
-                  <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, 1)" title="${t.addBeadTitle}" ${beadCount >= 10 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>+1</button>
-                  <button class="tracker-btn tracker-btn-sm ${isDecadeDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleDecade('${r.key}', ${dIdx})">
-                    ${isDecadeDone ? t.decadeDoneBtn : t.decadeDoBtn}
+                <div class="tracker-rosary-actions">
+                  <button class="tracker-btn tracker-btn-sm ${isRosaryDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleRosary('${r.key}')">
+                    ${isRosaryDone ? t.rosaryDoneBtn : t.rosaryDoBtn}
                   </button>
                 </div>
               </div>
-              <div class="tracker-beads-row" role="group" aria-label="${t.decadeTitle(dIdx)}">
+              <div class="tracker-decades-list">
           `;
-          for (let b = 1; b <= 10; b++) {
-            const isActive = b <= beadCount;
-            html += `<button type="button" class="tracker-bead ${isActive ? 'active' : ''}" onclick="RosaryTracker.clickBead('${r.key}', ${dIdx}, ${b})" title="${t.beadAria(dIdx, b, isActive)}" aria-pressed="${isActive}">${b}</button>`;
-          }
+
+          r.mysteries.forEach((mystery, dIdx) => {
+            const beadCount = counts[dIdx] || 0;
+            const isDecadeDone = beadCount >= 10;
+            html += `
+              <div class="tracker-decade-item ${isDecadeDone ? 'completed' : ''}">
+                <div class="tracker-decade-header">
+                  <div class="tracker-decade-info">
+                    <span class="tracker-decade-number">${t.decadeTitle(dIdx)}</span>
+                    <div class="tracker-decade-mystery">„${mystery}"</div>
+                  </div>
+                  <div class="tracker-decade-controls">
+                    <span class="tracker-decade-counter">${beadCount} / 10</span>
+                    <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, -1)" title="${t.subBeadTitle}" ${beadCount === 0 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>-1</button>
+                    <button class="tracker-btn tracker-btn-sm" onclick="RosaryTracker.addBead('${r.key}', ${dIdx}, 1)" title="${t.addBeadTitle}" ${beadCount >= 10 ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>+1</button>
+                    <button class="tracker-btn tracker-btn-sm ${isDecadeDone ? '' : 'tracker-btn-primary'}" onclick="RosaryTracker.toggleDecade('${r.key}', ${dIdx})">
+                      ${isDecadeDone ? t.decadeDoneBtn : t.decadeDoBtn}
+                    </button>
+                  </div>
+                </div>
+                <div class="tracker-beads-row" role="group" aria-label="${t.decadeTitle(dIdx)}">
+            `;
+            for (let b = 1; b <= 10; b++) {
+              const isActive = b <= beadCount;
+              html += `<button type="button" class="tracker-bead ${isActive ? 'active' : ''}" onclick="RosaryTracker.clickBead('${r.key}', ${dIdx}, ${b})" title="${t.beadAria(dIdx, b, isActive)}" aria-pressed="${isActive}">${b}</button>`;
+            }
+            html += `</div></div>`;
+          });
+
           html += `</div></div>`;
         });
-
-        html += `</div></div>`;
-      });
+      }
 
       // ── 6. History ────────────────────────────────────────────────────────
       const historyRows = buildHistoryRows(data, weekInfo.key, lang);
@@ -803,4 +1132,19 @@
   if (typeof document$ !== 'undefined') {
     document$.subscribe(function() { init(); });
   }
+
+  document.addEventListener('fullscreenchange', function() {
+    if (!document.fullscreenElement && isFocusMode) {
+      isFocusMode = false;
+      document.body.classList.remove('tracker-focus-mode');
+      if (window.RosaryTracker) window.RosaryTracker.render();
+    }
+  });
+  document.addEventListener('webkitfullscreenchange', function() {
+    if (!document.webkitFullscreenElement && isFocusMode) {
+      isFocusMode = false;
+      document.body.classList.remove('tracker-focus-mode');
+      if (window.RosaryTracker) window.RosaryTracker.render();
+    }
+  });
 })();

@@ -657,3 +657,264 @@
     align-items: flex-start;
   }
 }
+
+/* ── Pocket Mode & View Mode Switcher ─────────────────────────────────────── */
+
+.tracker-view-mode-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.25rem 0;
+}
+
+.tracker-view-mode-pills {
+  display: inline-flex;
+  background: var(--md-code-bg-color, #f1f5f9);
+  padding: 0.25rem;
+  border-radius: 10px;
+  gap: 0.25rem;
+  border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);
+}
+
+.tracker-pill-btn {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--md-default-fg-color--light, #64748b);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tracker-pill-btn:hover {
+  color: var(--md-default-fg-color, #1e293b);
+}
+
+.tracker-pill-btn.active {
+  background: var(--md-default-bg-color, #ffffff);
+  color: #1e40af;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.tracker-focus-toggle-btn {
+  font-size: 0.82rem;
+}
+
+/* ── Pocket Card ─────────────────────────────────────────────────────────── */
+
+.tracker-pocket-card {
+  background: linear-gradient(135deg, rgba(37,99,235,0.04) 0%, rgba(30,64,175,0.08) 100%), var(--md-default-bg-color, #ffffff);
+  border: 2px solid #3b82f6;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.12);
+  transition: all 0.2s ease;
+}
+
+.tracker-pocket-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.tracker-pocket-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tracker-pocket-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #1e40af;
+  background: rgba(37, 99, 235, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.tracker-pocket-rosary-select {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lighter, #cbd5e1);
+  background: var(--md-default-bg-color, #ffffff);
+  color: var(--md-default-fg-color, #1e293b);
+  cursor: pointer;
+  outline: none;
+  max-width: 100%;
+}
+
+.tracker-pocket-decade-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.tracker-pocket-decade-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color, #0f172a);
+  text-align: center;
+  flex: 1;
+}
+
+.tracker-pocket-mystery {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--md-default-fg-color, #1e293b);
+  text-align: center;
+  margin: 0.5rem 0 1rem 0;
+  line-height: 1.5;
+  padding: 0.4rem 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border: 1px dashed rgba(59, 130, 246, 0.25);
+}
+
+.tracker-pocket-beads-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Big primary tap button */
+.tracker-pocket-main-btn {
+  width: 100%;
+  min-height: 64px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+  padding: 0.75rem 1.25rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tracker-pocket-main-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+}
+
+.tracker-pocket-main-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.tracker-pocket-main-btn-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.tracker-pocket-main-btn-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.tracker-pocket-main-btn-badge {
+  font-size: 1rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+}
+
+/* Secondary actions row */
+.tracker-pocket-sub-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+/* Fullscreen / Focus Mode */
+body.tracker-focus-mode .md-header,
+body.tracker-focus-mode .md-footer,
+body.tracker-focus-mode .md-sidebar,
+body.tracker-focus-mode .md-tabs {
+  display: none !important;
+}
+
+body.tracker-focus-mode .md-main__inner {
+  margin-top: 0 !important;
+  padding-top: 0.5rem !important;
+  max-width: 600px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.tracker-focus-mode .tracker-container {
+  max-width: 100% !important;
+}
+
+.tracker-focus-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  background: #1e293b;
+  color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.tracker-focus-exit-btn {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .tracker-pocket-card {
+    padding: 1rem 0.85rem;
+    border-radius: 14px;
+  }
+  .tracker-pocket-main-btn {
+    min-height: 58px;
+  }
+  .tracker-pocket-main-btn-text {
+    font-size: 1.15rem;
+  }
+  .tracker-pocket-mystery {
+    font-size: 0.95rem;
+  }
+}

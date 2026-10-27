@@ -12,7 +12,7 @@ Vítejte na stránkách věnovaných modlitbě posvátného růžence – nalezn
 <div class="tracker-summary-card" style="margin-bottom: 1.5rem;">
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">📿 Týdenní a denní modlitební záznamník (Tracker)</h2>
-    <a href="tracker.md" class="tracker-btn tracker-btn-primary">Otevřít záznamník →</a>
+    <a href="tracker/" class="tracker-btn tracker-btn-primary">Otevřít záznamník →</a>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
     Interaktivní kuličkový záznamník desátek po desátku, vytvořený pro:
@@ -31,8 +31,8 @@ Vítejte na stránkách věnovaných modlitbě posvátného růžence – nalezn
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">🤝 Živý růženec</h2>
     <div>
-      <a href="about-living-rosary.md" class="tracker-btn tracker-btn-sm">O společenství</a>
-      <a href="group.md" class="tracker-btn tracker-btn-sm tracker-btn-primary">Vytvořit skupinu →</a>
+      <a href="about-living-rosary/" class="tracker-btn tracker-btn-sm">O společenství</a>
+      <a href="group/" class="tracker-btn tracker-btn-sm tracker-btn-primary">Vytvořit skupinu →</a>
     </div>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
@@ -46,17 +46,17 @@ Vítejte na stránkách věnovaných modlitbě posvátného růžence – nalezn
 <div class="tracker-summary-card" style="margin-bottom: 1.5rem;">
   <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
     <h2 style="margin: 0; font-size: 1.25rem;">📖 Tajemství a biblická rozjímání</h2>
-    <a href="materials.md" class="tracker-btn tracker-btn-sm">Zobrazit materiály →</a>
+    <a href="materials/" class="tracker-btn tracker-btn-sm">Zobrazit materiály →</a>
   </div>
   <p style="margin-top: 0.75rem; color: var(--md-default-fg-color--light, #475569); line-height: 1.6;">
     Prohlubte kontemplaci Kristovy tváře s Pannou Marií skrze biblické verše přiřazené ke každému Zdrávasu:
   </p>
   <ul style="margin: 0 0 1rem 1.2rem; color: var(--md-default-fg-color--light, #475569);">
-    <li><a href="materials/joyful.md"><strong>Radostný růženec</strong></a> — Vtělení a skrytý život Pána Ježíše (pondělí a sobota)</li>
-    <li><a href="materials/luminous.md"><strong>Růženec světla</strong></a> — Veřejné působení a hlásání Božího království (čtvrtek)</li>
-    <li><a href="materials/sorrowful.md"><strong>Bolestný růženec</strong></a> — Umučení a výkupná smrt Pána Ježíše (úterý a pátek)</li>
-    <li><a href="materials/slavny.md"><strong>Slavný růženec</strong></a> — Zmrtvýchvstání, Nanebevstoupení a oslavení (středa a neděle)</li>
-    <li><a href="materials/vocations.md"><strong>Růženec za kněžská povolání</strong></a> — Rozjímavý růženec za nová svatá povolání</li>
+    <li><a href="materials/joyful/"><strong>Radostný růženec</strong></a> — Vtělení a skrytý život Pána Ježíše (pondělí a sobota)</li>
+    <li><a href="materials/luminous/"><strong>Růženec světla</strong></a> — Veřejné působení a hlásání Božího království (čtvrtek)</li>
+    <li><a href="materials/sorrowful/"><strong>Bolestný růženec</strong></a> — Umučení a výkupná smrt Pána Ježíše (úterý a pátek)</li>
+    <li><a href="materials/glorious/"><strong>Slavný růženec</strong></a> — Zmrtvýchvstání, Nanebevstoupení a oslavení (středa a neděle)</li>
+    <li><a href="materials/vocations/"><strong>Růženec za kněžská povolání</strong></a> — Rozjímavý růženec za nová svatá povolání</li>
   </ul>
 </div>
 

@@ -600,16 +600,29 @@
           if (callback) callback();
         }
 
-        // Sign in anonymously in the background so auth != null rules pass seamlessly
+        // Sign in anonymously so auth != null rules pass; fall through if auth unavailable
         if (typeof firebase.auth === 'function') {
-          firebase.auth().signInAnonymously()
-            .then(function() {
-              setupDatabaseListeners();
-            })
-            .catch(function(authErr) {
-              console.warn('Anonymous sign-in note:', authErr.message);
-              setupDatabaseListeners();
-            });
+          var authInstance;
+          try {
+            authInstance = firebase.auth();
+          } catch (authInitErr) {
+            console.warn('Firebase Auth init skipped:', authInitErr.message);
+            authInstance = null;
+          }
+          if (authInstance) {
+            authInstance.signInAnonymously()
+              .then(function() {
+                setupDatabaseListeners();
+              })
+              .catch(function(authErr) {
+                // Auth failed (network error, domain not authorized, etc.) — still set up DB
+                // The DB will work if rules allow unauthenticated access, or show a PERMISSION_DENIED
+                console.warn('Anonymous sign-in skipped:', authErr.code, authErr.message);
+                setupDatabaseListeners();
+              });
+          } else {
+            setupDatabaseListeners();
+          }
         } else {
           setupDatabaseListeners();
         }

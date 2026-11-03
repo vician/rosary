@@ -125,7 +125,7 @@
       saveConnectBtn: 'Save & Connect',
       disconnectBtn: 'Disconnect / Use Local Mode',
       forceSyncBtn: 'Force Sync Now',
-      syncHelp: 'In <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a>, open <strong>Realtime Database</strong> &gt; <strong>Rules</strong> and set them to <code>{ "rules": { ".read": true, ".write": true } }</code> so your devices can read & write prayers without a login.',
+      syncHelp: '<strong>Security Tip:</strong> In <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a>, enable <strong>Authentication &gt; Sign-in method &gt; Anonymous</strong>, and set Database Rules to <code>{ "rules": { ".read": "auth != null", ".write": "auth != null" } }</code>. This eliminates the public security warning while syncing seamlessly across your devices without passwords.',
       errorInvalidJson: 'Invalid JSON: Please ensure you paste valid JSON configuration.',
       errorEmptyConfig: 'Please paste your Firebase configuration JSON before connecting.',
     },
@@ -250,7 +250,7 @@
       saveConnectBtn: 'Uložit a připojit',
       disconnectBtn: 'Odpojit / Použít lokální režim',
       forceSyncBtn: 'Synchronizovat nyní',
-      syncHelp: 'Ve <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a> otevřete <strong>Realtime Database</strong> &gt; <strong>Pravidla (Rules)</strong> a nastavte je na <code>{ "rules": { ".read": true, ".write": true } }</code>, aby všechna vaše zařízení mohla zapisovat a číst data bez přihlašování.',
+      syncHelp: '<strong>Tip pro zabezpečení:</strong> Ve <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a> povolte <strong>Authentication &gt; Sign-in method &gt; Anonymous</strong> a nastavte pravidla databáze na <code>{ "rules": { ".read": "auth != null", ".write": "auth != null" } }</code>. Tím odstraníte červené bezpečnostní varování a zařízení se budou bezpečně synchronizovat bez nutnosti hesel.',
       errorInvalidJson: 'Neplatný JSON: Ujistěte se, že vkládáte platný formát JSON konfigurace.',
       errorEmptyConfig: 'Před připojením prosím vložte JSON konfiguraci pro Firebase.',
     }
@@ -385,8 +385,8 @@
     if (msg.includes('PERMISSION_DENIED') || (err.code && String(err.code).includes('PERMISSION_DENIED'))) {
       const isCs = getLang() === 'cs';
       firebaseErrorMsg = isCs
-        ? '⚠️ Přístup k Firebase zamítnut (PERMISSION_DENIED). V konzoli Firebase (Realtime Database → Pravidla) nastavte: { "rules": { ".read": true, ".write": true } }'
-        : '⚠️ Firebase permission denied. In Firebase Console (Realtime Database → Rules), set: { "rules": { ".read": true, ".write": true } }';
+        ? '⚠️ Přístup k Firebase zamítnut (PERMISSION_DENIED). Ujistěte se, že ve Firebase Console máte v sekci Authentication povolenou metodu „Anonymous“ a v Realtime Database pravidla: { "rules": { ".read": "auth != null", ".write": "auth != null" } } (nebo ".read": true, ".write": true).'
+        : '⚠️ Firebase permission denied (PERMISSION_DENIED). Make sure in Firebase Console > Authentication you enabled the "Anonymous" sign-in method, and in Realtime Database Rules set: { "rules": { ".read": "auth != null", ".write": "auth != null" } } (or ".read": true, ".write": true).';
     } else {
       firebaseErrorMsg = '⚠️ Firebase: ' + msg;
     }
@@ -445,7 +445,7 @@
   }
 
   function ensureFirebaseScripts(callback) {
-    if (typeof firebase !== 'undefined' && firebase.database) {
+    if (typeof firebase !== 'undefined' && firebase.database && firebase.auth) {
       callback();
       return;
     }
@@ -469,11 +469,23 @@
     const s1 = document.createElement('script');
     s1.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
     s1.onload = function() {
-      const s2 = document.createElement('script');
-      s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js';
-      s2.onload = callback;
-      s2.onerror = callback;
-      document.head.appendChild(s2);
+      const sAuth = document.createElement('script');
+      sAuth.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js';
+      sAuth.onload = function() {
+        const s2 = document.createElement('script');
+        s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js';
+        s2.onload = callback;
+        s2.onerror = callback;
+        document.head.appendChild(s2);
+      };
+      sAuth.onerror = function() {
+        const s2 = document.createElement('script');
+        s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js';
+        s2.onload = callback;
+        s2.onerror = callback;
+        document.head.appendChild(s2);
+      };
+      document.head.appendChild(sAuth);
     };
     s1.onerror = callback;
     document.head.appendChild(s1);
@@ -533,57 +545,75 @@
         }
 
         firebaseApp = firebase.initializeApp(config);
-        firebaseDb = firebase.database();
-        trackerDataRef = firebaseDb.ref('tracker_data');
-        counterRef = firebaseDb.ref('counter');
-        connectedRef = firebaseDb.ref('.info/connected');
 
-        // Real-time connection listener
-        connectedRef.on('value', function(snap) {
-          isFirebaseConnected = (snap.val() === true);
-          updateSyncUI();
-        });
+        function setupDatabaseListeners() {
+          firebaseDb = firebase.database();
+          trackerDataRef = firebaseDb.ref('tracker_data');
+          counterRef = firebaseDb.ref('counter');
+          connectedRef = firebaseDb.ref('.info/connected');
 
-        // Real-time tracker data listener: syncs all prayers, beads, weeks across devices!
-        trackerDataRef.on('value', function(snapshot) {
-          const remoteData = snapshot.val();
-          if (remoteData) {
-            isReceivingRemoteData = true;
-            try {
-              const localData = loadData();
-              const merged = mergeTrackerData(localData, remoteData);
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-              lastSyncTime = new Date();
-              firebaseErrorMsg = null;
-              if (window.RosaryTracker) {
-                window.RosaryTracker.render();
+          // Real-time connection listener
+          connectedRef.on('value', function(snap) {
+            isFirebaseConnected = (snap.val() === true);
+            updateSyncUI();
+          });
+
+          // Real-time tracker data listener: syncs all prayers, beads, weeks across devices!
+          trackerDataRef.on('value', function(snapshot) {
+            const remoteData = snapshot.val();
+            if (remoteData) {
+              isReceivingRemoteData = true;
+              try {
+                const localData = loadData();
+                const merged = mergeTrackerData(localData, remoteData);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+                lastSyncTime = new Date();
+                firebaseErrorMsg = null;
+                if (window.RosaryTracker) {
+                  window.RosaryTracker.render();
+                }
+              } finally {
+                isReceivingRemoteData = false;
               }
-            } finally {
-              isReceivingRemoteData = false;
+            } else {
+              // New database: seed with local tracker data if present
+              const localData = loadData();
+              if (localData && localData.weeks && Object.keys(localData.weeks).length > 0) {
+                trackerDataRef.set(localData);
+                lastSyncTime = new Date();
+              }
             }
-          } else {
-            // New database: seed with local tracker data if present
-            const localData = loadData();
-            if (localData && localData.weeks && Object.keys(localData.weeks).length > 0) {
-              trackerDataRef.set(localData);
-              lastSyncTime = new Date();
-            }
-          }
-          updateSyncUI();
-        }, function(error) {
-          handleFirebaseError(error);
-        });
+            updateSyncUI();
+          }, function(error) {
+            handleFirebaseError(error);
+          });
 
-        // Real-time counter listener
-        counterRef.on('value', function(snapshot) {
-          const val = snapshot.val();
-          currentCounterValue = (typeof val === 'number') ? val : (parseInt(val, 10) || 0);
-          updateCounterDisplay();
-        }, function(error) {
-          handleFirebaseError(error);
-        });
+          // Real-time counter listener
+          counterRef.on('value', function(snapshot) {
+            const val = snapshot.val();
+            currentCounterValue = (typeof val === 'number') ? val : (parseInt(val, 10) || 0);
+            updateCounterDisplay();
+          }, function(error) {
+            handleFirebaseError(error);
+          });
 
-        if (callback) callback();
+          if (callback) callback();
+        }
+
+        // Sign in anonymously in the background so auth != null rules pass seamlessly
+        if (typeof firebase.auth === 'function') {
+          firebase.auth().signInAnonymously()
+            .then(function() {
+              setupDatabaseListeners();
+            })
+            .catch(function(authErr) {
+              console.warn('Anonymous sign-in note:', authErr.message);
+              setupDatabaseListeners();
+            });
+        } else {
+          setupDatabaseListeners();
+        }
+
       } catch (err) {
         handleFirebaseError(err);
         isFirebaseConnected = false;

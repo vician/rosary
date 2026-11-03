@@ -61,3 +61,4 @@ In the tracker header, you can independently configure:
 - **Week Navigation:** Use the arrows in the top bar to browse past and future weeks. The *This week* button returns you to the current week at any time.
 - **Prayer History:** Expand the *Prayer History* section below to view your completed rosaries across past weeks and quickly jump back to any previous week.
 - **Data Backup:** Use the *Export data* button to download a backup file of your prayers, and *Import data* to restore it on any device.
+- **Cloud Sync (BYOB):** Optionally connect your own free Firebase Realtime Database in the *Cloud Sync* section below to sync your prayer counter in real time across all your devices without a central server.

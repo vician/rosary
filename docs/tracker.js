@@ -111,6 +111,20 @@
       pocketResetDecade: 'Reset decade',
       pocketDecadeLabel: (idx) => `Decade ${idx + 1} of 5`,
       pocketFocusBanner: 'Distraction-free Prayer Mode',
+      // Cloud Sync (Firebase BYOB)
+      syncTitle: 'Cloud Sync (Bring Your Own Backend)',
+      syncDesc: 'Optionally connect your own free Firebase Realtime Database to sync your prayer counter in real time across all your devices without any middleman.',
+      activeModeLabel: 'Active Mode',
+      modeLocal: 'Local Mode',
+      modeConnected: 'Connected to Firebase',
+      counterLabel: 'Live Prayer Counter',
+      configLabel: 'Firebase Web Configuration (JSON)',
+      configPlaceholder: '{\n  "apiKey": "...",\n  "authDomain": "...",\n  "databaseURL": "https://your-project-default-rtdb.firebaseio.com",\n  "projectId": "your-project",\n  "storageBucket": "...",\n  "messagingSenderId": "...",\n  "appId": "..."\n}',
+      saveConnectBtn: 'Save & Connect',
+      disconnectBtn: 'Disconnect / Use Local Mode',
+      syncHelp: 'Create a free project at <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a>, create a <strong>Realtime Database</strong>, and paste your web app configuration JSON above.',
+      errorInvalidJson: 'Invalid JSON: Please ensure you paste valid JSON configuration.',
+      errorEmptyConfig: 'Please paste your Firebase configuration JSON before connecting.',
     },
     cs: {
       days: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
@@ -219,8 +233,196 @@
       pocketResetDecade: 'Vynulovat desátek',
       pocketDecadeLabel: (idx) => `${idx + 1}. desátek z 5`,
       pocketFocusBanner: 'Soustředěný režim modlitby',
+      // Cloud Sync (Firebase BYOB)
+      syncTitle: 'Cloudová synchronizace (Vlastní backend)',
+      syncDesc: 'Volitelně můžete připojit vlastní bezplatnou databázi Firebase Realtime Database a synchronizovat počítadlo modliteb v reálném čase mezi všemi svými zařízeními bez centrálního serveru.',
+      activeModeLabel: 'Aktivní režim',
+      modeLocal: 'Lokální režim',
+      modeConnected: 'Připojeno k Firebase',
+      counterLabel: 'Živé počítadlo modliteb',
+      configLabel: 'Webová konfigurace Firebase (JSON)',
+      configPlaceholder: '{\n  "apiKey": "...",\n  "authDomain": "...",\n  "databaseURL": "https://vas-projekt-default-rtdb.firebaseio.com",\n  "projectId": "vas-projekt",\n  "storageBucket": "...",\n  "messagingSenderId": "...",\n  "appId": "..."\n}',
+      saveConnectBtn: 'Uložit a připojit',
+      disconnectBtn: 'Odpojit / Použít lokální režim',
+      syncHelp: 'Vytvořte si bezplatný projekt na <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a>, vytvořte <strong>Realtime Database</strong> a vložte výše konfigurační JSON své webové aplikace.',
+      errorInvalidJson: 'Neplatný JSON: Ujistěte se, že vkládáte platný formát JSON konfigurace.',
+      errorEmptyConfig: 'Před připojením prosím vložte JSON konfiguraci pro Firebase.',
     }
   };
+
+  const FIREBASE_CONFIG_KEY = 'ruzenec_firebase_config';
+  const LOCAL_COUNTER_KEY = 'ruzenec_counter';
+
+  let firebaseApp = null;
+  let firebaseDb = null;
+  let counterRef = null;
+  let isFirebaseConnected = false;
+  let currentCounterValue = 0;
+  let firebaseErrorMsg = null;
+  let syncCardOpen = false;
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function getLocalCounter() {
+    try {
+      const val = localStorage.getItem(LOCAL_COUNTER_KEY);
+      return val ? parseInt(val, 10) || 0 : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function setLocalCounter(val) {
+    try {
+      localStorage.setItem(LOCAL_COUNTER_KEY, String(val));
+    } catch (e) {}
+  }
+
+  function updateCounterDisplay() {
+    const liveEl = document.getElementById('tracker-live-counter');
+    if (liveEl) liveEl.textContent = currentCounterValue;
+    const pocketEl = document.getElementById('tracker-pocket-counter-badge');
+    if (pocketEl) pocketEl.textContent = currentCounterValue;
+    const pillEl = document.getElementById('tracker-sync-status-pill');
+    if (pillEl) {
+      pillEl.className = 'tracker-sync-pill ' + (isFirebaseConnected ? 'connected' : 'local');
+      const lang = getLang();
+      const t = I18N[lang] || I18N.en;
+      pillEl.textContent = isFirebaseConnected ? t.modeConnected : t.modeLocal;
+    }
+    const dotEl = document.querySelector('.tracker-sync-status-dot');
+    if (dotEl) {
+      dotEl.className = 'tracker-sync-status-dot ' + (isFirebaseConnected ? 'connected' : 'local');
+    }
+  }
+
+  function incrementCounter() {
+    if (isFirebaseConnected && firebaseDb && typeof firebase !== 'undefined' && firebase.database && firebase.database.ServerValue) {
+      try {
+        firebaseDb.ref('counter').set(firebase.database.ServerValue.increment(1));
+      } catch (e) {
+        console.error('Error atomically incrementing remote counter:', e);
+        currentCounterValue += 1;
+        setLocalCounter(currentCounterValue);
+        updateCounterDisplay();
+      }
+    } else {
+      currentCounterValue = getLocalCounter() + 1;
+      setLocalCounter(currentCounterValue);
+      updateCounterDisplay();
+    }
+  }
+
+  function ensureFirebaseScripts(callback) {
+    if (typeof firebase !== 'undefined' && firebase.database) {
+      callback();
+      return;
+    }
+
+    const existing = document.querySelector('script[src*="firebase-app"]');
+    if (existing) {
+      let attempts = 0;
+      const interval = setInterval(function() {
+        attempts++;
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          clearInterval(interval);
+          callback();
+        } else if (attempts > 50) {
+          clearInterval(interval);
+          callback();
+        }
+      }, 100);
+      return;
+    }
+
+    const s1 = document.createElement('script');
+    s1.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
+    s1.onload = function() {
+      const s2 = document.createElement('script');
+      s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js';
+      s2.onload = callback;
+      s2.onerror = callback;
+      document.head.appendChild(s2);
+    };
+    s1.onerror = callback;
+    document.head.appendChild(s1);
+  }
+
+  function initFirebaseSync(callback) {
+    const savedConfigRaw = localStorage.getItem(FIREBASE_CONFIG_KEY);
+    if (!savedConfigRaw) {
+      isFirebaseConnected = false;
+      currentCounterValue = getLocalCounter();
+      if (callback) callback();
+      return;
+    }
+
+    let config;
+    try {
+      config = JSON.parse(savedConfigRaw);
+    } catch (e) {
+      console.warn('Saved Firebase config is invalid JSON:', e);
+      isFirebaseConnected = false;
+      currentCounterValue = getLocalCounter();
+      if (callback) callback();
+      return;
+    }
+
+    ensureFirebaseScripts(function() {
+      try {
+        if (typeof firebase === 'undefined' || !firebase.initializeApp) {
+          throw new Error('Firebase SDK could not be loaded');
+        }
+
+        if (counterRef) {
+          try { counterRef.off('value'); } catch (e) {}
+          counterRef = null;
+        }
+
+        if (firebase.apps && firebase.apps.length > 0) {
+          for (let i = 0; i < firebase.apps.length; i++) {
+            try { firebase.apps[i].delete(); } catch (e) {}
+          }
+        }
+
+        firebaseApp = firebase.initializeApp(config);
+        firebaseDb = firebase.database();
+        counterRef = firebaseDb.ref('counter');
+
+        counterRef.on('value', function(snapshot) {
+          const val = snapshot.val();
+          currentCounterValue = (typeof val === 'number') ? val : (parseInt(val, 10) || 0);
+          isFirebaseConnected = true;
+          firebaseErrorMsg = null;
+          updateCounterDisplay();
+        }, function(error) {
+          console.error('Firebase counter listener error:', error);
+          firebaseErrorMsg = error.message;
+          isFirebaseConnected = false;
+          currentCounterValue = getLocalCounter();
+          updateCounterDisplay();
+        });
+
+        isFirebaseConnected = true;
+        firebaseErrorMsg = null;
+        if (callback) callback();
+      } catch (err) {
+        console.error('Error initializing Firebase app:', err);
+        firebaseErrorMsg = err.message;
+        isFirebaseConnected = false;
+        currentCounterValue = getLocalCounter();
+        if (callback) callback();
+      }
+    });
+  }
 
   function getLang() {
     if (typeof document !== 'undefined' && document.documentElement) {
@@ -573,6 +775,7 @@
       if (currentCount < 10) {
         counts[dIdx] = currentCount + 1;
         saveData(data);
+        incrementCounter();
         this.render();
       } else {
         // Current decade is already 10! Advance to next decade or next incomplete rosary
@@ -581,6 +784,7 @@
           const nextCounts = ensureKeyArray(weekData, rosaryKey);
           nextCounts[pocketActiveDecade] = Math.min(10, (nextCounts[pocketActiveDecade] || 0) + 1);
           saveData(data);
+          incrementCounter();
           this.render();
         } else {
           // Look for next incomplete rosary
@@ -601,6 +805,7 @@
             pocketActiveDecade = firstInc !== -1 ? firstInc : 0;
             nextRosCounts[pocketActiveDecade] = Math.min(10, (nextRosCounts[pocketActiveDecade] || 0) + 1);
             saveData(data);
+            incrementCounter();
             this.render();
           } else {
             this.render();
@@ -672,7 +877,11 @@
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
+      const prevVal = counts[decadeIndex] || 0;
       counts[decadeIndex] = (counts[decadeIndex] === beadNumber) ? beadNumber - 1 : beadNumber;
+      if (counts[decadeIndex] > prevVal) {
+        incrementCounter();
+      }
       saveData(data);
       this.render();
     },
@@ -685,8 +894,96 @@
       const weekInfo = getWeekInfo(currentWeekOffset, lang);
       const weekData = getWeekData(data, weekInfo.key);
       const counts = ensureKeyArray(weekData, key);
-      counts[decadeIndex] = Math.max(0, Math.min(10, (counts[decadeIndex] || 0) + delta));
+      const prevVal = counts[decadeIndex] || 0;
+      counts[decadeIndex] = Math.max(0, Math.min(10, prevVal + delta));
+      if (counts[decadeIndex] > prevVal) {
+        incrementCounter();
+      }
       saveData(data);
+      this.render();
+    },
+
+    saveFirebaseConfig: function() {
+      const textarea = document.getElementById('firebase-config-input');
+      const errorEl = document.getElementById('firebase-config-error');
+      const lang = getLang();
+      const t = I18N[lang] || I18N.en;
+
+      if (errorEl) {
+        errorEl.style.display = 'none';
+        errorEl.textContent = '';
+      }
+
+      const raw = textarea ? textarea.value.trim() : '';
+      if (!raw) {
+        if (errorEl) {
+          errorEl.textContent = t.errorEmptyConfig;
+          errorEl.style.display = 'block';
+        }
+        return;
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = t.errorInvalidJson + ' (' + err.message + ')';
+          errorEl.style.display = 'block';
+        }
+        return;
+      }
+
+      if (typeof parsed !== 'object' || parsed === null) {
+        if (errorEl) {
+          errorEl.textContent = t.errorInvalidJson;
+          errorEl.style.display = 'block';
+        }
+        return;
+      }
+
+      try {
+        localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(parsed, null, 2));
+      } catch (e) {
+        if (errorEl) {
+          errorEl.textContent = 'Storage error: ' + e.message;
+          errorEl.style.display = 'block';
+        }
+        return;
+      }
+
+      const self = this;
+      initFirebaseSync(function() {
+        self.render();
+      });
+    },
+
+    disconnectFirebase: function() {
+      try {
+        if (counterRef) {
+          counterRef.off('value');
+          counterRef = null;
+        }
+        if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+          for (let i = 0; i < firebase.apps.length; i++) {
+            try { firebase.apps[i].delete(); } catch (e) {}
+          }
+        }
+      } catch (e) {}
+
+      localStorage.removeItem(FIREBASE_CONFIG_KEY);
+      isFirebaseConnected = false;
+      firebaseErrorMsg = null;
+      currentCounterValue = getLocalCounter();
+      this.render();
+    },
+
+    handleSyncToggle: function(detailsEl) {
+      syncCardOpen = detailsEl ? detailsEl.open : false;
+    },
+
+    incrementLiveCounter: function() {
+      incrementCounter();
       this.render();
     },
 
@@ -856,6 +1153,9 @@
                 <select class="tracker-pocket-rosary-select" onchange="RosaryTracker.pocketSelectRosary(this.value)">
                   ${selectOptions}
                 </select>
+              </div>
+              <div class="tracker-pocket-sync-tag ${isFirebaseConnected ? 'connected' : 'local'}" title="${isFirebaseConnected ? t.modeConnected : t.modeLocal}">
+                ${isFirebaseConnected ? '☁️ ' : '💾 '}<span id="tracker-pocket-counter-badge">${currentCounterValue}</span>
               </div>
             </div>
             <div class="tracker-pocket-decade-nav">
@@ -1114,15 +1414,64 @@
         </div>
       `;
 
+      // ── 8. Cloud Sync (Firebase BYOB) ────────────────────────────────────
+      const savedConfig = localStorage.getItem(FIREBASE_CONFIG_KEY) || '';
+      html += `
+        <details class="tracker-sync-card" ${syncCardOpen ? 'open' : ''} ontoggle="RosaryTracker.handleSyncToggle(this)">
+          <summary class="tracker-sync-summary">
+            <div class="tracker-sync-summary-title">
+              <span>☁️ ${t.syncTitle}</span>
+              <span id="tracker-sync-status-pill" class="tracker-sync-pill ${isFirebaseConnected ? 'connected' : 'local'}">
+                ${isFirebaseConnected ? t.modeConnected : t.modeLocal}
+              </span>
+            </div>
+            <span class="tracker-sync-summary-arrow">▼</span>
+          </summary>
+          <div class="tracker-sync-content">
+            <p class="tracker-sync-desc">${t.syncDesc}</p>
+            
+            <div class="tracker-sync-status-row">
+              <span class="tracker-sync-status-dot ${isFirebaseConnected ? 'connected' : 'local'}"></span>
+              <span class="tracker-sync-status-text">
+                <strong>${t.activeModeLabel}:</strong> ${isFirebaseConnected ? t.modeConnected : t.modeLocal}
+              </span>
+              <span class="tracker-sync-counter-badge" onclick="RosaryTracker.incrementLiveCounter()" style="cursor:pointer;" title="+1">
+                ${t.counterLabel}: <strong id="tracker-live-counter">${currentCounterValue}</strong> <span style="font-size:0.75rem;opacity:0.65;">(+1)</span>
+              </span>
+            </div>
+
+            <div id="firebase-config-error" class="tracker-sync-error" style="${firebaseErrorMsg ? 'display:block;' : 'display:none;'}">${firebaseErrorMsg ? escapeHtml(firebaseErrorMsg) : ''}</div>
+
+            <label for="firebase-config-input" class="tracker-sync-label">${t.configLabel}:</label>
+            <textarea id="firebase-config-input" class="tracker-sync-textarea" rows="6" placeholder="${escapeHtml(t.configPlaceholder)}">${savedConfig ? escapeHtml(savedConfig) : ''}</textarea>
+
+            <div class="tracker-sync-actions">
+              <button type="button" class="tracker-btn tracker-btn-primary" onclick="RosaryTracker.saveFirebaseConfig()">
+                💾 ${t.saveConnectBtn}
+              </button>
+              <button type="button" class="tracker-btn tracker-btn-outline-danger" onclick="RosaryTracker.disconnectFirebase()">
+                ✕ ${t.disconnectBtn}
+              </button>
+            </div>
+            
+            <div class="tracker-sync-help">
+              <small>${t.syncHelp}</small>
+            </div>
+          </div>
+        </details>
+      `;
+
       root.innerHTML = html;
     }
   };
 
   // Initialization
   function init() {
-    if (document.getElementById('rosary-tracker-root')) {
-      window.RosaryTracker.render();
-    }
+    initFirebaseSync(function() {
+      if (document.getElementById('rosary-tracker-root')) {
+        window.RosaryTracker.render();
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

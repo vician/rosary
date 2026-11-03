@@ -7,6 +7,8 @@ repo_name: 'vician/rosary'
 edit_uri: ''
 
 extra_javascript:
+  - 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js'
+  - 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js'
   - 'language-detect.js'
   - 'ruzenec.js'
   - 'tracker.js'

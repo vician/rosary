@@ -61,3 +61,4 @@ V záhlaví záznamníku můžete nezávisle zapnout nebo vypnout dvě volby:
 - **Přepínání týdnů:** Šipkami v horním panelu můžete listovat mezi předchozími a budoucími týdny. Tlačítko *Tento týden* vás kdykoliv vrátí zpět do aktuálního týdne.
 - **Historie modlitby:** V sekci *Historie modlitby* níže naleznete přehled všech dřívějších týdnů a můžete se k nim jedním kliknutím vrátit.
 - **Záloha dat:** Pomocí tlačítka *Exportovat data* si stáhnete zálohu a tlačítkem *Importovat data* ji můžete kdykoliv obnovit na jakémkoliv zařízení.
+- **Cloudová synchronizace (BYOB):** V sekci *Cloudová synchronizace* níže můžete volitelně připojit vlastní bezplatnou databázi Firebase Realtime Database a synchronizovat své počítadlo modliteb v reálném čase mezi všemi svými zařízeními bez centrálního serveru.

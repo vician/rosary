@@ -954,3 +954,217 @@ body.tracker-focus-mode .tracker-container {
     font-size: 0.95rem;
   }
 }
+
+/* ── Cloud Sync (Firebase BYOB) ─────────────────────────────────────────── */
+
+.tracker-sync-card {
+  background: var(--md-default-bg-color, #ffffff);
+  border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.tracker-sync-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--md-default-fg-color, #0f172a);
+  outline: none;
+  list-style: none;
+}
+
+.tracker-sync-summary::-webkit-details-marker {
+  display: none;
+}
+
+.tracker-sync-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.tracker-sync-summary-arrow {
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color--light, #94a3b8);
+  transition: transform 0.2s ease;
+}
+
+.tracker-sync-card[open] .tracker-sync-summary-arrow {
+  transform: rotate(180deg);
+}
+
+.tracker-sync-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.tracker-sync-pill.connected {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.tracker-sync-pill.local {
+  background: var(--md-code-bg-color, #f1f5f9);
+  color: var(--md-default-fg-color--light, #64748b);
+  border: 1px solid var(--md-default-fg-color--lighter, #cbd5e1);
+}
+
+.tracker-sync-content {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest, #f1f5f9);
+}
+
+.tracker-sync-desc {
+  font-size: 0.82rem;
+  color: var(--md-default-fg-color--light, #64748b);
+  line-height: 1.5;
+  margin: 0 0 0.85rem 0;
+}
+
+.tracker-sync-status-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--md-code-bg-color, #f8fafc);
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 0.85rem;
+  border: 1px solid var(--md-default-fg-color--lightest, #e2e8f0);
+}
+
+.tracker-sync-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tracker-sync-status-dot.connected {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+.tracker-sync-status-dot.local {
+  background: #94a3b8;
+}
+
+.tracker-sync-status-text {
+  font-size: 0.82rem;
+  color: var(--md-default-fg-color, #334155);
+}
+
+.tracker-sync-counter-badge {
+  margin-left: auto;
+  font-size: 0.8rem;
+  background: var(--md-default-bg-color, #ffffff);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lighter, #cbd5e1);
+  color: #1e40af;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.tracker-sync-counter-badge:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.tracker-sync-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color, #334155);
+  margin-bottom: 0.35rem;
+}
+
+.tracker-sync-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--md-code-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 0.78rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lighter, #cbd5e1);
+  background: var(--md-default-bg-color, #ffffff);
+  color: var(--md-default-fg-color, #1e293b);
+  resize: vertical;
+  min-height: 110px;
+  margin-bottom: 0.75rem;
+  line-height: 1.45;
+}
+
+.tracker-sync-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.tracker-sync-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.tracker-sync-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.tracker-sync-help {
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color--light, #64748b);
+  line-height: 1.4;
+}
+
+.tracker-sync-help a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.tracker-pocket-sync-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+.tracker-pocket-sync-tag.connected {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.tracker-pocket-sync-tag.local {
+  background: var(--md-code-bg-color, #f1f5f9);
+  color: var(--md-default-fg-color--light, #64748b);
+  border: 1px solid var(--md-default-fg-color--lighter, #cbd5e1);
+}
+

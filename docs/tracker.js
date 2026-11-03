@@ -491,12 +491,29 @@
     document.head.appendChild(s1);
   }
 
+  var firebaseSyncInProgress = false;
+
   function initFirebaseSync(callback) {
+    // If already initializing (e.g. MkDocs SPA navigation fired init() again), just queue render
+    if (firebaseSyncInProgress) {
+      if (callback) {
+        var waitForInit = setInterval(function() {
+          if (!firebaseSyncInProgress) {
+            clearInterval(waitForInit);
+            if (callback) callback();
+          }
+        }, 100);
+      }
+      return;
+    }
+    firebaseSyncInProgress = true;
+
     const savedConfigRaw = localStorage.getItem(FIREBASE_CONFIG_KEY);
     if (!savedConfigRaw) {
       isFirebaseConfigured = false;
       isFirebaseConnected = false;
       currentCounterValue = getLocalCounter();
+      firebaseSyncInProgress = false;
       if (callback) callback();
       return;
     }
@@ -509,6 +526,7 @@
       isFirebaseConfigured = false;
       isFirebaseConnected = false;
       currentCounterValue = getLocalCounter();
+      firebaseSyncInProgress = false;
       if (callback) callback();
       return;
     }
@@ -538,13 +556,13 @@
           connectedRef = null;
         }
 
+        // Reuse an existing app if already initialized (prevents race on MkDocs SPA navigation
+        // where document$.subscribe re-runs init() while a prior signInAnonymously is in flight)
         if (firebase.apps && firebase.apps.length > 0) {
-          for (let i = 0; i < firebase.apps.length; i++) {
-            try { firebase.apps[i].delete(); } catch (e) {}
-          }
+          firebaseApp = firebase.app();
+        } else {
+          firebaseApp = firebase.initializeApp(config);
         }
-
-        firebaseApp = firebase.initializeApp(config);
 
         function setupDatabaseListeners() {
           firebaseDb = firebase.database();
@@ -598,6 +616,7 @@
           });
 
           if (callback) callback();
+          firebaseSyncInProgress = false;
         }
 
         // Sign in anonymously so auth != null rules pass; fall through if auth unavailable
@@ -630,6 +649,7 @@
       } catch (err) {
         handleFirebaseError(err);
         isFirebaseConnected = false;
+        firebaseSyncInProgress = false;
         if (callback) callback();
       }
     });

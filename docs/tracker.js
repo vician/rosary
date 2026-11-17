@@ -82,6 +82,9 @@
       historyShow: 'Show history',
       historyHide: 'Hide history',
       historyEmpty: 'No previous weeks recorded yet.',
+      streakLabel: 'week streak',
+      streakZero: 'No streak yet',
+      streakTooltip: 'Consecutive fully-completed weeks (most recent first)',
       historyWeekCol: 'Week',
       historyDatesCol: 'Dates',
       historyHailMarysCol: 'Hail Marys',
@@ -207,6 +210,9 @@
       historyShow: 'Zobrazit historii',
       historyHide: 'Skrýt historii',
       historyEmpty: 'Žádné předchozí týdny zatím nebyly zaznamenány.',
+      streakLabel: 'týdny v sérii',
+      streakZero: 'Zatím žádná série',
+      streakTooltip: 'Po sobě jdoucí plně odmodlené týdny (od nejnovějšího)',
       historyWeekCol: 'Týden',
       historyDatesCol: 'Datum',
       historyHailMarysCol: 'Zdrávasů',
@@ -884,6 +890,39 @@
         totalHailMarys, totalDecades, completedRosaries
       };
     });
+  }
+
+  // Count consecutive fully-completed past weeks (streak), starting from most recent
+  function computeWeekStreak(data, currentWeekKey) {
+    // Sort past week keys descending (most recent first), excluding current week
+    const pastKeys = Object.keys(data.weeks)
+      .filter(k => k !== currentWeekKey && Object.keys(data.weeks[k]).length > 0)
+      .sort()
+      .reverse();
+
+    let streak = 0;
+    for (let i = 0; i < pastKeys.length; i++) {
+      const key = pastKeys[i];
+      const weekData = data.weeks[key];
+      const storedKeys = Object.keys(weekData).filter(k => Array.isArray(weekData[k]));
+      if (storedKeys.length === 0) break;
+      const targetHM = storedKeys.length * 50;
+      const { totalHailMarys } = summariseWeekData(weekData);
+      const pct = targetHM > 0 ? Math.round((totalHailMarys / targetHM) * 100) : 0;
+      if (pct >= 100) {
+        // Also verify no calendar gap between consecutive streak weeks
+        if (i > 0) {
+          const prevMonday = getMondayFromWeekKey(pastKeys[i - 1]);
+          const thisMonday = getMondayFromWeekKey(key);
+          const diffWeeks = Math.round((prevMonday.getTime() - thisMonday.getTime()) / (7 * 86400000));
+          if (diffWeeks !== 1) break;
+        }
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
   }
 
   // Convert a stored week key to the offset relative to today, for navigation
@@ -1622,10 +1661,15 @@
 
       // ── 6. History ────────────────────────────────────────────────────────
       const historyRows = buildHistoryRows(data, weekInfo.key, lang);
+      const weekStreak = computeWeekStreak(data, weekInfo.key);
+      const streakBadge = weekStreak > 0
+        ? `<span class="tracker-streak-badge" title="${t.streakTooltip}">🔥 ${weekStreak} ${t.streakLabel}</span>`
+        : `<span class="tracker-streak-badge tracker-streak-zero" title="${t.streakTooltip}">${t.streakZero}</span>`;
       html += `
         <div class="tracker-history-section">
           <div class="tracker-history-header" onclick="RosaryTracker.toggleHistory()">
             <span class="tracker-history-title">📅 ${t.historyTitle}</span>
+            ${streakBadge}
             <span class="tracker-history-toggle-btn tracker-btn tracker-btn-sm">
               ${historyVisible ? t.historyHide : t.historyShow}
               <span class="tracker-history-count">${historyRows.length}</span>

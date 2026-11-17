@@ -509,6 +509,30 @@
   font-size: 1rem;
   font-weight: 700;
   color: var(--md-default-fg-color, #1e293b);
+  flex: 1 1 auto;
+}
+
+.tracker-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 9999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.tracker-streak-zero {
+  color: var(--md-default-fg-color--light, #94a3b8);
+  background: var(--md-code-bg-color, #f1f5f9);
+  border-color: var(--md-default-fg-color--lightest, #e2e8f0);
+  font-weight: 400;
+  font-style: italic;
 }
 
 .tracker-history-toggle-btn {

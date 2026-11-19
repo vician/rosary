@@ -102,6 +102,26 @@
   box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
 }
 
+.tracker-btn-outline-success {
+  color: #15803d;
+  border-color: #86efac;
+  background: transparent;
+}
+
+.tracker-btn-outline-success:hover {
+  background: #16a34a;
+  color: #ffffff;
+  border-color: #16a34a;
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
+}
+
+.tracker-week-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 /* ── Home page card link buttons ─────────────────────────────────────────── */
 
 .home-btn {

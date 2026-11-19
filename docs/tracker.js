@@ -54,6 +54,8 @@
       weekTitle: (num, isCur) => isCur ? `Week ${num} (current)` : `Week ${num}`,
       resetWeekBtn: 'Reset week',
       resetConfirm: (num, range) => `Are you sure you want to reset records for week ${num} (${range})?`,
+      markAllPrayedBtn: 'Mark all prayed',
+      markAllPrayedConfirm: (num) => `Mark all rosaries as fully prayed for week ${num}?`,
       summaryDailyTitle: 'Weekly Daily Rosary Progress',
       summaryWeeklyTitle: 'Weekly Prayer Progress',
       hailMarys: 'Hail Marys',
@@ -182,6 +184,8 @@
       weekTitle: (num, isCur) => isCur ? `${num}. týden (aktuální)` : `${num}. týden`,
       resetWeekBtn: 'Vynulovat týden',
       resetConfirm: (num, range) => `Opravdu chcete vynulovat záznamy pro týden ${num} (${range})?`,
+      markAllPrayedBtn: 'Označit vše jako pomodleno',
+      markAllPrayedConfirm: (num) => `Označit všechny růžence jako plně pomodlené pro týden ${num}?`,
       summaryDailyTitle: 'Postup týdenního denního růžence',
       summaryWeeklyTitle: 'Týdenní postup modlitby',
       hailMarys: 'Zdrávasů',
@@ -1344,6 +1348,23 @@
       this.render();
     },
 
+    markAllWeekPrayed: function() {
+      const lang = getLang();
+      const t = I18N[lang] || I18N.en;
+      const data = loadData();
+      const weekInfo = getWeekInfo(currentWeekOffset, lang);
+      if (!confirm(t.markAllPrayedConfirm(weekInfo.weekNum))) return;
+      const weekData = getWeekData(data, weekInfo.key);
+      const includeLight = !!data.settings.includeLight;
+      const dailyMode = !!data.settings.dailyMode;
+      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
+      activeRosaries.forEach(function(r) {
+        weekData[r.key] = [10, 10, 10, 10, 10];
+      });
+      saveData(data);
+      this.render();
+    },
+
     exportData: function() {
       const data = loadData();
       const json = JSON.stringify(data, null, 2);
@@ -1543,7 +1564,8 @@
             <span class="tracker-week-number">${t.weekTitle(weekInfo.weekNum, weekInfo.isCurrent)}</span>
             <span class="tracker-week-dates">${weekInfo.formattedRange}</span>
           </div>
-          <div>
+          <div class="tracker-week-actions">
+            <button class="tracker-btn tracker-btn-sm tracker-btn-outline-success" onclick="RosaryTracker.markAllWeekPrayed()">✓ ${t.markAllPrayedBtn}</button>
             <button class="tracker-btn tracker-btn-sm tracker-btn-outline-danger" onclick="RosaryTracker.resetCurrentWeek()">${t.resetWeekBtn}</button>
           </div>
         </div>

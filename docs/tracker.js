@@ -1565,8 +1565,8 @@
             <span class="tracker-week-dates">${weekInfo.formattedRange}</span>
           </div>
           <div class="tracker-week-actions">
-            <button class="tracker-btn tracker-btn-sm tracker-btn-outline-success" onclick="RosaryTracker.markAllWeekPrayed()">✓ ${t.markAllPrayedBtn}</button>
-            <button class="tracker-btn tracker-btn-sm tracker-btn-outline-danger" onclick="RosaryTracker.resetCurrentWeek()">${t.resetWeekBtn}</button>
+            ${!isAllComplete ? `<button class="tracker-btn tracker-btn-sm tracker-btn-outline-success" onclick="RosaryTracker.markAllWeekPrayed()">✓ ${t.markAllPrayedBtn}</button>` : ''}
+            ${totalHailMarys > 0 ? `<button class="tracker-btn tracker-btn-sm tracker-btn-outline-danger" onclick="RosaryTracker.resetCurrentWeek()">${t.resetWeekBtn}</button>` : ''}
           </div>
         </div>
       `;

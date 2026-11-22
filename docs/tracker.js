@@ -65,8 +65,11 @@
       weeklyCompleteBanner: '<strong>Weekly commitment fulfilled!</strong> All rosaries for this week are completed. <em>Deo gratias!</em>',
       dailyModeToggle: 'Rosary a day (1 rosary every day of the week)',
       lightToggle: 'Include Luminous Rosary',
+      startSundayToggle: 'Week starts on Sunday',
       descDailyLight: '<strong>Mode: Rosary a day with Luminous Rosary</strong> (7 rosaries / 35 decades) according to St. John Paul II\'s Apostolic Letter <em>Rosarium Virginis Mariae</em>:<br/>Mon: Joyful, Tue: Sorrowful, Wed: Glorious, Thu: Luminous, Fri: Sorrowful, Sat: Joyful, Sun: Glorious.',
       descDailyTrad: '<strong>Mode: Rosary a day – traditional</strong> (7 rosaries / 35 decades) according to traditional Church practice:<br/>Mon: Joyful, Tue: Sorrowful, Wed: Glorious, Thu: Joyful, Fri: Sorrowful, Sat: Glorious, Sun: Glorious.',
+      descDailyLightSunday: '<strong>Mode: Rosary a day with Luminous Rosary</strong> (7 rosaries / 35 decades) according to St. John Paul II\'s Apostolic Letter <em>Rosarium Virginis Mariae</em>:<br/>Sun: Glorious, Mon: Joyful, Tue: Sorrowful, Wed: Glorious, Thu: Luminous, Fri: Sorrowful, Sat: Joyful.',
+      descDailyTradSunday: '<strong>Mode: Rosary a day – traditional</strong> (7 rosaries / 35 decades) according to traditional Church practice:<br/>Sun: Glorious, Mon: Joyful, Tue: Sorrowful, Wed: Glorious, Thu: Joyful, Fri: Sorrowful, Sat: Glorious.',
       descWeeklyLight: '<strong>Mode: Weekly commitment of 4 rosaries</strong> (20 decades / 200 Hail Marys) – Joyful, Luminous, Sorrowful, and Glorious rosary anytime during the week.',
       descWeeklyTrad: '<strong>Mode: Weekly commitment of 3 classic rosaries</strong> (15 decades / 150 Hail Marys) – Joyful, Sorrowful, and Glorious rosary anytime during the week.',
       todayBadge: 'Today',
@@ -195,8 +198,11 @@
       weeklyCompleteBanner: '<strong>Týdenní závazek splněn!</strong> Všechny růžence pro tento týden jsou dokončeny. <em>Deo gratias!</em>',
       dailyModeToggle: 'Růženec denně (1 růženec každý den v týdnu)',
       lightToggle: 'Zahrnout i růženec světla',
+      startSundayToggle: 'Týden začíná nedělí',
       descDailyLight: '<strong>Režim: Růženec denně s růžencem světla</strong> (7 růženců / 35 desátků) podle apoštolského listu sv. Jana Pavla II. <em>Rosarium Virginis Mariae</em>:<br/>Po: radostný, Út: bolestný, St: slavný, Čt: světla, Pá: bolestný, So: radostný, Ne: slavný.',
       descDailyTrad: '<strong>Režim: Růženec denně – tradiční</strong> (7 růženců / 35 desátků) podle tradiční církevní praxe:<br/>Po: radostný, Út: bolestný, St: slavný, Čt: radostný, Pá: bolestný, So: slavný, Ne: slavný.',
+      descDailyLightSunday: '<strong>Režim: Růženec denně s růžencem světla</strong> (7 růženců / 35 desátků) podle apoštolského listu sv. Jana Pavla II. <em>Rosarium Virginis Mariae</em>:<br/>Ne: slavný, Po: radostný, Út: bolestný, St: slavný, Čt: světla, Pá: bolestný, So: radostný.',
+      descDailyTradSunday: '<strong>Režim: Růženec denně – tradiční</strong> (7 růženců / 35 desátků) podle tradiční církevní praxe:<br/>Ne: slavný, Po: radostný, Út: bolestný, St: slavný, Čt: radostný, Pá: bolestný, So: slavný.',
       descWeeklyLight: '<strong>Režim: Týdenní závazek 4 růžence</strong> (20 desátků / 200 Zdrávasů) – radostný, světla, bolestný a slavný růženec kdykoliv během týdne.',
       descWeeklyTrad: '<strong>Režim: Týdenní závazek 3 klasické růžence</strong> (15 desátků / 150 Zdrávasů) – radostný, bolestný a slavný růženec kdykoliv během týdne.',
       todayBadge: 'Dnes',
@@ -414,7 +420,10 @@
           : !!local.settings?.includeLight,
         dailyMode: (typeof remote.settings?.dailyMode !== 'undefined')
           ? remote.settings.dailyMode
-          : !!local.settings?.dailyMode
+          : !!local.settings?.dailyMode,
+        startSunday: (typeof remote.settings?.startSunday !== 'undefined')
+          ? remote.settings.startSunday
+          : !!local.settings?.startSunday
       },
       weeks: {}
     };
@@ -694,17 +703,18 @@
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        return { settings: { includeLight: false, dailyMode: false }, weeks: {} };
+        return { settings: { includeLight: false, dailyMode: false, startSunday: false }, weeks: {} };
       }
       const data = JSON.parse(raw);
-      if (!data.settings) data.settings = { includeLight: false, dailyMode: false };
+      if (!data.settings) data.settings = { includeLight: false, dailyMode: false, startSunday: false };
       if (typeof data.settings.includeLight === 'undefined') data.settings.includeLight = false;
       if (typeof data.settings.dailyMode === 'undefined') data.settings.dailyMode = false;
+      if (typeof data.settings.startSunday === 'undefined') data.settings.startSunday = false;
       if (!data.weeks) data.weeks = {};
       return data;
     } catch (e) {
       console.error('Error loading tracker data:', e);
-      return { settings: { includeLight: false, dailyMode: false }, weeks: {} };
+      return { settings: { includeLight: false, dailyMode: false, startSunday: false }, weeks: {} };
     }
   }
 
@@ -738,37 +748,64 @@
     }
   }
 
-  function getMonday(d) {
+  function getWeekStart(d, startSunday) {
     const date = new Date(d);
-    const day = date.getDay();
-    const diff = date.getDate() - (day === 0 ? 6 : day - 1);
-    const monday = new Date(date.setDate(diff));
-    monday.setHours(0, 0, 0, 0);
-    return monday;
+    const day = date.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+    let diff;
+    if (startSunday) {
+      diff = date.getDate() - day;
+    } else {
+      diff = date.getDate() - (day === 0 ? 6 : day - 1);
+    }
+    const start = new Date(date.setDate(diff));
+    start.setHours(0, 0, 0, 0);
+    return start;
+  }
+
+  function getMonday(d) {
+    return getWeekStart(d, false);
+  }
+
+  function getWeekKey(weekStart, startSunday) {
+    const date = new Date(weekStart.getTime());
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + (startSunday ? 4 : 3));
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    const weekNumber = 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+    const suffix = startSunday ? '-S' : '';
+    return `${date.getFullYear()}-W${String(weekNumber).padStart(2, '0')}${suffix}`;
   }
 
   function getISOWeekKey(d) {
-    const date = new Date(d.getTime());
-    date.setHours(0, 0, 0, 0);
-    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-    const week1 = new Date(date.getFullYear(), 0, 4);
-    const weekNumber = 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-    return `${date.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`;
+    return getWeekKey(getWeekStart(d, false), false);
+  }
+
+  function getWeekStartFromWeekKey(weekKey, fallbackStartSunday) {
+    const isSundayWeek = weekKey.endsWith('-S') || (!weekKey.includes('-S') && fallbackStartSunday);
+    const cleanKey = weekKey.replace(/-S$/, '');
+    const [yearStr, weekStr] = cleanKey.split('-W');
+    const year = parseInt(yearStr, 10);
+    const week = parseInt(weekStr, 10);
+    // Jan 4 is always in ISO week 1. Its week's Thursday:
+    const jan4 = new Date(year, 0, 4);
+    const dow = (jan4.getDay() + 6) % 7; // 0=Mon, ..., 3=Thu
+    const week1Thu = new Date(jan4);
+    week1Thu.setDate(jan4.getDate() + (3 - dow));
+    week1Thu.setHours(0, 0, 0, 0);
+
+    // Thursday of week N:
+    const targetThu = new Date(week1Thu);
+    targetThu.setDate(week1Thu.getDate() + (week - 1) * 7);
+
+    // If Sunday week, Sunday is targetThu - 4 days; if Monday week, Monday is targetThu - 3 days:
+    const start = new Date(targetThu);
+    start.setDate(targetThu.getDate() - (isSundayWeek ? 4 : 3));
+    start.setHours(0, 0, 0, 0);
+    return start;
   }
 
   function getMondayFromWeekKey(weekKey) {
-    const [yearStr, weekStr] = weekKey.split('-W');
-    const year = parseInt(yearStr, 10);
-    const week = parseInt(weekStr, 10);
-    // Jan 4 is always in ISO week 1
-    const jan4 = new Date(year, 0, 4);
-    const dow = (jan4.getDay() + 6) % 7; // 0=Mon
-    const startOfWeek1 = new Date(jan4);
-    startOfWeek1.setDate(jan4.getDate() - dow);
-    const monday = new Date(startOfWeek1);
-    monday.setDate(startOfWeek1.getDate() + (week - 1) * 7);
-    monday.setHours(0, 0, 0, 0);
-    return monday;
+    return getWeekStartFromWeekKey(weekKey, false);
   }
 
   function formatDate(dt, lang) {
@@ -783,17 +820,26 @@
     return new Date(now.getTime() + offset * 7 * 86400000);
   }
 
-  function getWeekInfo(offset, lang) {
-    const monday = getMonday(getTargetDate(offset));
-    const sunday = new Date(monday.getTime() + 6 * 86400000);
-    const weekKey = getISOWeekKey(monday);
-    const weekNum = parseInt(weekKey.split('-W')[1], 10);
+  function getWeekInfo(offset, lang, startSunday) {
+    if (typeof startSunday === 'undefined') {
+      try {
+        startSunday = !!(loadData().settings?.startSunday);
+      } catch (e) {
+        startSunday = false;
+      }
+    }
+    const weekStart = getWeekStart(getTargetDate(offset), startSunday);
+    const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+    const weekKey = getWeekKey(weekStart, startSunday);
+    const weekNum = parseInt(weekKey.replace(/-S$/, '').split('-W')[1], 10);
     return {
       key: weekKey,
       weekNum,
-      monday,
-      sunday,
-      formattedRange: `${formatDate(monday, lang)} – ${formatDate(sunday, lang)}`,
+      monday: weekStart,
+      sunday: weekEnd,
+      weekStart,
+      weekEnd,
+      formattedRange: `${formatDate(weekStart, lang)} – ${formatDate(weekEnd, lang)}`,
       isCurrent: offset === 0
     };
   }
@@ -831,34 +877,63 @@
     return { totalHailMarys, totalDecades, completedRosaries };
   }
 
-  function getRosaryConfig(dailyMode, includeLight, lang) {
+  function getRosaryConfig(dailyMode, includeLight, lang, startSunday) {
     const t = I18N[lang] || I18N.en;
-    const todayIndex = (new Date().getDay() + 6) % 7;
+    if (typeof startSunday === 'undefined') {
+      try {
+        startSunday = !!(loadData().settings?.startSunday);
+      } catch (e) {
+        startSunday = false;
+      }
+    }
+    const rawDay = new Date().getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+    const todayDayIndex = (rawDay + 6) % 7; // in t.days: 0=Mon, ..., 6=Sun
 
     if (dailyMode) {
-      const base = includeLight ? [
-        { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
-        { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
-        { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
-        { dayIndex: 3, rosaryType: 'svetla',   key: 'svetla' },
-        { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
-        { dayIndex: 5, rosaryType: 'radostny', key: 'sat_radostny' },
-        { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
-      ] : [
-        { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
-        { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
-        { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
-        { dayIndex: 3, rosaryType: 'radostny', key: 'thu_radostny' },
-        { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
-        { dayIndex: 5, rosaryType: 'slavny',   key: 'sat_slavny' },
-        { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
-      ];
+      let base;
+      if (startSunday) {
+        base = includeLight ? [
+          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' },
+          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+          { dayIndex: 3, rosaryType: 'svetla',   key: 'svetla' },
+          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+          { dayIndex: 5, rosaryType: 'radostny', key: 'sat_radostny' }
+        ] : [
+          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' },
+          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+          { dayIndex: 3, rosaryType: 'radostny', key: 'thu_radostny' },
+          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+          { dayIndex: 5, rosaryType: 'slavny',   key: 'sat_slavny' }
+        ];
+      } else {
+        base = includeLight ? [
+          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+          { dayIndex: 3, rosaryType: 'svetla',   key: 'svetla' },
+          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+          { dayIndex: 5, rosaryType: 'radostny', key: 'sat_radostny' },
+          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
+        ] : [
+          { dayIndex: 0, rosaryType: 'radostny', key: 'radostny' },
+          { dayIndex: 1, rosaryType: 'bolestny', key: 'bolestny' },
+          { dayIndex: 2, rosaryType: 'slavny',   key: 'slavny' },
+          { dayIndex: 3, rosaryType: 'radostny', key: 'thu_radostny' },
+          { dayIndex: 4, rosaryType: 'bolestny', key: 'fri_bolestny' },
+          { dayIndex: 5, rosaryType: 'slavny',   key: 'sat_slavny' },
+          { dayIndex: 6, rosaryType: 'slavny',   key: 'sun_slavny' }
+        ];
+      }
       return base.map(item => ({
         ...item,
         dayName: t.days[item.dayIndex],
         title: `${t.days[item.dayIndex]}: ${t.mysteries[item.rosaryType].name}`,
         mysteries: t.mysteries[item.rosaryType].items,
-        isToday: item.dayIndex === todayIndex
+        isToday: item.dayIndex === todayDayIndex
       }));
     }
 
@@ -878,19 +953,20 @@
   // ─── History helpers ───────────────────────────────────────────────────────
 
   function buildHistoryRows(data, currentWeekKey, lang) {
+    const startSunday = !!data.settings?.startSunday;
     const allKeys = Object.keys(data.weeks)
       .filter(k => k !== currentWeekKey && Object.keys(data.weeks[k]).length > 0)
       .sort()
       .reverse(); // most recent first
     return allKeys.map(key => {
-      const monday = getMondayFromWeekKey(key);
-      const sunday = new Date(monday.getTime() + 6 * 86400000);
-      const weekNum = parseInt(key.split('-W')[1], 10);
+      const isSundayWeek = key.endsWith('-S') || (!key.includes('-W') && startSunday);
+      const weekStart = getWeekStartFromWeekKey(key, isSundayWeek);
+      const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+      const weekNum = parseInt(key.replace(/-S$/, '').split('-W')[1], 10);
       const { totalHailMarys, totalDecades, completedRosaries } = summariseWeekData(data.weeks[key]);
-      // Target: 50 HMs per completed rosary + remaining HMs; just show raw counts
       return {
-        key, weekNum, monday, sunday,
-        formattedRange: `${formatDate(monday, lang)} – ${formatDate(sunday, lang)}`,
+        key, weekNum, monday: weekStart, sunday: weekEnd, weekStart, weekEnd,
+        formattedRange: `${formatDate(weekStart, lang)} – ${formatDate(weekEnd, lang)}`,
         totalHailMarys, totalDecades, completedRosaries
       };
     });
@@ -898,6 +974,7 @@
 
   // Count consecutive fully-completed past weeks (streak), starting from most recent
   function computeWeekStreak(data, currentWeekKey) {
+    const startSunday = !!data.settings?.startSunday;
     // Sort past week keys descending (most recent first), excluding current week
     const pastKeys = Object.keys(data.weeks)
       .filter(k => k !== currentWeekKey && Object.keys(data.weeks[k]).length > 0)
@@ -916,9 +993,10 @@
       if (pct >= 100) {
         // Also verify no calendar gap between consecutive streak weeks
         if (i > 0) {
-          const prevMonday = getMondayFromWeekKey(pastKeys[i - 1]);
-          const thisMonday = getMondayFromWeekKey(key);
-          const diffWeeks = Math.round((prevMonday.getTime() - thisMonday.getTime()) / (7 * 86400000));
+          const prevKey = pastKeys[i - 1];
+          const prevStart = getWeekStartFromWeekKey(prevKey, prevKey.endsWith('-S') || startSunday);
+          const thisStart = getWeekStartFromWeekKey(key, key.endsWith('-S') || startSunday);
+          const diffWeeks = Math.round((prevStart.getTime() - thisStart.getTime()) / (7 * 86400000));
           if (diffWeeks !== 1) break;
         }
         streak++;
@@ -930,10 +1008,18 @@
   }
 
   // Convert a stored week key to the offset relative to today, for navigation
-  function weekKeyToOffset(weekKey) {
-    const monday = getMondayFromWeekKey(weekKey);
-    const todayMonday = getMonday(new Date());
-    const diffMs = monday.getTime() - todayMonday.getTime();
+  function weekKeyToOffset(weekKey, startSunday) {
+    if (typeof startSunday === 'undefined') {
+      try {
+        startSunday = !!(loadData().settings?.startSunday);
+      } catch (e) {
+        startSunday = false;
+      }
+    }
+    const isSundayWeek = weekKey.endsWith('-S') || startSunday;
+    const weekStart = getWeekStartFromWeekKey(weekKey, isSundayWeek);
+    const todayWeekStart = getWeekStart(new Date(), isSundayWeek);
+    const diffMs = weekStart.getTime() - todayWeekStart.getTime();
     return Math.round(diffMs / (7 * 86400000));
   }
 
@@ -1156,6 +1242,13 @@
     toggleDailyMode: function() {
       const data = loadData();
       data.settings.dailyMode = !data.settings.dailyMode;
+      saveData(data);
+      this.render();
+    },
+
+    toggleStartSunday: function() {
+      const data = loadData();
+      data.settings.startSunday = !data.settings.startSunday;
       saveData(data);
       this.render();
     },
@@ -1403,7 +1496,8 @@
             return;
           }
           // Ensure settings exist
-          if (!imported.settings) imported.settings = { includeLight: false, dailyMode: false };
+          if (!imported.settings) imported.settings = { includeLight: false, dailyMode: false, startSunday: false };
+          if (typeof imported.settings.startSunday === 'undefined') imported.settings.startSunday = false;
           saveData(imported);
           alert(t.importSuccess);
           window.RosaryTracker.render();
@@ -1422,11 +1516,12 @@
       const lang = getLang();
       const t = I18N[lang] || I18N.en;
       const data = loadData();
-      const weekInfo = getWeekInfo(currentWeekOffset, lang);
-      const weekData = getWeekData(data, weekInfo.key);
       const includeLight = !!data.settings.includeLight;
       const dailyMode = !!data.settings.dailyMode;
-      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang);
+      const startSunday = !!data.settings.startSunday;
+      const weekInfo = getWeekInfo(currentWeekOffset, lang, startSunday);
+      const weekData = getWeekData(data, weekInfo.key);
+      const activeRosaries = getRosaryConfig(dailyMode, includeLight, lang, startSunday);
 
       // Calculations
       let totalHailMarys = 0, totalDecades = 0, totalRosariesCompleted = 0;
@@ -1445,9 +1540,16 @@
 
       const pct = Math.min(100, Math.round((totalHailMarys / targetHailMarys) * 100)) || 0;
       const isAllComplete = totalHailMarys >= targetHailMarys;
-      const modeDesc = dailyMode
-        ? (includeLight ? t.descDailyLight : t.descDailyTrad)
-        : (includeLight ? t.descWeeklyLight : t.descWeeklyTrad);
+      let modeDesc;
+      if (dailyMode) {
+        if (startSunday) {
+          modeDesc = includeLight ? t.descDailyLightSunday : t.descDailyTradSunday;
+        } else {
+          modeDesc = includeLight ? t.descDailyLight : t.descDailyTrad;
+        }
+      } else {
+        modeDesc = includeLight ? t.descWeeklyLight : t.descWeeklyTrad;
+      }
 
       // Detect Safari
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -1615,6 +1717,10 @@
             <label class="tracker-toggle-label">
               <input type="checkbox" id="tracker-include-light" ${includeLight ? 'checked' : ''} onchange="RosaryTracker.toggleLight()">
               <span>${t.lightToggle}</span>
+            </label>
+            <label class="tracker-toggle-label">
+              <input type="checkbox" id="tracker-start-sunday" ${startSunday ? 'checked' : ''} onchange="RosaryTracker.toggleStartSunday()">
+              <span>${t.startSundayToggle}</span>
             </label>
           </div>
           <div class="tracker-settings-desc">${modeDesc}</div>

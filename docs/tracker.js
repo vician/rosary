@@ -711,6 +711,27 @@
       if (typeof data.settings.dailyMode === 'undefined') data.settings.dailyMode = false;
       if (typeof data.settings.startSunday === 'undefined') data.settings.startSunday = false;
       if (!data.weeks) data.weeks = {};
+      // Migrate any legacy *-S keys into clean YYYY-Www keys
+      let migratedAny = false;
+      Object.keys(data.weeks).forEach(k => {
+        if (k.endsWith('-S')) {
+          const clean = k.replace(/-S$/, '');
+          if (!data.weeks[clean] || Object.keys(data.weeks[clean]).length === 0) {
+            data.weeks[clean] = data.weeks[k];
+          } else {
+            Object.keys(data.weeks[k]).forEach(rKey => {
+              if (!data.weeks[clean][rKey]) {
+                data.weeks[clean][rKey] = data.weeks[k][rKey];
+              }
+            });
+          }
+          delete data.weeks[k];
+          migratedAny = true;
+        }
+      });
+      if (migratedAny) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+      }
       return data;
     } catch (e) {
       console.error('Error loading tracker data:', e);
@@ -772,16 +793,21 @@
     date.setDate(date.getDate() + (startSunday ? 4 : 3));
     const week1 = new Date(date.getFullYear(), 0, 4);
     const weekNumber = 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-    const suffix = startSunday ? '-S' : '';
-    return `${date.getFullYear()}-W${String(weekNumber).padStart(2, '0')}${suffix}`;
+    return `${date.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`;
   }
 
   function getISOWeekKey(d) {
     return getWeekKey(getWeekStart(d, false), false);
   }
 
-  function getWeekStartFromWeekKey(weekKey, fallbackStartSunday) {
-    const isSundayWeek = weekKey.endsWith('-S') || (!weekKey.includes('-S') && fallbackStartSunday);
+  function getWeekStartFromWeekKey(weekKey, startSunday) {
+    if (typeof startSunday === 'undefined') {
+      try {
+        startSunday = !!(loadData().settings?.startSunday);
+      } catch (e) {
+        startSunday = false;
+      }
+    }
     const cleanKey = weekKey.replace(/-S$/, '');
     const [yearStr, weekStr] = cleanKey.split('-W');
     const year = parseInt(yearStr, 10);
@@ -799,7 +825,7 @@
 
     // If Sunday week, Sunday is targetThu - 4 days; if Monday week, Monday is targetThu - 3 days:
     const start = new Date(targetThu);
-    start.setDate(targetThu.getDate() - (isSundayWeek ? 4 : 3));
+    start.setDate(targetThu.getDate() - (startSunday ? 4 : 3));
     start.setHours(0, 0, 0, 0);
     return start;
   }
@@ -831,7 +857,7 @@
     const weekStart = getWeekStart(getTargetDate(offset), startSunday);
     const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
     const weekKey = getWeekKey(weekStart, startSunday);
-    const weekNum = parseInt(weekKey.replace(/-S$/, '').split('-W')[1], 10);
+    const weekNum = parseInt(weekKey.split('-W')[1], 10);
     return {
       key: weekKey,
       weekNum,
@@ -959,8 +985,7 @@
       .sort()
       .reverse(); // most recent first
     return allKeys.map(key => {
-      const isSundayWeek = key.endsWith('-S') || (!key.includes('-W') && startSunday);
-      const weekStart = getWeekStartFromWeekKey(key, isSundayWeek);
+      const weekStart = getWeekStartFromWeekKey(key, startSunday);
       const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
       const weekNum = parseInt(key.replace(/-S$/, '').split('-W')[1], 10);
       const { totalHailMarys, totalDecades, completedRosaries } = summariseWeekData(data.weeks[key]);
@@ -994,8 +1019,8 @@
         // Also verify no calendar gap between consecutive streak weeks
         if (i > 0) {
           const prevKey = pastKeys[i - 1];
-          const prevStart = getWeekStartFromWeekKey(prevKey, prevKey.endsWith('-S') || startSunday);
-          const thisStart = getWeekStartFromWeekKey(key, key.endsWith('-S') || startSunday);
+          const prevStart = getWeekStartFromWeekKey(prevKey, startSunday);
+          const thisStart = getWeekStartFromWeekKey(key, startSunday);
           const diffWeeks = Math.round((prevStart.getTime() - thisStart.getTime()) / (7 * 86400000));
           if (diffWeeks !== 1) break;
         }
@@ -1016,9 +1041,8 @@
         startSunday = false;
       }
     }
-    const isSundayWeek = weekKey.endsWith('-S') || startSunday;
-    const weekStart = getWeekStartFromWeekKey(weekKey, isSundayWeek);
-    const todayWeekStart = getWeekStart(new Date(), isSundayWeek);
+    const weekStart = getWeekStartFromWeekKey(weekKey, startSunday);
+    const todayWeekStart = getWeekStart(new Date(), startSunday);
     const diffMs = weekStart.getTime() - todayWeekStart.getTime();
     return Math.round(diffMs / (7 * 86400000));
   }
@@ -1248,7 +1272,25 @@
 
     toggleStartSunday: function() {
       const data = loadData();
-      data.settings.startSunday = !data.settings.startSunday;
+      const prevStartSunday = !!data.settings.startSunday;
+      const nextStartSunday = !prevStartSunday;
+      data.settings.startSunday = nextStartSunday;
+
+      // When toggling on a Sunday, preserve today's Sunday prayer across the week boundary
+      const today = new Date();
+      if (today.getDay() === 0) {
+        const prevWeekInfo = getWeekInfo(0, 'en', prevStartSunday);
+        const nextWeekInfo = getWeekInfo(0, 'en', nextStartSunday);
+        if (prevWeekInfo.key !== nextWeekInfo.key) {
+          const prevWeekData = data.weeks[prevWeekInfo.key];
+          const nextWeekData = getWeekData(data, nextWeekInfo.key);
+          if (prevWeekData && prevWeekData.sun_slavny && (!nextWeekData.sun_slavny || nextWeekData.sun_slavny.every(c => c === 0))) {
+            nextWeekData.sun_slavny = prevWeekData.sun_slavny.slice();
+          }
+        }
+      }
+
+      currentWeekOffset = 0;
       saveData(data);
       this.render();
     },

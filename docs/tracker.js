@@ -711,27 +711,6 @@
       if (typeof data.settings.dailyMode === 'undefined') data.settings.dailyMode = false;
       if (typeof data.settings.startSunday === 'undefined') data.settings.startSunday = false;
       if (!data.weeks) data.weeks = {};
-      // Migrate any legacy *-S keys into clean YYYY-Www keys
-      let migratedAny = false;
-      Object.keys(data.weeks).forEach(k => {
-        if (k.endsWith('-S')) {
-          const clean = k.replace(/-S$/, '');
-          if (!data.weeks[clean] || Object.keys(data.weeks[clean]).length === 0) {
-            data.weeks[clean] = data.weeks[k];
-          } else {
-            Object.keys(data.weeks[k]).forEach(rKey => {
-              if (!data.weeks[clean][rKey]) {
-                data.weeks[clean][rKey] = data.weeks[k][rKey];
-              }
-            });
-          }
-          delete data.weeks[k];
-          migratedAny = true;
-        }
-      });
-      if (migratedAny) {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
-      }
       return data;
     } catch (e) {
       console.error('Error loading tracker data:', e);
@@ -808,8 +787,7 @@
         startSunday = false;
       }
     }
-    const cleanKey = weekKey.replace(/-S$/, '');
-    const [yearStr, weekStr] = cleanKey.split('-W');
+    const [yearStr, weekStr] = weekKey.split('-W');
     const year = parseInt(yearStr, 10);
     const week = parseInt(weekStr, 10);
     // Jan 4 is always in ISO week 1. Its week's Thursday:
@@ -987,7 +965,7 @@
     return allKeys.map(key => {
       const weekStart = getWeekStartFromWeekKey(key, startSunday);
       const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
-      const weekNum = parseInt(key.replace(/-S$/, '').split('-W')[1], 10);
+      const weekNum = parseInt(key.split('-W')[1], 10);
       const { totalHailMarys, totalDecades, completedRosaries } = summariseWeekData(data.weeks[key]);
       return {
         key, weekNum, monday: weekStart, sunday: weekEnd, weekStart, weekEnd,

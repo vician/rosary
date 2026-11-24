@@ -328,6 +328,23 @@
     if (pocketEl) pocketEl.textContent = currentCounterValue;
   }
 
+  function incrementCounter() {
+    if (isFirebaseConnected && firebaseDb && typeof firebase !== 'undefined' && firebase.database && firebase.database.ServerValue) {
+      try {
+        firebaseDb.ref('counter').set(firebase.database.ServerValue.increment(1));
+      } catch (e) {
+        console.error('Error incrementing remote counter:', e);
+        currentCounterValue += 1;
+        setLocalCounter(currentCounterValue);
+        updateCounterDisplay();
+      }
+    } else {
+      currentCounterValue += 1;
+      setLocalCounter(currentCounterValue);
+      updateCounterDisplay();
+    }
+  }
+
   function updateSyncUI() {
     const lang = getLang();
     const t = I18N[lang] || I18N.en;
